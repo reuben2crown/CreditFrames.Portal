@@ -1,0 +1,40 @@
+.navBar {
+    padding: 20px 0px !important;
+}
+
+Nav {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.lang {
+    background-color: rgba(0, 0, 251, 0.06) !important;
+    border-radius: 10px !important;
+    padding: 5px !important;
+    outline: none !important;
+    border: none !important;
+    width: 120px;
+    margin: auto;
+}
+
+.login {
+    background-color: #0000FB !important;
+    color: #fff !important;
+    text-align: center;
+    font-size: 16px;
+    width: 150px;
+    border: none !important;
+    padding: 10px 40px !important;
+    margin: auto;
+    border-radius: 40px !important;
+}
+
+.searchIcon {
+    background-color: rgba(0, 0, 251, 0.06) !important;
+    color: #0000FB !important;
+    font-size: 25px !important;
+    padding: 5px 15px !important;
+    margin: auto;
+    border: none !important;
+    width: 50px;
+}

@@ -1,0 +1,102 @@
+.popBg {
+    background-image: url("../images/pop.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    padding: 50px 20px 5px 20px;
+}
+.card {
+    background-color: #fff;
+    padding: 50px 70px 20px 70px !important;
+    border-radius: 10px;
+}
+.popBg p {
+    font-size: 18px;
+    font-family: Open+Sans;
+    color: grey;
+}
+.popBg p span {
+    font-size: 18px;
+    font-weight: 500;
+    font-family: Open+Sans;
+}
+.popBg h3 {
+    color: #282828;
+    font-size: 40px;
+    font-family: Ubuntu;
+    font-weight: bold;
+}
+.popBg form label {
+    font-size: 14px;
+    font-family: Open+Sans;
+    color: #9CA69D;
+    text-align: left !important;
+    padding-left: 20px;
+}
+.input, .input:focus, .input:active {
+    width: 100%;
+    padding: 15px 20px !important;
+    font-size: 16px !important;
+    font-family: Open+Sans;
+    border: #ADADAD 1px solid;
+    border-radius: 5px;
+    outline: none !important;
+    position: relative !important;
+}
+.pass {
+    float: right;
+    font-family: Open+Sans;
+    font-size: 25px;
+    color: grey;
+    padding-right: 20px;
+    margin-top: -50px;
+    position: relative;
+}
+.submit {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: Open+Sans;
+    width: 100%;
+    padding: 14px 40px;
+    margin-top: 10px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+.submit1 {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: Open+Sans;
+    width: 100%;
+    padding: 14px 40px;
+    margin-top: 25px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+.submit:hover {
+    color: #0000FB;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: Open+Sans;
+    width: 100%;
+    padding: 14px 40px;
+    margin-top: 10px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
+.copyright {
+    color: #F2F9EF !important;
+    font-size: 15px !important;
+    font-family: Open+Sans;
+    margin: 30px 0px;
+    text-align: center;
+}

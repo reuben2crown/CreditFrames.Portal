@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import routes from "./routes";
+import LandingPage from "./pages/LandingPage";
+import FinhackPage from "./pages/FinhackPage";
+import ProductsPage from "./pages/ProductsPage";
+import CompanyPage from "./pages/CompanyPage";
+import ContactPage from "./pages/ContactPage";
+import LoginPage from "./pages/LoginPage";
+import PasswordRecovery from "./pages/PasswordRecovery";
+import PasswordReset from "./pages/PasswordReset";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact={true} path={routes.LandingPage} element={<LandingPage />} />
+        <Route exact={true} path={routes.FinhackPage} element={<FinhackPage />} />
+        <Route exact={true} path={routes.CompanyPage} element={<CompanyPage />} />
+        <Route exact={true} path={routes.ProductsPage} element={<ProductsPage />} />
+        <Route exact={true} path={routes.ContactPage} element={<ContactPage />} />
+        <Route exact={true} path={routes.LoginPage} element={<LoginPage />} />
+        <Route exact={true} path={routes.PasswordRecovery} element={<PasswordRecovery />} />
+        <Route exact={true} path={routes.PasswordReset} element={<PasswordReset />} />
+      </Routes>
+    </Router>
   );
 }
 

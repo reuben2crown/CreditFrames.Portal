@@ -1,0 +1,218 @@
+.homebg1 {
+    background-image: url("../images/homebg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 700px;
+    padding-top: 20px;
+}
+.title {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 57.6px;
+}
+.subtitle {
+    font-family: Open+Sans;
+    font-size: 28px;
+    font-weight: normal;
+    margin-top: 15px;
+}
+.card {
+    padding: 40px 80px;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    border: #FFE7EF solid 2px;
+    border-radius: 10px;
+}
+.select {
+    background-color: transparent !important;
+    padding: 20px 30px;
+    color: #939393;
+    font-size: 16px;
+    width: 100%;
+    border: #FFE7EF solid 1px;
+    border-radius: 5px;
+    outline: none !important;
+    right: 5px;
+}
+label {
+    color: #344863;
+    font-size: 14px;
+}
+.submit {
+    background-color: #0000FB !important;
+    color: #fff !important;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    border: none !important;
+    padding: 20px 60px !important;
+    margin: auto;
+    border-radius: 40px !important;
+}
+.circle1 {
+    margin-top: 280px;
+    margin-left: 300px;
+    position: absolute;
+    z-index: -1;
+}
+.lady {
+    margin-top: 10px;
+}
+.section2 {
+    margin: -80px 0px;
+    padding-right: 80px;
+}
+.carousel1 {
+    padding: 30px 50px;
+    background-color: #fff;
+}
+.section3 {
+    background-color: rgb(152, 226, 255, 10%);
+}
+.section4 {
+    padding: 100px 0px;
+}
+.secTitle {
+    font-family: 'Ubuntu';
+    font-size: 40px;
+    font-weight: medium;
+}
+.secSubTitle {
+    font-family: Open+Sans;
+    font-size: 20px;
+    font-weight: normal;
+}
+.card1 {
+    background-color: rgb(152, 226, 255, 15%);
+    padding: 30px 140px 50px 140px;
+    border: #F7EDF6 solid 1px;
+    border-radius: 20px;
+}
+.card1 h3 {
+    font-family: 'Ubuntu';
+    font-weight: medium;
+}
+.apply1 {
+    color: #0000FB;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 25px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
+.apply1:hover {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 25px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+p {
+    font-family: Open+Sans;
+    font-size: 20px;
+}
+.section5 {
+    background-image: url("../images/bg01.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.subTitle {
+    font-family: Open+Sans;
+    font-size: 18px;
+    letter-spacing: 5px;
+}
+.link {
+    color: #0000FB;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Ubuntu;
+}
+.iconTitle {
+    display: inline-block;
+    font-size: 20px; 
+    font-weight: 600;
+    text-align: left;
+    margin-left: 15px;
+    vertical-align: center;
+}
+.section6 img {
+    display: inline-block;
+}
+.box1 {
+    padding: 0px 60px;
+}
+.box1 p {
+    padding-top: 10px;
+}
+.iconCard {
+    height: 300px;
+    background-color: #0000FB;
+    padding: 40px 20px;
+    border-radius: 10px;
+}
+.iconCard1 {
+    height: 300px;
+    background-color: #98E2FF;
+    padding: 40px 20px;
+    border-radius: 10px;
+}
+.iconCard p {
+    color: #FFF;
+}
+.iconCard1 p {
+    color: #344863;
+}
+.iconCard h4 {
+    margin-top: 10px;
+    font-family: Ubuntu;
+    font-weight: bold;
+    color: #FFF;
+}
+.iconCard1 h4 {
+    margin-top: 10px;
+    font-family: Ubuntu;
+    font-weight: bold;
+    color: #344863;
+}
+.titleLine {
+    background-color: #0000FB;
+    opacity: 1;
+    border: none;
+    height: 10px;
+    width: 80px;
+    margin-top: 50px;
+}
+.section8 h3 {
+    font-family: 'Ubuntu';
+    font-size: 45px;
+    font-weight: medium;
+}
+.apply2 {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 40px;
+    margin-top: 20px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+.apply2:hover {
+    color: #0000FB;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 40px;
+    margin-top: 20px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
