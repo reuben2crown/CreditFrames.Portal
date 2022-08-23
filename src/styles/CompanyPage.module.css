@@ -133,6 +133,9 @@ p {
         font-weight: medium;
         margin: 40px 40px 10px 40px;
     }
+    .companyImage {
+        width: 100%;
+    }
     .apply {
         color: #FFF;
         background-color: transparent;
