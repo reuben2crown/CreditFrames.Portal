@@ -19,7 +19,7 @@ const CompanyPage = () => {
                         <h4 className={styles.subtitle}>OUR COMPANY</h4>
                         <h2 className={styles.title}>We are your one stop Personlised Loan Marketplace Hub</h2>
                     </div>
-                    <img src={companybg} width="100%" alt="" />
+                    <img src={companybg} className={styles.companyImage} alt="" />
                 </div>
             </section>
             <section className={styles.section2}>
