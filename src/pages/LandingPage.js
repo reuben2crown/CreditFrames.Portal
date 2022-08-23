@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/LandingPage.module.css";
+import { FaArrowRight, FaRegComments, FaRegEye } from "react-icons/fa";
+import Form from "react-bootstrap/Form";
 import lady from "../images/hmbg1.png";
 import circle1 from "../images/Ellipse1.png";
 import circle2 from "../images/Ellipse2.png";
@@ -25,7 +27,9 @@ import leftUI from "../images/left-ui.png";
 import test1 from "../images/test1.png";
 import test2 from "../images/test2.png";
 import test3 from "../images/test3.png";
-import { FaArrowRight } from "react-icons/fa";
+import news1 from "../images/newImage.png";
+import news2 from "../images/news2.png";
+import news3 from "../images/news3.png";
 import Carousel from "react-bootstrap/Carousel";
 
 
@@ -49,11 +53,12 @@ const LandingPage = () => {
                             <h2 className={styles.title}>Africa's No 1. Personalised Loan Marketplace.</h2> 
                             <h4 className={styles.subtitle}>Search, Compare, and Apply</h4>
                             <div className={styles.card}>
-                                <form>
+                                <Form>
                                     <div className="row">
                                         <div className="col-md-6 text-start">
-                                            <label>How much would you like to borrow?</label>
-                                            <select className={styles.select}>
+                                            <Form.Label>How much would you like to borrow?</Form.Label>
+                                            <Form.Control type="text" className={styles.select} placeholder="Enter your preferred amount"></Form.Control>
+                                            {/* <select className={styles.select}>
                                                 <option selected disabled>Select Preferred Amount</option>
                                                 <option value="50000">₦50,000.00</option>
                                                 <option value="100000">₦100,000.00</option>
@@ -61,19 +66,19 @@ const LandingPage = () => {
                                                 <option value="1000000">₦1,000,000.00</option>
                                                 <option value="5000000">₦5,000,000.00</option>
                                                 <option value="10000000">₦10,000,000.00</option>
-                                            </select> 
+                                            </select>  */}
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>
-                                            <select className={styles.select}>
+                                            <Form.Select className={styles.select}>
                                                 <option selected disabled>Select Loan Type</option>
                                                 <option value="Business Loan">Business Loan</option>
                                                 <option value="Personal Loan">Personal Loan</option>
-                                            </select> 
+                                            </Form.Select> 
                                         </div>
                                         <div className="col-md-10 m-auto pt-4"><button className={styles.submit}>Search for loan</button></div>
                                     </div>
-                                </form>
+                                </Form>
                             </div>
                             <h4 className={styles.subtitle}>Unlocking new financial levels</h4>
                         </div>
@@ -129,16 +134,16 @@ const LandingPage = () => {
             <section className={styles.section5}>
                 <div className="container mb-5">
                     <div className="row">
-                        <div className="col-md-5 text-start" style={{padding: "0px 50px"}}>
+                        <div className="col-md-5 text-start" style={{padding: "0px 50px 20px 50px"}}>
                             <hr className={styles.titleLine}></hr> 
                             <p className={styles.subTitle}>WHO WE ARE</p>
                             <h3 className={styles.secTitle}>We are your one stop Personlised Loan Marketplace Hub</h3>
                             <p className={styles.secSubTitle} style={{marginTop: "20px"}}>CreditFrames is building Africa's No 1 Credit marketplace, by connecting borrowers with lenders that suit their needs. We will present customers with the lenders that provide the cheapest interest rate via ranking...</p>
-                            <p><Link to="contact-us" className={styles.link}> Learn more <FaArrowRight className={styles.arrow} /> </Link></p>
+                            <p><Link to="contact-us" className={styles.link}> Learn more </Link><FaArrowRight className={styles.arrow} /></p>
                         </div>
                         <div className="col-md-1"></div>
                         <div className="col-md-6 text-center">
-                            <img src={illustration1} alt="" />
+                            <img src={illustration1} className={styles.illustration1} alt="" />
                         </div>
                     </div>
                 </div>
@@ -212,18 +217,20 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-            <section style={{ backgroundColor: "rgb(152, 226, 255, 15%)", height: "300px", marginTop: "-220px"}}></section>
+            <section className={styles.middleSec}></section>
             <section className={styles.section8}>
-                <img src={leftUI} alt="" style={{float: "right"}} />
+                <img src={leftUI} alt="" className={styles.rightFloating} />
                 <div className="container mb-5 mt-5">
                     <div className="row">
                         <div className="col-md-6 text-center">
-                            <img src={illustration2} alt="" />
+                            <img src={illustration2} className={styles.illustration2} alt="" />
                         </div>
-                        <div className="col-md-5 m-auto text-start" style={{ padding: "0px 80px 0px 50px" }}>
-                            <hr className={styles.titleLine}></hr>
-                            <h3 className={styles.secTitle}>Getting you access to the best loan offers.</h3>
-                            <button className={styles.apply2}>Apply Here</button>
+                        <div className="col-md-5 m-auto text-start">
+                            <div className={styles.content}>
+                                <hr className={styles.titleLine}></hr>
+                                <h3 className={styles.secTitle}>Getting you access to the best loan offers.</h3>
+                                <button className={styles.apply2}>Apply Here</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -283,6 +290,68 @@ const LandingPage = () => {
                     </Carousel>
                 </div>
             </section>
+            <section className={styles.section9}>
+                <div className="container">
+                    <div className="row col-md-5">
+                        <hr className={styles.titleLine1}/>
+                        <h4 className={styles.subTitle}>FINHACK</h4>
+                        <h3 className={styles.secTitle}><b>Checkout some stories & insight from Us </b></h3>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div className="container" style={{marginTop: "-100px"}}>
+                    <div className="row">
+                        <div className="col-md-6 mb-5">
+                            <div className={styles.content1}>
+                                <span>Published January 21, 2021</span>
+                                <h3 className={styles.newsTitle}>How to identify loan scam and fruadster</h3>
+                                <span className={styles.tags}><FaRegComments /> 23 &nbsp;&nbsp;&nbsp;&nbsp;<FaRegEye /> 350</span>
+                            </div>
+                            <img src={news1} className={styles.newBg} alt="" />
+                        </div>
+                        <div className="col-md-6 text-start row">
+                            <div className="col-lg-6">
+                                <img src={news2} alt="" align="right" className={styles.newsImage}></img>
+                            </div>
+                            <div className="col-lg-6">
+                                <span className={styles.postDate}>Published January 21, 2021</span>
+                                <h4 className={styles.postTitle}>My Money Mistake: My Friends Lost ₦3 Million Because Of Me</h4>
+                                <span className={styles.postContent}>Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.......... </span>
+                                <span className={styles.postTags}><FaRegComments /> 23 &nbsp;&nbsp;&nbsp;&nbsp;<FaRegEye /> 350</span>
+                            </div>
+                            <div className="col-lg-6">
+                                <img src={news3} alt="" align="right" className={styles.newsImage}></img>
+                            </div>
+                            <div className="col-lg-6">
+                                <span className={styles.postDate}>Published January 21, 2021</span>
+                                <h4 className={styles.postTitle}>My Money Mistake: My Friends Lost ₦3 Million Because Of Me</h4>
+                                <span className={styles.postContent}>Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.......... </span>
+                                <span className={styles.postTags}><FaRegComments /> 23 &nbsp;&nbsp;&nbsp;&nbsp;<FaRegEye /> 350</span>
+                            </div>
+                            
+                            <div className={styles.content2}>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div className="text-center"><button className={styles.apply2}>Read more</button></div>
+                </div>
+            </section>
+            <section>
+                <div className="container mt-5 mb-5">
+                    <div className="row">
+                        <div className="col-md-10 text-center pt-5 m-auto">
+                            <h3 className={styles.title}> Be the first to hear from us</h3>
+                            <h5 className={styles.subtitle}> Subscribe to our Newsletter</h5>
+                            <Form className={styles.subForm}>
+                                <Form.Control type="email" className={styles.subInput} placeholder="email address"></Form.Control>
+                                <button type="submit" className={styles.subSubmit}>Subscribe</button>
+                            </Form>
+                        </div>
+                    </div>
+                </div>
+            </section> 
             <Footer />
         </div>
     )

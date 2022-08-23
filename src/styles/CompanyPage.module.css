@@ -1,0 +1,152 @@
+.section1 {
+    background-image: url("../images/productbg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 50px 0px;
+}
+.title {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 57.6px;
+}
+.subtitle {
+    font-family: Open+Sans;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    margin-top: 15px;
+}
+.secTitle {
+    font-family: 'Ubuntu';
+    font-size: 40px;
+    font-weight: medium;
+}
+.secTitle1 {
+    color: #fff;
+    font-family: 'Ubuntu';
+    font-size: 60px;
+    font-weight: medium;
+    margin: 10px 60px 10px 80px;
+}
+.secSubTitle {
+    font-family: Open+Sans;
+    font-size: 20px;
+    font-weight: normal;
+}
+p {
+    font-family: Open+Sans;
+    font-size: 20px;
+}
+.subTitle {
+    font-family: Open+Sans;
+    font-size: 18px;
+    letter-spacing: 5px;
+}
+.titleLine {
+    background-color: #0000FB;
+    opacity: 1;
+    border: none;
+    height: 10px;
+    width: 80px !important;
+    margin: 20px auto;
+}
+.apply {
+    color: #FFF;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 40px;
+    margin: 20px 20px 20px 90px;
+    border: 1px solid #FFF;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+.apply:hover {
+    color: #0000FB;
+    background-color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 40px;
+    margin: 20px 20px 20px 90px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
+.loanIcon {
+    height: 50px !important;
+    width: 85px !important;
+    margin: auto;
+}
+.section2 {
+    background-image: url("../images/productbg1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.section4 {
+    background-image: url("../images/rightui.png");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.card {
+    background-color: rgb(247, 237, 246, 20%);
+    border: 1px solid #F7EDF6;
+    border-radius: 10px;
+    padding: 40px;
+    height: 100%;
+}
+.card h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #38403A;
+    margin-bottom: 20px;
+}
+.card p {
+    font-size: 16px !important;
+}
+.box {
+    background-color: #0000FB;
+    border-radius: 30px;
+    width: 100%;
+}
+.productImage {
+    border-radius: 0px 30px 30px 0px;
+    width: 100%;
+}
+
+
+/* Mobile Responsiveness Css */
+
+@media only screen and (max-width: 600px) {
+    .title {
+        font-family: Ubuntu;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 57.6px;
+    }
+    .secTitle1 {
+        color: #fff;
+        font-family: 'Ubuntu';
+        font-size: 40px;
+        font-weight: medium;
+        margin: 40px 40px 10px 40px;
+    }
+    .apply {
+        color: #FFF;
+        background-color: transparent;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 14px 40px;
+        margin: 20px 20px 20px 40px;
+        border: 1px solid #FFF;
+        border-radius: 30px;
+        transition: 0.5s;
+    }
+    .productImage {
+        border-radius: 0px 0px 30px 30px;
+        width: 94%;
+        margin-right: 12px !important;
+    }
+}

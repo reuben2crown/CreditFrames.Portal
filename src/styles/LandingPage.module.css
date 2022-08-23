@@ -216,3 +216,306 @@ p {
     border: 1px solid #0000FB;
     border-radius: 30px;
 }
+.middleSec {
+    background-color: rgb(152, 226, 255, 15%); 
+    height: 300px;
+    margin-top: -220px;
+}
+.content {
+    padding: 0px 80px 0px 50px;
+}
+.rightFloating {
+    float: right;
+}
+.section9 {
+    background-color: rgb(152, 226, 255, 10%);
+    margin-top: 0px;
+    padding-top: 20px;
+    height: 350px;
+}
+.news {
+    position: relative;
+}
+.content1 {
+    padding: 40px;
+    margin-top: 275px;
+    color: #FFF;
+    width: 635px;
+    position: absolute;
+}
+.content1 span {
+    font-size: 14px;
+}
+.newsTitle {
+    font-size: 30px;
+    font-family: 'Ubuntu';
+    display: inline-block;
+    width: 70%;
+}
+.newBg {
+    width: 100%;
+}
+.tags {
+    display: inline-block;
+    text-align: right;
+    margin-top: 45px;
+    width: 30%;
+}
+.news2 {
+    display: inline-block;
+}
+.content2 {
+    display: inline-block;
+}
+.postDate {
+    font-size: 14px;
+    color: #0000FB;
+    font-weight: 500;
+}
+.postTitle {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-family: 'Ubuntu';
+    font-weight: 900;
+}
+.postContent {
+    font-size: 14px;
+}
+.postTags {
+    font-size: 12px;
+    color: #999999;
+    display: block;
+}
+.titleLine1 {
+    background-color: #0000FB;
+    opacity: 1;
+    border: none;
+    height: 10px;
+    width: 80px !important;
+    margin-top: 150px;
+    margin-left: 12px;
+}
+.subForm {
+    width: 100%;
+}
+.subInput, .subInput:focus, .subInput:active {
+    width: 70% !important;
+    display: inline-block !important;
+    background-color: rgb(247, 237, 246, 60%) !important;
+    color: #A8B1C1 !important;
+    border: none !important;
+    border-radius: 30px 0px 0px 30px !important;
+    padding: 10px 40px !important;
+    outline: none !important;
+    font-size: 20px !important;
+}
+.subSubmit {
+    width: 20%;
+    display: inline-block;
+    background-color: #B06C13;
+    color: #FFF;
+    border: none;
+    border-radius: 0px 30px 30px 0px;
+    padding: 10px 40px;
+    outline: none;
+    font-size: 20px;
+}
+
+
+
+
+
+/* Mobile Responsiveness Css */
+@media only screen and (max-width: 600px) {
+    .title {
+        font-family: Ubuntu;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 57.6px;
+    }
+    .subtitle {
+        font-family: Open+Sans;
+        font-size: 22px;
+        font-weight: normal;
+        margin-top: 15px;
+    }
+    .card {
+        background-color: #FFF;
+        padding: 40px 40px;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        border: #FFE7EF solid 2px;
+        border-radius: 10px;
+    }
+    .select {
+        background-color: transparent !important;
+        padding: 20px 30px;
+        color: #939393;
+        font-size: 16px;
+        width: 100%;
+        border: #FFE7EF solid 1px;
+        border-radius: 5px;
+        outline: none !important;
+        right: 5px;
+    }
+    label {
+        color: #344863;
+        font-size: 14px;
+    }
+    .submit {
+        background-color: #0000FB !important;
+        color: #fff !important;
+        text-align: center;
+        font-size: 16px;
+        width: 100%;
+        border: none !important;
+        padding: 20px 60px !important;
+        margin: auto;
+        border-radius: 40px !important;
+    }
+    .circle1 {
+        display: none;
+    }
+    .section2, .circle2 {
+        display: none;
+    }
+    .lady {
+        display: none;
+    }
+    .section3 {
+        background-color: rgb(152, 226, 255, 10%);
+        margin-top: 30px;
+    }
+    .card1 {
+        background-color: rgb(152, 226, 255, 15%);
+        margin-top: 20px;
+        padding: 30px 30px 50px 30px;
+        border: #F7EDF6 solid 1px;
+        border-radius: 20px;
+    }
+    .section4 {
+        padding: 20px 0px;
+    }
+    .secTitle {
+        font-family: 'Ubuntu';
+        font-size: 35px;
+        font-weight: medium;
+    }
+    .subTitle {
+        font-family: Open+Sans;
+        font-size: 16px;
+        letter-spacing: 5px;
+    }
+    .secSubTitle {
+        font-family: Open+Sans;
+        font-size: 18px;
+        font-weight: normal;
+    }
+    .illustration1 {
+        width: 100%;
+    }
+    .illustration2 {
+        width: 100%;
+        margin-top: 500px;
+    }
+    .rightFloating {
+        float: right;
+        width: 30px;
+    }
+    .content .secTitle {
+        font-size: 40px;
+        margin-top: 20px;
+    }
+    .content {
+        text-align: center !important;
+        margin-top: -700px;
+        padding: 0px 20px 0px 20px;
+    }
+    .titleLine {
+        text-align: center;
+        margin: auto;
+    }
+    .link {
+        margin-bottom: 50px;
+    }
+    .box1 {
+        margin-bottom: 40px;
+    }
+    .iconCard, .iconCard1 {
+        margin: 0px 30px 20px 30px;
+    }
+    .middleSec {
+        background-color: rgb(152, 226, 255, 15%); 
+        height: 1200px;
+        margin-top: -1160px;
+    }
+    .titleLine1 {
+        background-color: #0000FB;
+        opacity: 1;
+        border: none;
+        height: 10px;
+        width: 80px;
+        text-align: center;
+        margin: 20px auto;
+    }    
+    .section9 {
+        height: 200px;
+        margin-bottom: 150px;
+    }
+    .section9 .subTitle, .section9 .secTitle {
+        margin: auto;
+        text-align: center;
+    }
+    .content1 {
+        padding: 20px;
+        margin-top: 120px;
+        color: #FFF;
+        width: 90vw;
+        position: absolute;
+    }
+    .content1 span {
+        font-size: 12px;
+    }
+    .newsTitle {
+        font-size: 22px;
+        font-family: 'Ubuntu';
+        display: inline-block;
+        width: 70%;
+    }
+    .newBg {
+        width: 100%;
+    }
+    .tags {
+        display: inline-block;
+        text-align: right;
+        margin-top: 45px;
+        width: 30%;
+    }
+    .newsImage, .postDate, .postTitle, .postContent, .postTags {
+        display: none;
+    }
+    .subInput, .subInput:focus, .subInput:active {
+        width: 70% !important;
+        display: inline-block !important;
+        background-color: rgb(247, 237, 246, 60%) !important;
+        color: #A8B1C1 !important;
+        border: none !important;
+        border-radius: 30px 0px 0px 30px !important;
+        padding: 10px 20px !important;
+        outline: none !important;
+        font-size: 14px !important;
+    }
+    .subSubmit {
+        width: 25%;
+        display: inline-block;
+        background-color: #B06C13;
+        color: #FFF;
+        border: none;
+        border-radius: 0px 30px 30px 0px;
+        padding: 10px 20px;
+        margin-left: -20px;
+        outline: none;
+        font-size: 14px;
+    }
+}
