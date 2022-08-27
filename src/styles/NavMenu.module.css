@@ -38,3 +38,18 @@ Nav {
     border: none !important;
     width: 50px;
 }
+.search {
+    display: none;
+}
+
+
+
+/* Mobile Responsiveness Css */
+@media only screen and (max-width: 600px) {
+    .search {
+        display: block;
+        padding: 0px 10px;
+        margin-top: 20px;
+        width: 100%;
+    }
+}
