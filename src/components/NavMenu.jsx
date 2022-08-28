@@ -30,7 +30,6 @@ const NavMenu = () => {
 
     const spacing = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
 
-    console.log(NG);
     return (
         <div className="container-fluid">
             <Navbar className={styles.navBar} collapseOnSelect expand="lg" bg="white" sticky="top" variant="white">

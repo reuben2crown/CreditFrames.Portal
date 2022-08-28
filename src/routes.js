@@ -7,4 +7,6 @@ export default Object.freeze({
     LoginPage: "/login-register",
     PasswordRecovery: "/password-recovery",
     PasswordReset: "/password-reset",
+    SearchPage: "/search-result",
+    LoanRequestPage: "/loan-request",
 });

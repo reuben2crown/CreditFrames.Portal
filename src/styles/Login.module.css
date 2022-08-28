@@ -10,7 +10,7 @@
 }
 .card {
     background-color: #fff;
-    padding: 50px 70px 20px 70px !important;
+    padding: 50px 50px 20px 50px !important;
     border-radius: 10px;
 }
 .popBg p {
@@ -99,4 +99,14 @@
     font-family: Open+Sans;
     margin: 30px 0px;
     text-align: center;
+}
+
+
+/* Mobile Responsiveness Css */
+@media only screen and (max-width: 600px) {
+    .card {
+        background-color: #fff;
+        padding: 20px !important;
+        border-radius: 10px;
+    }
 }

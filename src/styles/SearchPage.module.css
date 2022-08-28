@@ -1,0 +1,100 @@
+.section1 {
+    background-color: rgb(152, 226, 255, 10%);
+}
+.title {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 57.6px;
+}
+.secTitle {
+    font-family: 'Ubuntu';
+    font-size: 30px;
+    font-weight: 500;
+}
+.section2 {
+    background-image: url("../images/leftui.png");
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+.searchBox {
+    background-color: rgb(152, 226, 255, 10%);
+    padding: 50px;
+    margin: 50px;
+    border: 1px solid #FFE7EF;
+    border-radius: 10px;
+}
+.card {
+    background-color: #FFF;
+    padding: 40px 40px 20px 40px;
+    margin-bottom: 30px;
+    border: #FFE7EF solid 1px;
+    border-radius: 10px;
+}
+.searchLabel {
+    font-family: Open+Sans;
+    font-size: 16px;
+    display: block;
+}
+.searchSpan {
+    font-family: "Ubuntu";
+    font-size: 20px;
+    display: block;
+}
+.apply {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 80px;
+    border: 1px solid #FFF;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+.apply:hover {
+    color: #0000FB;
+    background-color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 80px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
+.star {
+    font-size: 18px;
+    color: #B06C13;
+    vertical-align: baseline;
+}
+p {
+    font-family: Open+Sans;
+    font-size: 20px;
+}
+
+
+
+/* Mobile Responsiveness Css */
+@media only screen and (max-width: 600px) {
+    .title {
+        font-family: Ubuntu;
+        font-weight: 700;
+        font-size: 40px;
+        text-align: center;
+        line-height: 57.6px;
+    }
+    .subtitle {
+        font-family: Open+Sans;
+        font-size: 22px;
+        font-weight: normal;
+        text-align: center;
+        margin-top: 15px;
+    }
+    .card {
+        background-color: #FFF;
+        padding: 40px 40px;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        border: #FFE7EF solid 2px;
+        border-radius: 10px;
+    }
+}

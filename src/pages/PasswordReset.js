@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import logoWhite from "../images/logoWhite.png";
-import message from "../images/message.png";
+import statusIcon from "../images/check.png";
 import styles from "../styles/PasswordRecovery.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import ReactCodeInput from "react-code-input";
@@ -41,7 +41,7 @@ const PasswordReset = () => {
         return(setActivePage("second"));
     }
 
-    const handleChnagePass = async () => {
+    const handleChangePass = async () => {
         return (setActivePage("third"));
     }
 
@@ -111,7 +111,7 @@ const PasswordReset = () => {
                             <Form.Label className="mt-2">Confirm Password</Form.Label>
                             <Form.Control type={passwordType1} onChange={handlePasswordChange1} value={passwordInput1} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType1 === "password" ? <FaEyeSlash onClick={togglePassword1} /> : <FaEye onClick={togglePassword1} />}</div>
                         </Form>
-                            <button type="submit" onClick={() => handleChnagePass()} className={styles.submit}>Continue</button>
+                            <button type="submit" onClick={() => handleChangePass()} className={styles.submit}>Continue</button>
                         <p style={{ marginTop: "20px", fontSize: "15px" }}>Don't have an account? <Link to="/login-register" style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ const PasswordReset = () => {
                 <img src={logoWhite} className="mb-4" alt="" />
                 <div className="row px-4 col-md-4 m-auto">
                     <div className={styles.card}>
-                        <img src={message} alt="" />
+                        <img src={statusIcon} alt="" />
                         <h3>Well done!</h3>
                         <p style={{ fontSize: "18px" }}>Password successfully change</p>
                         <button onClick={() => setActivePage("second")} className={styles.submit}>Go to dashboard</button>
