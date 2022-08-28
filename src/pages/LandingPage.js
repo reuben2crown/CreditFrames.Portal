@@ -56,17 +56,8 @@ const LandingPage = () => {
                                 <Form>
                                     <div className="row">
                                         <div className="col-md-6 text-start">
-                                            <Form.Label>How much would you like to borrow?</Form.Label>
+                                            <label>How much would you like to borrow?</label>
                                             <Form.Control type="text" className={styles.select} placeholder="Enter your preferred amount"></Form.Control>
-                                            {/* <select className={styles.select}>
-                                                <option selected disabled>Select Preferred Amount</option>
-                                                <option value="50000">₦50,000.00</option>
-                                                <option value="100000">₦100,000.00</option>
-                                                <option value="500000">₦500,000.00</option>
-                                                <option value="1000000">₦1,000,000.00</option>
-                                                <option value="5000000">₦5,000,000.00</option>
-                                                <option value="10000000">₦10,000,000.00</option>
-                                            </select>  */}
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>

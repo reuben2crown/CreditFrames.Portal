@@ -1,13 +1,20 @@
 import React from "react";
 import logoWhite from "../images/logoWhite.png";
 import styles from "../styles/Footer.module.css";
-import { FaInstagram, FaFacebook, FaTwitter, FaLinkedinIn } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaTwitter, FaWhatsapp, FaLinkedinIn } from "react-icons/fa";
 
 
 const Footer = () => {
 
     return (
-        <div>
+        <div><a
+                href="https://wa.me/2348100000000"
+                className={styles.whatsappFloat}
+                target="_blank"
+                rel="noopener noreferrer"
+        >Chat with us &nbsp;&nbsp;&nbsp;
+            <FaWhatsapp className={styles.whatsappIcon} />
+            </a>
             <section className={styles.Footer}>
                 <div className="container">
                     <div className="row">

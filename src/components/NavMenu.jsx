@@ -1,8 +1,7 @@
 import React from "react";
-//import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-//import Form from "react-bootstrap/Form";
+import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 //import NavDropdown from "react-bootstrap/NavDropdown";
@@ -31,7 +30,6 @@ const NavMenu = () => {
 
     const spacing = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
 
-    console.log(NG);
     return (
         <div className="container-fluid">
             <Navbar className={styles.navBar} collapseOnSelect expand="lg" bg="white" sticky="top" variant="white">
@@ -56,6 +54,7 @@ const NavMenu = () => {
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
+            <div className={styles.search}><FaSearch style={{ color: "#0000FB", marginLeft: "20px"}} /><Form.Control type="text" style={{ backgroundColor: "rgb(0, 0, 251, 6%", padding: "10px 10px 10px 50px", border: "none", marginTop: "-35px" }}></Form.Control></div>
             </Navbar>
         </div>
     )

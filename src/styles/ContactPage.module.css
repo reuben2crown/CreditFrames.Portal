@@ -1,0 +1,287 @@
+.section1 {
+    background-color: rgb(218, 228, 237, 10%);
+    padding: 50px 15%;
+}
+.title {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 57.6px;
+}
+.secTitle {
+    font-family: 'Ubuntu';
+    font-size: 35px;
+    font-weight: 600;
+}
+.subtitle {
+    font-family: Open+Sans;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    margin-top: 15px;
+}
+.secSubTitle {
+    font-family: Open+Sans;
+    font-size: 23px;
+    font-weight: 500;
+}
+.card {
+    padding: 40px 80px;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    border: #FFE7EF solid 2px;
+    border-radius: 10px;
+}
+.contactForm {
+    margin: 40px 0px !important;
+    width: 100% !important;
+}
+.contactLabel {
+    font-weight: 500 !important;
+    color: #939393 !important;
+}
+.contactInput {
+    background-color: transparent !important;
+    padding: 20px 30px !important;
+    margin-bottom: 30px !important;
+    color: #939393 !important;
+    font-size: 16px !important;
+    border: #222222 solid 1px !important;
+    border-radius: 5px !important;
+    outline: none !important;
+}
+label {
+    color: #344863 !important;
+    font-size: 14px !important;
+}
+.submit {
+    background-color: #0000FB !important;
+    color: #fff !important;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    border: none !important;
+    padding: 20px 60px !important;
+    margin: auto;
+    border-radius: 40px !important;
+}
+.apply {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 60px;
+    border: 1px solid #FFF;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+.apply:hover {
+    color: #0000FB;
+    background-color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 60px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
+.apply1 {
+    color: #0000FB;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 25px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
+.apply1:hover {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 25px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+p {
+    font-family: Open+Sans;
+    font-size: 20px;
+}
+.titleLine {
+    background-color: #0000FB;
+    opacity: 1;
+    border: none;
+    height: 10px;
+    width: 230px;
+}
+.apply2 {
+    color: #FFF;
+    background-color: #0000FB;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 40px;
+    margin-top: 20px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+.apply2:hover {
+    color: #0000FB;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 40px;
+    margin-top: 20px;
+    border: 1px solid #0000FB;
+    border-radius: 30px;
+}
+.contact1 {
+    width: 100%;
+    margin-top: 30px;
+}
+.contact1 img {
+    display: inline-block;
+    vertical-align: top;
+}
+.contact1 p {
+    display: inline-block;
+    margin-left: 40px;
+    font-size: 22px;
+    font-weight: 500;
+}
+.contact1 p span {
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 10px;
+    font-size: 20px;
+    color: #38403A;
+}
+.accordionHeader, .accordionHeader:active, .accordionHeader:focus {
+    background-color: transparent !important;
+    color: #282828 !important;
+    border-top: 1px solid #222222;
+    padding: 10px;
+}
+.accordionHeader button:not(.collapsed) {
+    color: #282828 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+.accordionBody {
+    padding: 10px 30px;
+}
+
+
+
+
+/* Mobile Responsiveness Css */
+@media only screen and (max-width: 600px) {
+    .section1 {
+        background-color: rgb(218, 228, 237, 10%);
+        padding: 20px 15%;
+    }
+    .section1 img {
+        text-align: center;
+        width: 100%;
+    }
+    .contact1 {
+        text-align: center;
+    }
+    .contact1 img, .contact1 p {
+        width: auto;
+        text-align: center;
+    }
+    .title {
+        font-family: Ubuntu;
+        font-weight: 700;
+        font-size: 40px;
+        text-align: center;
+        line-height: 57.6px;
+    }
+    .subtitle {
+        font-family: Open+Sans;
+        font-size: 22px;
+        font-weight: normal;
+        text-align: center;
+        margin-top: 15px;
+    }
+    .secSubTitle {
+        text-align: center;
+    }
+    .card {
+        background-color: #FFF;
+        padding: 40px 40px;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        border: #FFE7EF solid 2px;
+        border-radius: 10px;
+    }
+    .select {
+        background-color: transparent !important;
+        padding: 20px 30px !important;
+        color: #939393 !important;
+        font-size: 16px !important;
+        width: 100%;
+        border: #FFE7EF solid 1px !important;
+        border-radius: 5px !important;
+        outline: none !important;
+        right: 5px !important;
+    }
+    label {
+        color: #344863 !important;
+        font-size: 14px !important;
+    }
+    .submit {
+        background-color: #0000FB !important;
+        color: #fff !important;
+        text-align: center;
+        font-size: 16px;
+        width: 100%;
+        border: none !important;
+        padding: 20px 60px !important;
+        margin: auto;
+        border-radius: 40px !important;
+    }
+    .secTitle {
+        font-family: 'Ubuntu';
+        font-size: 35px;
+        font-weight: medium;
+    }
+    .subTitle {
+        font-family: Open+Sans;
+        font-size: 16px;
+        letter-spacing: 5px;
+    }
+    .secSubTitle {
+        font-family: Open+Sans;
+        font-size: 18px;
+        font-weight: normal;
+    }
+    .titleLine {
+        text-align: center;
+        margin: auto;
+    }
+    .subInput, .subInput:focus, .subInput:active {
+        width: 70% !important;
+        display: inline-block !important;
+        background-color: rgb(247, 237, 246, 60%) !important;
+        color: #A8B1C1 !important;
+        border: none !important;
+        border-radius: 30px 0px 0px 30px !important;
+        padding: 10px 20px !important;
+        outline: none !important;
+        font-size: 14px !important;
+    }
+    .subSubmit {
+        width: 25%;
+        display: inline-block;
+        background-color: #B06C13;
+        color: #FFF;
+        border: none;
+        border-radius: 0px 30px 30px 0px;
+        padding: 10px 20px;
+        margin-left: -20px;
+        outline: none;
+        font-size: 14px;
+    }
+}
