@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+//import DeviceDetector from "device-detector-js";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import Form from "react-bootstrap/Form";
@@ -41,31 +42,43 @@ const LoginPage = () => {
     }
 
 
-    const userApi = useApi(userApis.login);
+    const userLoginApi = useApi(userApis.login);
+    const userRegisterApi = useApi(userApis.register);
     const [login, setLogin] = useState();
     const [register, setRegister] = useState();
     const [errorMessage, setErrorMessage] = useState();
+    const [successMessage, setSuccessMessage] = useState();
+    const [passValidation, setPassValidation] = useState();
 
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log({login, password: passwordInput});
-        const result = await userApi.request({ ...login, password: passwordInput });
+        const result = await userLoginApi.request({ ...login, password: passwordInput });
 
         if (result.data.code === 200) {
-            window.localStorage.setItem("userData", result.data);
+            window.localStorage.setItem("userData", JSON.stringify(result.data.data));
             return navigate(routes.LandingPage);
         }
         if (result.data.code === 400) {
-            window.localStorage.setItem("userData", JSON.stringify(result.data));
-            const message = <Alert key="danger" variant="danger" style={{ fontSize: "14px" }}> {result.data.message} </Alert>;
+            const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {result.data.message} </Alert>;
             setErrorMessage(message);
         }
     }
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        console.log(register);
+        //console.log({ register, pass1: passwordInput, pass2: passwordInput1 });
+        const result = await userRegisterApi.request({ ...register, password: passwordInput, password1: passwordInput1 });
+
+        if (result.data.code === 200) {
+            window.localStorage.setItem("userData", JSON.stringify(result.data.data));
+            const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {result.data.message} </Alert>;
+            setSuccessMessage(message);
+        }
+        if (result.data.code === 400) {
+            const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {result.data.message} </Alert>;
+            setErrorMessage(message);
+        }
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -90,6 +103,13 @@ const LoginPage = () => {
 
     ////////////////////////////////////////////////////////////////////////
     
+    // const deviceDetector = new DeviceDetector();
+    // const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36";
+    // const device = deviceDetector.parse(userAgent);
+
+    // console.log(device);
+    
+    
     return (
         <div className={styles.popBg}>
             <div hidden={activePage !== "first"}>
@@ -101,9 +121,9 @@ const LoginPage = () => {
                         {errorMessage}
                         <Form onSubmit={handleLogin} className="text-start">
                             <Form.Label className="mt-3">Email Address</Form.Label>
-                            <Form.Control type="email" className={styles.input} onChange={(e) => setLogin({ ...login, email: e.target.value })} placeholder="samseyi00@gmail.com"></Form.Control>
+                            <Form.Control type="email" className={styles.input} required onChange={(e) => setLogin({ ...login, email: e.target.value })} placeholder="samseyi00@gmail.com"></Form.Control>
                             <Form.Label className="mt-2">Password</Form.Label>
-                            <Form.Control type={passwordType} onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={togglePassword} /> : <FaEye onClick={togglePassword} />}</div>
+                            <Form.Control type={passwordType} required onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={togglePassword} /> : <FaEye onClick={togglePassword} />}</div>
                             <p style={{ margin: "20px", color: "#424242" }}><Form.Check type="checkbox" style={{ height: "15px", width: "15px", float: "left" }}></Form.Check>&nbsp; <span>Remember me</span><Link to="/password-recovery" style={{ float: "right", color: "#FF6367", textDecoration: "none"}}>Forgot Password?</Link></p>
                             <button type="submit" className={styles.submit}>Sign in</button>
                             <p className="mt-3 text-center">Don't have an account? <Link to="" onClick={() => setActivePage("second")} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
@@ -118,18 +138,21 @@ const LoginPage = () => {
                     <div className={styles.card}>
                         <h3>Create account</h3>
                         <p className="mb-3">We're delight you're joining us.</p>
+                        {successMessage}
                         <Form onSubmit={handleRegister} className="text-start">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control type="text" className={styles.input} placeholder="Sam Seyi"></Form.Control>
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, firstName: e.target.value })} placeholder="Sam Seyi"></Form.Control>
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, lastName: e.target.value })} placeholder="Sam Seyi"></Form.Control>
                             <Form.Label className="mt-1">Phone Number</Form.Label>
-                            <Form.Control type="text" className={styles.input} placeholder="0000 000 0000"></Form.Control>
+                            <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, phone: e.target.value })} placeholder="0000 000 0000"></Form.Control>
                             <Form.Label className="mt-1">Email</Form.Label>
-                            <Form.Control type="email" className={styles.input} placeholder="samseyi00@gmail.com"></Form.Control>
+                            <Form.Control type="email" required className={styles.input} onChange={(e) => setRegister({ ...register, email: e.target.value })} placeholder="samseyi00@gmail.com"></Form.Control>
                             <Form.Label className="mt-2">Password</Form.Label>
-                            <Form.Control type={passwordType} onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={togglePassword} /> : <FaEye onClick={togglePassword} />}</div>
-                            <Form.Label className="mt-2">Confirm Password</Form.Label>
-                            <Form.Control type={passwordType1} onChange={handlePasswordChange1} value={passwordInput1} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType1 === "password" ? <FaEyeSlash onClick={togglePassword1} /> : <FaEye onClick={togglePassword1} />}</div>
-                            <button type="submit" className={styles.submit1}>Create account</button>
+                            <Form.Control type={passwordType} required onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={togglePassword} /> : <FaEye onClick={togglePassword} />}</div>
+                            <Form.Label className="mt-2">Confirm Password &nbsp; &nbsp; &nbsp; &nbsp; {passwordInput !== passwordInput1 ? <span className="text-danger">Password does not match.</span> : passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? <span className="text-success">Password match.</span> : <></> }</Form.Label>
+                            <Form.Control type={passwordType1} required onChange={handlePasswordChange1} value={passwordInput1} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType1 === "password" ? <FaEyeSlash onClick={togglePassword1} /> : <FaEye onClick={togglePassword1} />}</div>
+                            <button type="submit" disabled={passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? false : true} className={styles.submit1}>Create account</button>
                             <p className="mt-3 text-center">Already have an account? <Link to="" onClick={() => setActivePage("first")} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Login</Link> </p>
                         </Form>
                     </div>

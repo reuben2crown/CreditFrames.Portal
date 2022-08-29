@@ -6,7 +6,7 @@ const login = (data) => {
     const input = {
         "emailAddress": data.email,
         "password": data.password,
-        "loginChannel": "Website",
+        "loginChannel": "Web",
         "deviceId": "none",
     };
     console.log(input);
@@ -18,13 +18,13 @@ const login = (data) => {
 const register = (data) => {
 
     const input = {
-        "firstName": data.firstname,
+        "firstName": data.firstName,
         "lastName": data.lastName,
         "emailAddress": data.email,
         "phoneNumber": data.phone,
         "password": data.password,
         "confirmPassword": data.password1,
-        "signupChannel": "Website",
+        "signupChannel": "Web",
         "deviceId": "none",
     }
 
