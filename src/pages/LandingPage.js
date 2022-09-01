@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/LandingPage.module.css";
@@ -31,16 +31,33 @@ import news1 from "../images/newImage.png";
 import news2 from "../images/news2.png";
 import news3 from "../images/news3.png";
 import Carousel from "react-bootstrap/Carousel";
+import useApi from "../hooks/useApi";
+import userApis from "../api/users";
+import routes from "../routes";
 
 
 
 const LandingPage = () => {
+
+    const navigate = useNavigate();
 
     const [index, setIndex] = useState(0);
 
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex);
     };
+
+    const [searchLoan, setSearchLoan] = useState();
+    const searchLoanApi = useApi(userApis.searchLoan);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(searchLoan);
+        const res = await searchLoanApi.request(searchLoan);
+        if (res.ok) {
+            //navigate(routes.SearchPage);
+        }
+    }
 
     
     return (
@@ -53,21 +70,21 @@ const LandingPage = () => {
                             <h2 className={styles.title}>Africa's No 1. Personalised Loan Marketplace.</h2> 
                             <h4 className={styles.subtitle}>Search, Compare, and Apply</h4>
                             <div className={styles.card}>
-                                <Form>
+                                <Form onSubmit={handleSubmit}>
                                     <div className="row">
                                         <div className="col-md-6 text-start">
                                             <label>How much would you like to borrow?</label>
-                                            <Form.Control type="text" className={styles.select} placeholder="Enter your preferred amount"></Form.Control>
+                                            <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control>
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>
-                                            <Form.Select className={styles.select}>
+                                            <Form.Select className={styles.select} onChange={(e) => setSearchLoan({...searchLoan, loanType: e.target.value})}>
                                                 <option selected disabled>Select Loan Type</option>
-                                                <option value="Business Loan">Business Loan</option>
-                                                <option value="Personal Loan">Personal Loan</option>
+                                                <option value="1">Business Loan</option>
+                                                <option value="2">Personal Loan</option>
                                             </Form.Select> 
                                         </div>
-                                        <div className="col-md-10 m-auto pt-4"><button className={styles.submit}>Search for loan</button></div>
+                                        <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
                                     </div>
                                 </Form>
                             </div>

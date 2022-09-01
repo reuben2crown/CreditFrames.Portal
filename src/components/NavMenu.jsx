@@ -10,11 +10,15 @@ import styles from "../styles/NavMenu.module.css";
 import { FaSearch } from "react-icons/fa";
 import NG from "country-flag-icons/react/3x2/NG";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
+import routes from "../routes";
 
 
 
 
 const NavMenu = () => {
+
+    const navigate = useNavigate();
 
     const options = [
         {
@@ -49,7 +53,7 @@ const NavMenu = () => {
                                 placeholder="LANG"
                                 options={options}
                             />{spacing}
-                            <Button className={styles.login}>LOGIN</Button>{spacing}
+                            <Button className={styles.login} onClick={navigate(routes.LoginPage)}>LOGIN</Button>{spacing}
                             <Button variant="success" className={styles.searchIcon}><FaSearch /></Button>
                         </Nav>
                     </Navbar.Collapse>
