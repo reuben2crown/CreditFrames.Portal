@@ -64,12 +64,19 @@ label {
     margin: -80px 0px;
     padding-right: 80px;
 }
+.carousel {
+    margin: 100px 0px -130px 0px;
+}
 .carousel1 {
-    padding: 30px 50px;
-    background-color: #fff;
+    background-color: #FFF;
+    padding: 40px 20px;
+    margin: 0px;
+    border: 1px solid #F7EDF6;
+    border-radius: 5px;
 }
 .section3 {
     background-color: rgb(152, 226, 255, 10%);
+    margin-bottom: 80px;
 }
 .section4 {
     padding: 100px 0px;
@@ -393,6 +400,9 @@ p {
         padding: 30px 30px 50px 30px;
         border: #F7EDF6 solid 1px;
         border-radius: 20px;
+    }
+    .carousel {
+        margin: 50px 0px -50px 0px;
     }
     .section4 {
         padding: 20px 0px;

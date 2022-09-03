@@ -9,9 +9,8 @@ const login = (data) => {
         "deviceId": data.deviceId,
     };
     console.log(input);
-    // const endpoint = data.userType === "admin" ? "/api/admin/Administrator/Login" : data.userType === "cadmin" ? "/api/CompanyProfile/Login" : "/api/AssessorProfile/Login";
 
-    //return client.post("/api/Auth/Login", input);
+    return client.post("/api/Auth/Login", input);
 };
 
 const register = (data) => {
@@ -28,13 +27,13 @@ const register = (data) => {
     }
 
     console.log(input);
-    //return client.post("/api/Auth/Register", input);
+    return client.post("/api/Auth/Register", input);
 };
 
 const searchLoan = (data) => {
     const loanType = data.loanType;
     const amount = data.amount;
-    return client.post(`/api/Lenders/Compare?LoanTypeId=${loanType}&Amount=${20000}`);
+    return client.post(`/api/Lenders/Compare?LoanTypeId=${loanType}&Amount=${amount}`);
 }
 
 const tokenValidation = (data) => {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import Carousel from "better-react-carousel";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/LandingPage.module.css";
@@ -8,10 +9,10 @@ import Form from "react-bootstrap/Form";
 import lady from "../images/hmbg1.png";
 import circle1 from "../images/Ellipse1.png";
 import circle2 from "../images/Ellipse2.png";
-import renmoney from "../images/renmoney.png";
-import pettycash from "../images/pettycash.png";
-import carbon from "../images/carbon.png";
-import branch from "../images/Branch.png";
+import renmoney from "../images/renmoney.jpg";
+import pettycash from "../images/pettycash.jpg";
+import carbon from "../images/carbon.jpg";
+import branch from "../images/branch.jpg";
 import businessIcon from "../images/business.png";
 import personalIcon from "../images/personal.png";
 import illustration1 from "../images/illustration1.png";
@@ -30,7 +31,6 @@ import test3 from "../images/test3.png";
 import news1 from "../images/newImage.png";
 import news2 from "../images/news2.png";
 import news3 from "../images/news3.png";
-import Carousel from "react-bootstrap/Carousel";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import routes from "../routes";
@@ -40,12 +40,6 @@ import routes from "../routes";
 const LandingPage = () => {
 
     const navigate = useNavigate();
-
-    const [index, setIndex] = useState(0);
-
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
-    };
 
     const [searchLoan, setSearchLoan] = useState();
     const searchLoanApi = useApi(userApis.searchLoan);
@@ -59,6 +53,9 @@ const LandingPage = () => {
         }
     }
 
+    const handleClick = () => {
+        navigate(routes.LoanRequestPage);
+    }
     
     return (
         <div>
@@ -103,12 +100,34 @@ const LandingPage = () => {
                 </div>
             </section>
             <section className={styles.section3}>
-                <div className="container text-center pt-5 pb-5">
-                    <div>
-                        <img src={renmoney} className={styles.carousel1} alt="" />
-                        <img src={pettycash} className={styles.carousel1} alt="" />
-                        <img src={carbon} className={styles.carousel1} alt="" />
-                        <img src={branch} className={styles.carousel1} alt="" />
+                <div className="container text-center pt-4 pb-4">
+                    <div className={styles.carousel}>
+                        <Carousel cols={4} rows={1} gap={10} loop={true} autoplay={3000}>
+                            <Carousel.Item>
+                                <img src={renmoney} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                            <Carousel.Item>                                
+                                <img src={pettycash} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={carbon} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={branch} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={renmoney} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={pettycash} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={carbon} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={branch} className={styles.carousel1} alt="" />
+                            </Carousel.Item>
+                        </Carousel>
                     </div>
                 </div>
                 
@@ -125,7 +144,7 @@ const LandingPage = () => {
                                 <img src={businessIcon} alt="" />
                                 <h3>Business Loan</h3>
                                 <p>Are you looking to grow or start a business? Explore your loan options here</p>
-                                <button className={styles.apply1}>APPLY NOW</button>
+                                <button onClick={handleClick} className={styles.apply1}>APPLY NOW</button>
                             </div>
                         </div>
                         <div className="col-md-6 text-center">
@@ -133,7 +152,7 @@ const LandingPage = () => {
                                 <img src={personalIcon} alt="" />
                                 <h3>Personal Loan</h3>
                                 <p>We are here to give you the best loan rates for your personal needs. Explore your loan options here</p>
-                                <button className={styles.apply1}>APPLY NOW</button>
+                                <button onClick={handleClick} className={styles.apply1}>APPLY NOW</button>
                             </div>
                         </div>
                     </div>
@@ -237,7 +256,7 @@ const LandingPage = () => {
                             <div className={styles.content}>
                                 <hr className={styles.titleLine}></hr>
                                 <h3 className={styles.secTitle}>Getting you access to the best loan offers.</h3>
-                                <button className={styles.apply2}>Apply Here</button>
+                                <button onClick={handleClick} className={styles.apply2}>Apply Here</button>
                             </div>
                         </div>
                     </div>
@@ -249,7 +268,7 @@ const LandingPage = () => {
                         <h2 className={styles.secTitle}>What Customers say</h2>
                         <h4 className={styles.secSubTitle}>Customer feedback is key to our business growth. </h4>
                     </div>
-                    <Carousel activeIndex={index} onSelect={handleSelect}>
+                    <Carousel cols={1} rows={1} gap={10} loop={true} autoplay={3000}>
                         <Carousel.Item>
                             <div className="row content pt-5">
                                 <div className="col-md-6 text-center">

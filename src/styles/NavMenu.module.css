@@ -13,8 +13,10 @@ Nav {
     padding: 5px !important;
     outline: none !important;
     border: none !important;
-    width: 120px;
+    padding: 0px;
+    width: 130px;
     margin: auto;
+    outline: none;
 }
 
 .login {

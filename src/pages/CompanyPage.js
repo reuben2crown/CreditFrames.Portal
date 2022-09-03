@@ -5,6 +5,9 @@ import styles from "../styles/CompanyPage.module.css";
 import companybg from "../images/companybg.png";
 import leftui from "../images/leftui.png";
 import productImage from "../images/productImage.png";
+import test1 from "../images/testi1.png";
+import test2 from "../images/testi2.png";
+import Carousel from "better-react-carousel";
 
 
 
@@ -81,6 +84,30 @@ const CompanyPage = () => {
                                 <h4>CAN DO ATTITUDE</h4>
                                 <p>Nothing is beyond us; we will make sure we have exhausted all possible options and left no stone unturned to satisfy our customers </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className={styles.section5}>
+                <div className="container">
+                    <div className="row col-md-11 m-auto text-center">
+                        <h4 className={styles.subTitle}>TESTIONIALS</h4>
+                        <h2 className={styles.secTitle}>What Customers say</h2>
+                        <div className="mt-4">
+                            <Carousel cols={2} rows={1} gap={20} loop={true} autoplay={3000}>
+                                <Carousel.Item>
+                                    <img src={test1} alt="" />
+                                </Carousel.Item>
+                                <Carousel.Item>
+                                    <img src={test2} alt="" />
+                                </Carousel.Item>
+                                <Carousel.Item>
+                                    <img src={test1} alt="" />
+                                </Carousel.Item>
+                                <Carousel.Item>
+                                    <img src={test2} alt="" />
+                                </Carousel.Item>
+                            </Carousel>
                         </div>
                     </div>
                 </div>

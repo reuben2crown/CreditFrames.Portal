@@ -14,6 +14,7 @@ import routes from "../routes";
 const LoginPage = () => {
 
     const navigate = useNavigate();
+
     const [activePage, setActivePage] = useState("first");
     const [passwordType, setPasswordType] = useState("password");
     const [passwordInput, setPasswordInput] = useState("");
@@ -66,7 +67,7 @@ const LoginPage = () => {
 
         if (res.data.code === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
-            return navigate(routes.LandingPage);
+            navigate(-1);
         }
         if (res.data.code === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;

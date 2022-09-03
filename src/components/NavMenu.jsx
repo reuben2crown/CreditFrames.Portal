@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-//import NavDropdown from "react-bootstrap/NavDropdown";
+import language from "../images/language.png";
 import logo from "../images/CreditFrame-Logo.svg";
 import styles from "../styles/NavMenu.module.css";
 import { FaSearch } from "react-icons/fa";
@@ -19,6 +19,10 @@ import routes from "../routes";
 const NavMenu = () => {
 
     const navigate = useNavigate();
+
+    const handleLogin = () => {
+        navigate(routes.LoginPage);
+    }
 
     const options = [
         {
@@ -52,8 +56,8 @@ const NavMenu = () => {
                                 className={styles.lang}
                                 placeholder="LANG"
                                 options={options}
-                            />{spacing}
-                            <Button className={styles.login} onClick={navigate(routes.LoginPage)}>LOGIN</Button>{spacing}
+                            />{spacing} 
+                            <Button className={styles.login} onClick={handleLogin}>LOGIN</Button>{spacing}
                             <Button variant="success" className={styles.searchIcon}><FaSearch /></Button>
                         </Nav>
                     </Navbar.Collapse>
