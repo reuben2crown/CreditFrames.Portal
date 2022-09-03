@@ -115,6 +115,15 @@ p {
     border-radius: 0px 30px 30px 0px;
     width: 100%;
 }
+.section5 {
+    background-color: rgb(152, 226, 255, 10%);
+    padding: 50px 0px;
+}
+.subTitle {
+    font-family: Open+Sans;
+    font-size: 16px;
+    letter-spacing: 5px;
+}
 
 
 /* Mobile Responsiveness Css */

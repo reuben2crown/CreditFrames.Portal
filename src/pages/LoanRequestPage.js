@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import styles from "../styles/LoanRequestPage.module.css";
 import logo from "../images/CreditFrame-Logo.svg";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import Modal from "react-bootstrap/Modal";
 import statusIcon from "../images/check.png";
+import routes from "../routes";
 
 
 
 const LoanRequestPage = () => {
+
+    const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState("first");
     const [radioValue, setRadioValue] = useState();
@@ -18,6 +22,17 @@ const LoanRequestPage = () => {
     const handleShow = () => setShow(true);
     const [business, setBusiness] = useState();
     const [personal, setPersonal] = useState();
+    
+    const authenticate = () => {
+        const user = window.localStorage.getItem("userData");
+        console.log(user);
+        if (user === null || user === "undefined") {
+            navigate(routes.LoginPage);
+        }
+    }
+    useEffect(() => {
+        authenticate();
+    }, []);
 
     const radios = [
         { name: 'Personal', value: 'personal', smallText: <span>Get loans designed to meet your specific personal needs.</span> },

@@ -5,6 +5,9 @@ import Form from "react-bootstrap/Form";
 import logoWhite from "../images/logoWhite.png";
 import message from "../images/message.png";
 import styles from "../styles/PasswordRecovery.module.css";
+import useApi from "../hooks/useApi";
+import userApis from "../api/users";
+import Alert from "react-bootstrap/Alert";
 
 
 const PasswordRecovery = () => {
@@ -12,9 +15,22 @@ const PasswordRecovery = () => {
     const navigate = useNavigate();
 
     const [activePage, setActivePage] = useState("first");
+    const [passRecovery, setPassRecovery] = useState();
+    const passRecoveryApi = useApi(userApis.passRecovery);
+    const [errorMessage, setErrorMessage] = useState();
+    const [successMessage, setSuccessMessage] = useState();
 
-    const handleSubmit = async () => {
-        return(setActivePage("second"));
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const res = await passRecoveryApi.request(passRecovery);
+
+        if (res.data.code === 200) {
+            return(setActivePage("second"));
+        }
+        if (res.data.code === 400 || res.data.code === 500) {
+            const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
+            setErrorMessage(message);
+        }
     }
 
     const handleSendCode = () => {
@@ -50,22 +66,27 @@ const PasswordRecovery = () => {
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
                         <h3>Password Recovery</h3>
-                        <p>How do you want retrieve <br />your password?</p>
-                        <Form className="text-center">
-                            <div className="mt-4 mx-5 text-start">
+                        <p>Please enter your registered email address to retrieve your password.</p>
+                        {errorMessage}
+                        <Form onSubmit={handleSubmit} className="text-center">
+                            {/* <div className="mt-4 mx-5 text-start">
                                 <Form.Check type="radio" name="options" aria-label="radio 1" style={{display: "inline-block", verticalAlign: "top" }} />
                                 <Form.Label style={{ display: "inline-block", wordBreak: "break-all", fontSize: "18px", color: "#38403A" }}>Get the code by text message <br />(SMS) at +234 703 320 8626</Form.Label>
                             </div>
                             <div className="mt-4 mb-3 mx-5 text-start">
                                 <Form.Check type="radio" name="options" aria-label="radio 1" style={{ display: "inline-block", verticalAlign: "top" }} />
                                 <Form.Label style={{ display: "inline-block", wordBreak: "break-all", fontSize: "18px", color: "#38403A" }}>Get the code by email <br />samsey•••••••@gmail.com</Form.Label>
+                            </div> */}
+                            <div className="mt-2 mb-4 text-start">
+                                <Form.Label className="mt-3">Email Address</Form.Label>
+                                <Form.Control type="email" className={styles.input} required onChange={(e) => setPassRecovery({ ...passRecovery, emailAddress: e.target.value })} placeholder="samseyi00@gmail.com"></Form.Control>
                             </div>
                             {/* <div>
                                 <input type="radio" style={{heigth: "50px", width: "50px"}}></input>
                                 <Form.Label className="mt-2">Get the code by email samsey•••••••@gmail.com</Form.Label>
                             </div> */}
+                            <button type="submit" className={styles.submit}>{passRecoveryApi.loading ? "Submiting..." : "Continue"}</button>
                         </Form>
-                            <button onClick={() => handleSubmit()} className={styles.submit}>Continue</button>
                     </div>
                 </div>
                 <div style={{position: "absolute", bottom: "0", width: "98%", textAlign: "center"}}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
