@@ -9,4 +9,8 @@ export default Object.freeze({
     PasswordReset: "/reset-password",
     SearchPage: "/search-result",
     LoanRequestPage: "/loan-request",
+    DashboardPage: "/dashboard",
+    LoansPage: "/loans",
+    ProfilePage: "/profile",
+    SettingsPage: "/settings",
 });

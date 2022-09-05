@@ -10,6 +10,10 @@ import PasswordRecovery from "./pages/PasswordRecovery";
 import PasswordReset from "./pages/PasswordReset";
 import SearchPage from "./pages/SearchPage";
 import LoanRequestPage from "./pages/LoanRequestPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import LoansPage from "./pages/dashboard/LoansPage";
+import ProfilePage from "./pages/dashboard/ProfilePage";
+import SettingsPage from "./pages/dashboard/SettingsPage";
 
 const App = () => {
   return (
@@ -25,6 +29,10 @@ const App = () => {
         <Route exact={true} path={routes.PasswordReset} element={<PasswordReset />} />
         <Route exact={true} path={routes.SearchPage} element={<SearchPage />} />
         <Route exact={true} path={routes.LoanRequestPage} element={<LoanRequestPage />} />
+        <Route exact={true} path={routes.DashboardPage} element={<DashboardPage />} />
+        <Route exact={true} path={routes.LoansPage} element={<LoansPage />} />
+        <Route exact={true} path={routes.ProfilePage} element={<ProfilePage />} />
+        <Route exact={true} path={routes.SettingsPage} element={<SettingsPage />} />
       </Routes>
     </Router>
   );
