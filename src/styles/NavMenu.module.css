@@ -10,13 +10,16 @@ Nav {
 .lang {
     background-color: rgba(0, 0, 251, 0.06) !important;
     border-radius: 10px !important;
-    padding: 5px !important;
+    padding: 0px !important;
     outline: none !important;
     border: none !important;
     padding: 0px;
     width: 130px;
     margin: auto;
-    outline: none;
+    outline: none !important;
+}
+.lang::after, .lang::before {
+    display: none;
 }
 
 .login {

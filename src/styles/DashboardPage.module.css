@@ -63,8 +63,9 @@
     font-size: 20px;
     font-weight: 600;
     margin: 0px 20px;
-    padding: 20px 140px;
+    padding: 20px 40px;
     border-radius: 10px;
+    width: 90%;
     border: none;
 }
 .pageCard3 {
@@ -198,9 +199,34 @@
     color: #0000FB;
     float: right;
     border: none;
+    font-size: 14px;
     padding: 6px 20px;
     border-radius: 20px;
 }
 .cardTable1 {
-
+    background-color: rgb(219, 219, 219, 20%);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #F7EDF6;
+}
+.cardInside {
+    background-color: rgb(219, 219, 219, 50%);
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px 40px;
+    width: 100%;
+    display: table;
+}
+.cardInside th {
+    width: 20%;
+}
+.cardInside1 {
+    background-color: #FFF;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px 40px;
+    width: 100%;
+    display: table;
+}
+.cardInside1 td {
+    width: 20%;
 }

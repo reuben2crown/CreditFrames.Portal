@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import Form from "react-bootstrap/Form";
@@ -6,10 +6,36 @@ import Accordion from 'react-bootstrap/Accordion';
 import styles from "../styles/ContactPage.module.css";
 import telephone from "../images/telephone.png";
 import envelope from "../images/envelope.png";
+import useApi from "../hooks/useApi";
+import userApis from "../api/users";
+import Alert from "react-bootstrap/Alert";
 
 
 
 const ContactPage = () => {
+
+
+    const userContactApi = useApi(userApis.contact);
+    const [contact, setContact] = useState();
+    const [errorMessage, setErrorMessage] = useState();
+    const [successMessage, setSuccessMessage] = useState();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(contact);
+        const res = await userContactApi.request(contact);
+
+        if (res.data.code === 200) {
+            const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
+            setSuccessMessage(message);
+        }
+        if (res.data.code === 400) {
+            const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
+            setErrorMessage(message);
+        }
+    }
+
+
     return (
         <div>
             <NavMenu />
@@ -36,32 +62,33 @@ const ContactPage = () => {
                 <div className="container mt-5 pt-5">
                     <div className="row col-md-8 m-auto">
                         <h3 align="center" className={styles.secTitle}>Fill out this form, <br />we'll quickly get back to you</h3>
-                        <Form className={styles.contactForm}>
+                        {errorMessage}{successMessage}
+                        <Form onSubmit={handleSubmit} className={styles.contactForm}>
                             <div className="row">
                                 <div className="col-md-12">
                                     <Form.Label className={styles.contactLabel}>How can we help you?  <span style={{ color: "#A9358D"}}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} placeholder="State your purpose of writing to us."></Form.Control>
+                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setContact({ ...contact, subject: e.target.value })} placeholder="State your purpose of writing to us."></Form.Control>
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Label className={styles.contactLabel}>First Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} placeholder="Type your first name"></Form.Control>
+                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setContact({ ...contact, firstName: e.target.value })} placeholder="Type your first name"></Form.Control>
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Label className={styles.contactLabel}>Last Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} placeholder="Type your last name"></Form.Control>
+                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setContact({ ...contact, lastName: e.target.value })} placeholder="Type your last name"></Form.Control>
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Label className={styles.contactLabel}>Email Address  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="email" className={styles.contactInput} placeholder="Type your email address"></Form.Control>
+                                    <Form.Control type="email" className={styles.contactInput} onChange={(e) => setContact({ ...contact, emailAddress: e.target.value })} placeholder="Type your email address"></Form.Control>
                                 </div>
                                 <div className="col-md-6">
                                     <Form.Label className={styles.contactLabel}>Phone Number  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} placeholder="Type your phone number"></Form.Control>
+                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setContact({ ...contact, phoneNumber: e.target.value })} placeholder="Type your phone number"></Form.Control>
                                 </div>
                                 <div className="col-md-12">
                                     <Form.Label className={styles.contactLabel}>Message  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control as="textarea" rows={5} className={styles.contactInput}>Type your message here</Form.Control>
-                                    <button className={styles.apply}> Send </button>
+                                    <Form.Control as="textarea" rows={5} placeholder="Type your message here" onChange={(e) => setContact({ ...contact, message: e.target.value })} className={styles.contactInput}></Form.Control>
+                                    <button type="submit" className={styles.apply}> Send </button>
                                 </div>
                             </div>
                         </Form>

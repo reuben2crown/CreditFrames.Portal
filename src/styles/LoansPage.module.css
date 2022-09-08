@@ -1,0 +1,41 @@
+
+.dashboardbg {
+    background-color: rgb(218, 228, 237, 10%);
+    padding: 40px 0px;
+    font-family: 'Mulish';
+}
+.pageContent {
+    padding: 10px 60px 0px 0px;
+}
+.pageTitle {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.cardTable1 {
+    background-color: rgb(219, 219, 219, 20%);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #F7EDF6;
+}
+.cardInside {
+    background-color: rgb(219, 219, 219, 50%);
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px 40px;
+    width: 100%;
+    display: table;
+}
+.cardInside th {
+    width: 20%;
+}
+.cardInside1 {
+    background-color: #FFF;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px 40px;
+    width: 100%;
+    display: table;
+}
+.cardInside1 td {
+    width: 20%;
+}

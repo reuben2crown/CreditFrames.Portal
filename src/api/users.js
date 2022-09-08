@@ -13,6 +13,10 @@ const login = (data) => {
     return client.post("/api/Auth/Login", input);
 };
 
+const contact =(data) => {
+    return client.post("/api/Email/ContactForm", data);
+}
+
 const register = (data) => {
 
     const input = {
@@ -50,11 +54,25 @@ const changePassword = (data) => {
     return client.post("/api/PasswordManagers/CompletePasswordReset", data);
 }
 
+const getDashboardData = (data) => {
+    
+    return client.get(`/api/Dashboard/UserDashboard/${data}`);
+
+}
+
+const getCountries = () => {
+    return client.get("/api/Countries");
+}
+
+
 const userApis = { 
     login,
     register,
     searchLoan,
     tokenValidation,
     changePassword,
+    contact,
+    getDashboardData,
+    getCountries,
 };
 export default userApis;

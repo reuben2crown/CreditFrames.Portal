@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import NavMenu from "../../components/NavMenu";
 import Footer from "../../components/Footer";
 import Sidebar from "../../components/Sidebar";
@@ -8,9 +9,66 @@ import Character from "../../images/Character.svg";
 import refresh from "../../images/refresh.png";
 import cash from "../../images/cash.png";
 import usertime from "../../images/usertime.png";
+import renmoney from "../../images/renmoney.png";
+import branch from "../../images/Branch.png";
+import routes from "../../routes";
+import useApi from "../../hooks/useApi";
+import userApis from "../../api/users";
 
 
 const DashboardPage = () => {
+
+    const navigate = useNavigate();
+
+
+    const getDashboardDataApi = useApi(userApis.getDashboardData);
+
+    useEffect(() => {
+        getDashboardData();
+    }, []);
+
+    const getDashboardData = async () => {
+        const res = await getDashboardDataApi.request();
+        console.log(res);
+        //if (res.ok) setSkillStatement(res.data.data);
+    }
+
+    // activeLoan: null
+    // loanHistory: null
+    // recentSearch: []
+    // totalActiveLoan: 0
+    // totalCompletedLoan: 0
+    // totalLoans: 0
+
+    // const authenticate = () => {
+    //     const user = window.localStorage.getItem("userData");
+    //     console.log(user);
+    //     if (user === null || user === "undefined") {
+    //         navigate(routes.LoginPage);
+    //     }
+    // }
+    // useEffect(() => {
+    //     authenticate();
+    // }, []);
+
+    const loans = [
+        {
+            "loanId": 1,
+            "lendersName": renmoney,
+            "loanAmount": "₦10,000,000",
+            "amountPaid": "₦5,000,000",
+            "dueDate": "09/10/2023",
+            "status": "Completed",
+        },
+        {
+            "loanId": 1,
+            "lendersName": branch,
+            "loanAmount": "₦10,000,000",
+            "amountPaid": "₦5,000,000",
+            "dueDate": "09/10/2023",
+            "status": "Completed",
+        }
+    ];
 
     return (
         <div>
@@ -80,13 +138,27 @@ const DashboardPage = () => {
                                 </div>
                             </div>
                             <div className="row col-md-12 mt-4">
-                                <span><b>Loan History</b><button className={styles.viewAll}>View all</button></span>
+                                <span className="mb-2"><b>Loan History</b><button className={styles.viewAll}>View all</button></span>
                                 <div className={styles.cardTable1}>
-
+                                    <tr className={styles.cardInside}>
+                                        <th>Lender's Name</th>
+                                        <th>Loan Amount</th>
+                                        <th>Amount Paid</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    {loans.map((items, key) => <tr className={styles.cardInside1} key={key}>
+                                        <td><img src={items.lendersName} width="60%" alt="" /></td>
+                                        <td>{items.loanAmount}</td>
+                                        <td>{items.amountPaid}</td>
+                                        <td>{items.dueDate}</td>
+                                        <td>{items.status}</td>
+                                    </tr>)}
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="">
+                        {/* <div class="">
                             <h3>Example</h3>
                             <div className="">
                                 <table className="table table-striped " id="">
@@ -128,50 +200,7 @@ const DashboardPage = () => {
                                     </tbody></table>
                             </div>
                             <a className="w3-btn w3-margin-top w3-margin-bottom" href="tryit.asp?filename=tryhtml_table_intro" target="_blank">Try it Yourself »</a>
-                        </div>
-                        <div class="">
-                            <h3>Example</h3>
-                            <div className="">
-                                <table className="table table-striped " id="">
-                                    <tbody><tr>
-                                        <th>Company</th>
-                                        <th>Contact</th>
-                                        <th>Country</th>
-                                    </tr>
-                                        <tr>
-                                            <td>Alfreds Futterkiste</td>
-                                            <td>Maria Anders</td>
-                                            <td>Germany</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Centro comercial Moctezuma</td>
-                                            <td>Francisco Chang</td>
-                                            <td>Mexico</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ernst Handel</td>
-                                            <td>Roland Mendel</td>
-                                            <td>Austria</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Island Trading</td>
-                                            <td>Helen Bennett</td>
-                                            <td>UK</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Laughing Bacchus Winecellars</td>
-                                            <td>Yoshi Tannamuri</td>
-                                            <td>Canada</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Magazzini Alimentari Riuniti</td>
-                                            <td>Giovanni Rovelli</td>
-                                            <td>Italy</td>
-                                        </tr>
-                                    </tbody></table>
-                            </div>
-                            <a className="w3-btn w3-margin-top w3-margin-bottom" href="tryit.asp?filename=tryhtml_table_intro" target="_blank">Try it Yourself »</a>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>

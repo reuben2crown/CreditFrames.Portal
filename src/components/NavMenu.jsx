@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -12,7 +12,8 @@ import NG from "country-flag-icons/react/3x2/NG";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import routes from "../routes";
-
+import useApi from "../hooks/useApi";
+import userApis from "../api/users";
 
 
 
@@ -20,21 +21,27 @@ const NavMenu = () => {
 
     const navigate = useNavigate();
 
+    const [countries, setCountries] = useState([]);
+    const getCountriesApi = useApi(userApis.getCountries);
+
+    useEffect(() => {
+        getCountries();
+    }, []);
+
+    const getCountries = async () => {
+        const res = await getCountriesApi.request();
+        console.log(res.data);
+        if (res.ok) setCountries(res.data);
+    }
+
     const handleLogin = () => {
         navigate(routes.LoginPage);
     }
 
-    const options = [
-        {
-            label: (
-                <>
-                    <NG height="20px" width="25px" />
-                    <span>NG</span>
-                </>
-            ),
-            value: "NG",
-        }
-    ];
+    const options = countries.map((option, idx) => ({
+        value: idx,
+        label: <><img src={option.flagUrl} height="30px" alt="" /> {option.code}</>
+    }))
 
     const spacing = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
 
@@ -56,6 +63,8 @@ const NavMenu = () => {
                                 className={styles.lang}
                                 placeholder="LANG"
                                 options={options}
+                                value={options[0]}
+                                //options={options}
                             />{spacing} 
                             <Button className={styles.login} onClick={handleLogin}>LOGIN</Button>{spacing}
                             <Button variant="success" className={styles.searchIcon}><FaSearch /></Button>
