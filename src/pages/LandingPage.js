@@ -34,6 +34,7 @@ import news3 from "../images/news3.png";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import routes from "../routes";
+import { NumericFormat } from "react-number-format";
 
 
 
@@ -47,15 +48,16 @@ const LandingPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(searchLoan);
-        const res = await searchLoanApi.request(searchLoan);
-        if (res.ok) {
-            //navigate(routes.SearchPage);
-        }
+        // const res = await searchLoanApi.request(searchLoan);
+        // if (res.ok) {
+        //     navigate(routes.SearchPage);
+        // }
     }
 
     const handleClick = () => {
         navigate(routes.LoanRequestPage);
     }
+
     
     return (
         <div>
@@ -71,7 +73,12 @@ const LandingPage = () => {
                                     <div className="row">
                                         <div className="col-md-6 text-start">
                                             <label>How much would you like to borrow?</label>
-                                            <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control>
+                                            {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
+                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={'₦'} allowNegative={false} onValueChange={(values) => {
+                                                const { formattedValue, value, floatValue } = values;
+                                                setSearchLoan({ ...searchLoan, amount: formattedValue })
+                                                // do something with floatValue
+                                            }} className={styles.select} />
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>
