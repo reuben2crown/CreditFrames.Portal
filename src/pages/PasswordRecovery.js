@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../routes";
 import Form from "react-bootstrap/Form";
 import logoWhite from "../images/logoWhite.png";
@@ -22,7 +22,7 @@ const PasswordRecovery = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await passRecoveryApi.request(passRecovery);
+        const res = await passRecoveryApi.request({...passRecovery, channel: "web"});
 
         if (res.data.code === 200) {
             return(setActivePage("second"));
@@ -62,7 +62,7 @@ const PasswordRecovery = () => {
     return (
         <div className={styles.popBg} style={{ height: `${screenSize.dynamicHeight}px` }}>
             <div hidden={activePage !== "first"}>
-                <img src={logoWhite} className="mb-4" alt="" />
+                <Link to="/"><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
                         <h3>Password Recovery</h3>
@@ -92,7 +92,7 @@ const PasswordRecovery = () => {
                 <div style={{position: "absolute", bottom: "0", width: "98%", textAlign: "center"}}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
             </div>
             <div hidden={activePage !== "second"}>
-                <img src={logoWhite} className="mb-4" alt="" />
+                <Link to="/"><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
                         <img src={message} alt="" />

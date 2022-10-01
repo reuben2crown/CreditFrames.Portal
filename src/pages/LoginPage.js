@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
@@ -131,7 +131,7 @@ const LoginPage = () => {
     return (
         <div className={styles.popBg}>
             <div hidden={activePage !== "first"}>
-                <img src={logoWhite} className="mb-4" alt="" />
+                <Link to="/" ><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row col-md-4 m-auto"> 
                     <div className={styles.card}>
                         <h3>Welcome back</h3>
@@ -151,7 +151,7 @@ const LoginPage = () => {
                 <div><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
             </div>
             <div hidden={activePage !== "second"}>
-                <img src={logoWhite} className="mb-2" alt="" />
+                <Link to="/" ><img src={logoWhite} className="mb-2" alt="" /></Link>
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
                         <h3>Create account</h3>

@@ -35,12 +35,17 @@ import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import routes from "../routes";
 import { NumericFormat } from "react-number-format";
-
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import jwtDecode from "jwt-decode";
 
 
 const LandingPage = () => {
 
     const navigate = useNavigate();
+
+    const [userValid, setUserValid] = useState();
+
+    const currency = JSON.parse(localStorage.getItem("countrySelected"));
 
     const [searchLoan, setSearchLoan] = useState();
     const searchLoanApi = useApi(userApis.searchLoan);
@@ -48,10 +53,39 @@ const LandingPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(searchLoan);
-        // const res = await searchLoanApi.request(searchLoan);
-        // if (res.ok) {
-        //     navigate(routes.SearchPage);
+        // We recommend to call `load` at application startup.
+        const fp = await FingerprintJS.load();
+
+        // The FingerprintJS agent is ready.
+        // Get a visitor identifier when you'd like to.
+        const result = await fp.get();
+
+        // This is the visitor identifier:
+        //console.log(result.visitorId);
+
+        // if (JSON.parse(localStorage.getItem("userData")) === null || JSON.parse(localStorage.getItem("userData")) === undefined) {
+        //     setUserValid("");
         // }
+        // else {
+        //     const user = JSON.parse(localStorage.getItem("userData"));
+        //     const decodedData = jwtDecode(user.accessToken);
+        //     setUserValid(decodedData.userId);
+        // }
+
+        //const userId = decodedData.userId  ;
+
+        const user = JSON.parse(localStorage.getItem("userData"));
+        const decodedData = jwtDecode(user.accessToken);
+        const newData = JSON.parse(decodedData.UserData);
+        setUserValid(newData.userId);
+
+        const country = JSON.parse(localStorage.getItem("countrySelected"));
+        console.log(userValid, country);
+        const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
+        if (res.ok) {
+            window.localStorage.setItem("searchResult", JSON.stringify(res.data.data));
+            navigate(routes.SearchPage);
+        }
     }
 
     const handleClick = () => {
@@ -74,15 +108,16 @@ const LandingPage = () => {
                                         <div className="col-md-6 text-start">
                                             <label>How much would you like to borrow?</label>
                                             {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={'₦'} allowNegative={false} onValueChange={(values) => {
+                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
                                                 const { formattedValue, value, floatValue } = values;
-                                                setSearchLoan({ ...searchLoan, amount: formattedValue })
+                                                const newAmount = value;
+                                                setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
                                                 // do something with floatValue
-                                            }} className={styles.select} />
+                                            }} className={styles.select} required placeholder={`${currency.currencyCode} 500,000,000`} />
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>
-                                            <Form.Select className={styles.select} onChange={(e) => setSearchLoan({...searchLoan, loanType: e.target.value})}>
+                                            <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value})}>
                                                 <option selected disabled>Select Loan Type</option>
                                                 <option value="1">Business Loan</option>
                                                 <option value="2">Personal Loan</option>

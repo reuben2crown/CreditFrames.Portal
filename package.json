@@ -11,6 +11,7 @@
     "better-react-carousel": "^1.1.1",
     "bootstrap": "^5.2.0",
     "country-flag-icons": "^1.5.5",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-code-input": "^3.10.1",

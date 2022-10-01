@@ -5,9 +5,10 @@
 Nav {
     font-size: 18px;
     font-weight: 500;
+    font-family: Open+Sans;
 }
 
-.lang {
+.lang, .lang:focus, .lang::after, .lang::before {
     background-color: rgba(0, 0, 251, 0.06) !important;
     border-radius: 10px !important;
     padding: 0px !important;
@@ -47,6 +48,65 @@ Nav {
     display: none;
 }
 
+.card {
+    padding: 40px 80px;
+    margin-bottom: 30px;
+    border: #FFE7EF solid 2px;
+    border-radius: 10px;
+}
+.select {
+    background-color: transparent !important;
+    padding: 20px 30px !important;
+    color: #939393 !important;
+    font-size: 18px !important;
+    width: 100%;
+    border: #FFE7EF solid 1px !important;
+    border-radius: 5px !important;
+    outline: none !important;
+    right: 5px !important;
+}
+.card label {
+    color: #344863;
+    font-size: 15px !important;
+}
+.submit {
+    background-color: #0000FB !important;
+    color: #fff !important;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    border: none !important;
+    padding: 20px 60px !important;
+    margin: auto;
+    border-radius: 40px !important;
+}
+.submit:hover {
+    background-color: #FFF !important;
+    color: #0000FB !important;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #0000FB !important;
+    padding: 20px 60px !important;
+    margin: auto;
+    transition: 0.5s;
+    border-radius: 40px !important;
+}
+.userProfile {
+    position: absolute;
+    background-color: #FFF;
+    width: auto;
+    padding: 15px 20px;
+    margin-left: 150px;
+    margin-top: 60px;
+    border: 1px solid #ececec;
+    box-shadow: 2px 2px 5px 0px #ececec;
+}
+.userProfile hr {
+    padding: 0px;
+    margin: 7px 0px;
+}
+
 
 
 /* Mobile Responsiveness Css */
@@ -56,5 +116,39 @@ Nav {
         padding: 0px 10px;
         margin-top: 20px;
         width: 100%;
+    }
+    .card {
+        background-color: #FFF;
+        padding: 40px 40px;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        border: #FFE7EF solid 2px;
+        border-radius: 10px;
+    }
+    .select {
+        background-color: transparent !important;
+        padding: 20px 30px !important;
+        color: #939393 !important;
+        font-size: 16px !important;
+        width: 100%;
+        border: #FFE7EF solid 1px !important;
+        border-radius: 5px !important;
+        outline: none !important;
+        right: 5px !important;
+    }
+    label {
+        color: #344863;
+        font-size: 14px;
+    }
+    .submit {
+        background-color: #0000FB !important;
+        color: #fff !important;
+        text-align: center;
+        font-size: 16px;
+        width: 100%;
+        border: none !important;
+        padding: 20px 60px !important;
+        margin: auto;
+        border-radius: 40px !important;
     }
 }

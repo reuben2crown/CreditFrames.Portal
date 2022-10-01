@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import NavMenu from "../../components/NavMenu";
 import Footer from "../../components/Footer";
 import Sidebar from "../../components/Sidebar";
@@ -14,13 +14,24 @@ import branch from "../../images/Branch.png";
 import routes from "../../routes";
 import useApi from "../../hooks/useApi";
 import userApis from "../../api/users";
+import jwtDecode from "jwt-decode";
 
 
 const DashboardPage = () => {
 
     const navigate = useNavigate();
 
+    const authenticate = () => {
+        const user = window.localStorage.getItem("userData");
+        if (user === null || user === "undefined") {
+            navigate(routes.LoginPage);
+        }
+    }
+    useEffect(() => {
+        authenticate();
+    }, []);
 
+    const [dashboard, setDashboard] = useState([]);
     const getDashboardDataApi = useApi(userApis.getDashboardData);
 
     useEffect(() => {
@@ -28,9 +39,13 @@ const DashboardPage = () => {
     }, []);
 
     const getDashboardData = async () => {
-        const res = await getDashboardDataApi.request();
-        console.log(res);
-        //if (res.ok) setSkillStatement(res.data.data);
+        const user = JSON.parse(localStorage.getItem("userData"));
+        const decodedData = jwtDecode(user.accessToken);
+        const newData = JSON.parse(decodedData.UserData);
+        //console.log(newData.userId);
+        const res = await getDashboardDataApi.request({userId: newData.userId});
+        //console.log(res.data);
+        if (res.ok) setDashboard(res.data);
     }
 
     // activeLoan: null
@@ -95,7 +110,7 @@ const DashboardPage = () => {
                                 <div className="col-md-5">
                                     <div className={styles.pageCard2}>
                                         <h3>Get the best loan offers that suits your needs</h3>
-                                        <button>Apply Here</button>
+                                        <button onClick={() => navigate(routes.LoanRequestPage)}>Apply Here</button>
                                     </div>
                                 </div>
                             </div> 
@@ -108,7 +123,7 @@ const DashboardPage = () => {
                                                 <h5>Active <br /> Loans</h5>
                                                 <button>View</button>
                                             </div>
-                                            <h1> 02</h1>
+                                            <h1> {dashboard.totalActiveLoan} </h1>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +135,7 @@ const DashboardPage = () => {
                                                 <h5>Paid <br /> Loans</h5>
                                                 <button>View</button>
                                             </div>
-                                            <h1> 10</h1>
+                                            <h1> {dashboard.totalCompletedLoan} </h1>
                                         </div>
                                     </div>
                                 </div>
@@ -132,28 +147,49 @@ const DashboardPage = () => {
                                                 <h5>Overdue <br /> Loans</h5>
                                                 <button>View</button>
                                             </div>
-                                            <h1> 01</h1>
+                                            <h1> {dashboard.totalOutstandingLoan}</h1>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="row col-md-12 mt-4">
-                                <span className="mb-2"><b>Loan History</b><button className={styles.viewAll}>View all</button></span>
+                                <span className="mb-2"><b>Loan History</b><button onClick={() => navigate(routes.LoansPage)} className={styles.viewAll}>View all</button></span>
                                 <div className={styles.cardTable1}>
                                     <tr className={styles.cardInside}>
                                         <th>Lender's Name</th>
+                                        <th>Loan Type</th>
                                         <th>Loan Amount</th>
-                                        <th>Amount Paid</th>
-                                        <th>Due Date</th>
+                                        <th>Overdue Balance</th>
                                         <th>Status</th>
                                     </tr>
-                                    {loans.map((items, key) => <tr className={styles.cardInside1} key={key}>
+                                    {/* "loanHistory": [
+                                        {
+                                            "id": 0,
+                                            "userId": 0,
+                                            "loanTypeId": 0,
+                                            "loanTypeName": "string",
+                                            "lenderId": 0,
+                                            "lenderName": "string",
+                                            "loanAmount": 0,
+                                            "loanStatus": "Pending",
+                                            "overdueBalance": 0
+                                        } */}
+                                    {dashboard.loanHistory === null ? "No available loan history." : <></>}
+                                    {dashboard.loanHistory?.map((items, key) => <tr className={styles.cardInside1} key={key}>
+                                        <td>{items.lenderName}</td>
+                                        <td>{items.loanTypeName}</td>
+                                        <td>{items.loanAmount}</td>
+                                        <td>{items.overdueBalance}</td>
+                                        <td>{items.loanStatus}</td>
+                                    </tr>)
+                                    }
+                                    {/* {loans.map((items, key) => <tr className={styles.cardInside1} key={key}>
                                         <td><img src={items.lendersName} width="60%" alt="" /></td>
                                         <td>{items.loanAmount}</td>
                                         <td>{items.amountPaid}</td>
                                         <td>{items.dueDate}</td>
                                         <td>{items.status}</td>
-                                    </tr>)}
+                                    </tr>)} */}
                                     
                                 </div>
                             </div>

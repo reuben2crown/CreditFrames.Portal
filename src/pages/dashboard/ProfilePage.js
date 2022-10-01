@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavMenu from "../../components/NavMenu";
 import Footer from "../../components/Footer";
 import Sidebar from "../../components/Sidebar";
@@ -8,9 +8,24 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup"; 
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
+import { useNavigate } from "react-router-dom";
+import routes from "../../routes";
 
 
 const ProfilePage = () => {
+
+    const navigate = useNavigate();
+
+    const authenticate = () => {
+        const user = window.localStorage.getItem("userData");
+        console.log(user);
+        if (user === null || user === "undefined") {
+            navigate(routes.LoginPage);
+        }
+    }
+    useEffect(() => {
+        authenticate();
+    }, []);
 
     const [profile, setProfile] = useState();
     const [phone, setPhone] = useState("");

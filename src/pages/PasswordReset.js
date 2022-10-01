@@ -84,7 +84,7 @@ const PasswordReset = () => {
         // This is the visitor identifier:
         //console.log(result.visitorId);
         const resetData = { userId: uid, newPassword: passwordInput, passwordResetToken: token, channel: "Web", deviceId: result.visitorId };
-        const res = await tokenValidationApi.request(resetData);
+        const res = await changePasswordApi.request(resetData);
         if (res.data.code === 200) {
             return (setActivePage("third"));
         }
@@ -119,7 +119,7 @@ const PasswordReset = () => {
     return (
         <div className={styles.popBg} style={{ height: `${screenSize.dynamicHeight}px` }}>
             <div hidden={activePage !== "first"}>
-                <img src={logoWhite} className="mb-5" alt="" />
+                <Link to="/"><img src={logoWhite} className="mb-5" alt="" /></Link>
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
                         <h3>Token Validation Status</h3>
@@ -129,7 +129,7 @@ const PasswordReset = () => {
                 <div style={{position: "absolute", bottom: "0", width: "98%", textAlign: "center"}}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
             </div>
             <div hidden={activePage !== "second"}>
-                <img src={logoWhite} className="mb-4" alt="" />
+                <Link to="/"><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row px-4 col-md-4 m-auto">
                     <div className={styles.card}>
                         <h3>New Password</h3>
@@ -148,7 +148,7 @@ const PasswordReset = () => {
                 <div style={{ position: "absolute", bottom: "0", width: "98%", textAlign: "center" }}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
             </div>
             <div hidden={activePage !== "third"}>
-                <img src={logoWhite} className="mb-4" alt="" />
+                <Link to="/"><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row px-4 col-md-4 m-auto">
                     <div className={styles.card}>
                         <img src={statusIcon} alt="" />

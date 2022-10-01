@@ -51,6 +51,18 @@ label {
     margin: auto;
     border-radius: 40px !important;
 }
+.submit:hover {
+    background-color: #FFF !important;
+    color: #0000FB !important;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #0000FB !important;
+    padding: 20px 60px !important;
+    margin: auto;
+    transition: 0.5s;
+    border-radius: 40px !important;
+}
 .circle1 {
     margin-top: 280px;
     margin-left: 300px;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import styles from "../styles/LoanRequestPage.module.css";
 import logo from "../images/CreditFrame-Logo.svg";
@@ -7,6 +7,8 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import Modal from "react-bootstrap/Modal";
 import statusIcon from "../images/check.png";
 import routes from "../routes";
+import useApi from "../hooks/useApi";
+import userApis from "../api/users";
 
 
 
@@ -39,6 +41,42 @@ const LoanRequestPage = () => {
         { name: 'Business', value: 'business', smallText: <span>Expand your business with our variety of business loans.</span> },
     ];
 
+    const [countries, setCountries] = useState([]);
+    const getCountriesApi = useApi(userApis.getCountries);
+    useEffect(() => {
+        getCountries();
+    }, []);
+
+    const getCountries = async () => {
+        const res = await getCountriesApi.request();
+        if (res.ok) {
+            setCountries(res.data);
+        }
+    }
+
+    const [state, setState] = useState([]);
+    const getStateApi = useApi(userApis.getState);
+    useEffect(() => {
+        getState();
+    }, []);
+
+    const getState = async () => {
+        const res = await getStateApi.request();
+        if (res.ok) {
+            setState(res.data);
+        }
+    }
+
+    const countriesOptions = countries.map((option, idx) => ({
+        value: option,
+        label: <><img src={option.flagUrl} height="30px" alt="" /> {option.code}</>
+    }));
+
+    const stateOptions = state.map((option, idx) => ({
+        value: option,
+        label: <><img src={option.flagUrl} height="30px" alt="" /> {option.code}</>
+    }));
+
     const handleNext = (e) => {
         e.preventDefault();
         if (radioValue === "personal") {
@@ -68,7 +106,7 @@ const LoanRequestPage = () => {
             <section className={styles.section1}>
                 <div className="container mt-5">
                     <div className="row col-md-6 m-auto" hidden={activeTab !== "first"}>
-                        <img src={logo} alt="" className={styles.logo} />
+                        <Link to="/" align="center"><img src={logo} alt="" className={styles.logo} /></Link>
                         <h3 align="center" className={styles.title}>Let's get you started</h3>
                         <h4 align="center" className={styles.subTitle}>Select your loan type</h4>
                         <Form onSubmit={handleNext} className={styles.contactForm}>
@@ -105,7 +143,7 @@ const LoanRequestPage = () => {
                             <div className="row">
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Loan Amount  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setPersonal({ ...personal, amount: e.target.value })} placeholder="₦10,000,000.00"></Form.Control>
+                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setPersonal({ ...personal, loanAmount: e.target.value })} placeholder="₦10,000,000.00"></Form.Control>
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
@@ -176,7 +214,46 @@ const LoanRequestPage = () => {
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>State of Residence  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setPersonal({ ...personal, state: e.target.value })} placeholder="Yaba"></Form.Control>
+                                    <Form.Select className={styles.contactInput} onChange={(e) => setPersonal({ ...personal, state: e.target.value })}>
+                                        <option>ABUJA FCT</option>
+                                        <option>ABIA</option>
+                                        <option>ADAMAWA</option>
+                                        <option>AKWA IBOM</option>
+                                        <option>ANAMBRA</option>
+                                        <option>BAUCHI</option>
+                                        <option>BAYELSA</option>
+                                        <option>BENUE</option>
+                                        <option>BORNO</option>
+                                        <option>CROSS RIVER</option>
+                                        <option>DELTA</option>
+                                        <option>EBONYI</option>
+                                        <option>EDO</option>
+                                        <option>EKITI</option>
+                                        <option>ENUGU</option>
+                                        <option>GOMBE</option>
+                                        <option>IMO</option>
+                                        <option>JIGAWA</option>
+                                        <option>KADUNA</option>
+                                        <option>KANO</option>
+                                        <option>KATSINA</option>
+                                        <option>KEBBI</option>
+                                        <option>KOGI</option>
+                                        <option>KWARA</option>
+                                        <option>LAGOS</option>
+                                        <option>NASSARAWA</option>
+                                        <option>NIGER</option>
+                                        <option>OGUN</option>
+                                        <option>ONDO</option>
+                                        <option>OSUN</option>
+                                        <option>OYO</option>
+                                        <option>PLATEAU</option>
+                                        <option>RIVERS</option>
+                                        <option>SOKOTO</option>
+                                        <option>TARABA</option>
+                                        <option>YOBE</option>
+                                        <option>ZAMFARA</option>
+                                    </Form.Select>
+                                    {/* <Form.Control type="text" className={styles.contactInput} onChange={(e) => setPersonal({ ...personal, state: e.target.value })} placeholder="Yaba"></Form.Control> */}
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Country  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
@@ -278,7 +355,46 @@ const LoanRequestPage = () => {
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>State of Residence  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} onChange={(e) => setBusiness({ ...business, state: e.target.value })} placeholder="Yaba"></Form.Control>
+                                    <Form.Select className={styles.contactInput} onChange={(e) => setPersonal({ ...personal, state: e.target.value })}>
+                                        <option>ABUJA FCT</option>
+                                        <option>ABIA</option>
+                                        <option>ADAMAWA</option>
+                                        <option>AKWA IBOM</option>
+                                        <option>ANAMBRA</option>
+                                        <option>BAUCHI</option>
+                                        <option>BAYELSA</option>
+                                        <option>BENUE</option>
+                                        <option>BORNO</option>
+                                        <option>CROSS RIVER</option>
+                                        <option>DELTA</option>
+                                        <option>EBONYI</option>
+                                        <option>EDO</option>
+                                        <option>EKITI</option>
+                                        <option>ENUGU</option>
+                                        <option>GOMBE</option>
+                                        <option>IMO</option>
+                                        <option>JIGAWA</option>
+                                        <option>KADUNA</option>
+                                        <option>KANO</option>
+                                        <option>KATSINA</option>
+                                        <option>KEBBI</option>
+                                        <option>KOGI</option>
+                                        <option>KWARA</option>
+                                        <option>LAGOS</option>
+                                        <option>NASSARAWA</option>
+                                        <option>NIGER</option>
+                                        <option>OGUN</option>
+                                        <option>ONDO</option>
+                                        <option>OSUN</option>
+                                        <option>OYO</option>
+                                        <option>PLATEAU</option>
+                                        <option>RIVERS</option>
+                                        <option>SOKOTO</option>
+                                        <option>TARABA</option>
+                                        <option>YOBE</option>
+                                        <option>ZAMFARA</option>
+                                    </Form.Select>
+                                    {/* <Form.Control type="text" className={styles.contactInput} onChange={(e) => setBusiness({ ...business, state: e.target.value })} placeholder="Yaba"></Form.Control> */}
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Country  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
