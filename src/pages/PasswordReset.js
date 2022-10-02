@@ -85,10 +85,10 @@ const PasswordReset = () => {
         //console.log(result.visitorId);
         const resetData = { userId: uid, newPassword: passwordInput, passwordResetToken: token, channel: "Web", deviceId: result.visitorId };
         const res = await changePasswordApi.request(resetData);
-        if (res.data.code === 200) {
+        if (res.status === 200) {
             return (setActivePage("third"));
         }
-        if (res.data.code === 400 || res.data.code === 500) {
+        if (res.status === 400 || res.status === 500) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage1(message);
         }

@@ -42,7 +42,9 @@ const LoansPage = () => {
         const newData = JSON.parse(decodedData.UserData);
         const res = await getLoanDataApi.request({UserId: newData.userId});
         console.log(res.data);
-        if (res.ok) setLoans(res.data);
+        if (res.status === 200) { 
+            setLoans(res.data);
+        }
     }
 
     const loan = [

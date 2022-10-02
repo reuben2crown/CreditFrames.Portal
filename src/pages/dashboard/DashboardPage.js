@@ -45,7 +45,9 @@ const DashboardPage = () => {
         //console.log(newData.userId);
         const res = await getDashboardDataApi.request({userId: newData.userId});
         //console.log(res.data);
-        if (res.ok) setDashboard(res.data);
+        if (res.status === 200) { 
+            setDashboard(res.data);
+        }
     }
 
     // activeLoan: null

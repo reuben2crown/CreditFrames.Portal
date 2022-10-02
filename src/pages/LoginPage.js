@@ -67,7 +67,10 @@ const LoginPage = () => {
 
         if (res.data.code === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
-            navigate(-1);
+            if (window.localStorage.getItem("prevUrl")) {
+                navigate(routes.LoanRequestPage);
+            }
+            else { navigate(routes.DashboardPage); }
         }
         if (res.data.code === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
@@ -88,12 +91,12 @@ const LoginPage = () => {
         //console.log(result.visitorId);
         const res = await userRegisterApi.request({ ...register, password: passwordInput, password1: passwordInput1, deviceId: result.visitorId });
 
-        if (res.data.code === 200) {
+        if (res.status === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
             const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setSuccessMessage(message);
         }
-        if (res.data.code === 400) {
+        if (res.status === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage1(message);
         }
@@ -120,12 +123,6 @@ const LoginPage = () => {
     }, [screenSize])
 
     ////////////////////////////////////////////////////////////////////////
-    
-    // const deviceDetector = new DeviceDetector();
-    // const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36";
-    // const device = deviceDetector.parse(userAgent);
-
-    // console.log(device);
     
     
     return (

@@ -5,8 +5,6 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import logo from "../images/CreditFrame-Logo.svg";
 import styles from "../styles/NavMenu.module.css";
 import { FaSearch, FaUser, FaChevronDown } from "react-icons/fa";
@@ -30,6 +28,35 @@ const NavMenu = () => {
     const [show, setShow] = useState(false);
 
     const currency = JSON.parse(localStorage.getItem("countrySelected"));
+
+    window.localStorage.removeItem("prevUrl");
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    const refreshTokenApi = useApi(userApis.refreshToken);
+
+    useEffect(() => {
+        const refreshUserToken = async () => {
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            console.log(decodedData.exp * 1000 > Date.now());
+            if (decodedData.exp * 1000 < Date.now()) {
+                const newData = JSON.parse(decodedData.UserData);
+                const fp = await FingerprintJS.load();
+                const result = await fp.get();
+                const res = await refreshTokenApi.request({ refreshToken: user.refreshToken, userId: newData.userId, deviceId: result.visitorId });
+                if (res.status === 200) {
+                    window.localStorage.setItem("userData", JSON.stringify(res.data.data));
+                }
+            }
+            //return client.post("/api/Auth/RefreshToken", input);
+            // window.localStorage.removeItem("userData");
+            // window.location.reload(false);
+        }
+        refreshUserToken();
+    }, []);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     const [profileDropdown, setProfileDropdown] = useState(true);
 
@@ -55,7 +82,7 @@ const NavMenu = () => {
 
     const getCountries = async () => {
         const res = await getCountriesApi.request();
-        if (res.ok) {
+        if (res.status === 200) {
             //console.log(res.data[167]);
             if (localStorage.getItem("countrySelected") !== null) {
                 const items = JSON.parse(localStorage.getItem("countrySelected"));
@@ -83,32 +110,6 @@ const NavMenu = () => {
         navigate(routes.LoginPage);
     }
 
-    //const [items, setItems] = useState([]);
-
-    // useEffect(() => {
-    //     //const items = localStorage.getItem("countrySelected");
-    //     if (localStorage.getItem("countrySelected") !== null) {
-    //         const items = JSON.parse(localStorage.getItem("countrySelected"));
-    //         const preselectOptions = {
-    //             value: items,
-    //             label: <><img src={items.flagUrl} height="30px" alt="" /> {items.code}</>
-    //         };
-    //         setSelectedOption(preselectOptions);
-    //     }
-    //     if (!items || items === undefined || items === null) {
-    //         if (countries !== undefined) {
-    //             window.localStorage.setItem("countrySelected", JSON.stringify(countries[167]));
-    //         }
-    //         const defaultItems = JSON.parse(localStorage.getItem("countrySelected"));
-    //         const preselectOptions = {
-    //             value: defaultItems,
-    //             label: <><img src={defaultItems.flagUrl} height="30px" alt="" /> {defaultItems.code}</>
-    //         };
-    //         setSelectedOption(preselectOptions);
-    //     }
-    //     console.log(countries[167]);
-    // }, []);
-
     const userLogoutApi = useApi(userApis.userLogout);
 
     const handleLogout = async () => {
@@ -116,11 +117,24 @@ const NavMenu = () => {
         const decodedData = jwtDecode(user.accessToken);
         const newData = JSON.parse(decodedData.UserData);
         const res = await userLogoutApi.request({ refreshToken: user.refreshToken, userId: newData.userId });
-        if (res.ok) {
+        if (res.status === 200) {
             window.localStorage.removeItem("userData");
             navigate(routes.LoginPage);
         }
     } 
+
+    const getLoanTypesApi = useApi(userApis.getLoanTypes);
+    const [loanTypes, setloanTypes] = useState([]);
+
+    useEffect(() => {
+        const getLoanTypes = async () => {
+            const res = await getLoanTypesApi.request();
+            if (res.status === 200) {
+                setloanTypes(res.data);
+            }
+        }
+        getLoanTypes();
+    }, []);
 
 
     const [searchLoan, setSearchLoan] = useState();
@@ -138,19 +152,6 @@ const NavMenu = () => {
 
         // This is the visitor identifier:
         //console.log(result.visitorId);
-        
-        
-        // const userId = JSON.parse(localStorage.getItem("userData")) === null || JSON.parse(localStorage.getItem("userData")) === undefined ? "0" : JSON.parse(localStorage.getItem("userData"));
-
-        // if (userId === "0") {
-        //     setUserValid(userId);
-        // }
-        // else {
-        //     const user = JSON.parse(localStorage.getItem("userData"));
-        //     const decodedData = jwtDecode(user.accessToken);
-        //     const newData = JSON.parse(decodedData.UserData);
-        //     setUserValid(newData.userId);
-        // }
 
         const user = JSON.parse(localStorage.getItem("userData"));
         const decodedData = jwtDecode(user.accessToken);
@@ -170,14 +171,7 @@ const NavMenu = () => {
         setSelectedOption(selectedOption);
         const userCountry = selectedOption.value;
         window.localStorage.setItem("countrySelected", JSON.stringify(userCountry));
-        //console.log(selectedOption.value);
     };
-    
-    // const options = [
-    //     { value: 'chocolate', label: 'Chocolate' },
-    //     { value: 'strawberry', label: 'Strawberry' },
-    //     { value: 'vanilla', label: 'Vanilla' }
-    // ]
 
     const options = countries.map((option, idx) => ({
         value: option,
@@ -248,8 +242,7 @@ const NavMenu = () => {
                                     <label>Types of Loan</label>
                                     <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
                                         <option selected disabled>Select Loan Type</option>
-                                        <option value="1">Business Loan</option>
-                                        <option value="2">Personal Loan</option>
+                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
