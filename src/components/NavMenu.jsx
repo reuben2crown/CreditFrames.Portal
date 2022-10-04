@@ -27,9 +27,15 @@ const NavMenu = () => {
 
     const [show, setShow] = useState(false);
 
-    const currency = JSON.parse(localStorage.getItem("countrySelected"));
+    const [currency, setCurrency] = useState();
 
-    window.localStorage.removeItem("prevUrl");
+    useEffect(() => {
+        if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
+            const currency = JSON.parse(localStorage.getItem("countrySelected"));
+            setCurrency(currency.currencyCode);
+        };
+        window.localStorage.removeItem("prevUrl");
+    }, []);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +110,6 @@ const NavMenu = () => {
                 setSelectedOption(preselectOptions);
             }
             setCountries(res.data);
-            //console.log(countries);
         }
     }
 
@@ -213,7 +218,7 @@ const NavMenu = () => {
                                 isSearchable={true}
                             />{spacing} 
                             <Button variant="success" onClick={() => setShow(true)} className={styles.searchIcon}><FaSearch /></Button>{spacing}
-                            {window.localStorage.getItem("userData") === null || window.localStorage.getItem("userData") === undefined ? <Button className={styles.login} onClick={handleLogin}>LOGIN</Button> : <div style={{verticalAlign: "bottom", cursor: "pointer"}}><FaUser style={{ fontSize: "40px", color: "grey", border: "1px solid grey", borderRadius: "50%", padding: "10px" }} /> <FaChevronDown onClick={() => handleDropdownSHow()} className={styles.loginDropdown} /></div>}
+                            {localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined ? <Button className={styles.login} onClick={() => handleLogin()}>LOGIN</Button> : <div style={{verticalAlign: "bottom", cursor: "pointer"}}><FaUser style={{ fontSize: "40px", color: "grey", border: "1px solid grey", borderRadius: "50%", padding: "10px" }} /> <FaChevronDown onClick={() => handleDropdownSHow()} className={styles.loginDropdown} /></div>}
                             <div hidden={profileDropdown} className={styles.userProfile}>
                                 <Nav.Link href="./dashboard" style={{ color: "grey" }}>My Profile</Nav.Link>
                                 <hr></hr>
@@ -240,12 +245,12 @@ const NavMenu = () => {
                                 <div className="col-md-6 text-start">
                                     <label>How much would you like to borrow?</label>
                                     {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
                                         // do something with floatValue
-                                    }} className={styles.select} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                    }} className={styles.select} required placeholder={`${currency} 500,000,000`} />
                                 </div>
                                 <div className="col-md-6 text-start">
                                     <label>Types of Loan</label>

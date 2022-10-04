@@ -46,8 +46,15 @@ const LandingPage = () => {
 
     const [userValid, setUserValid] = useState();
     const [show, setShow] = useState(false);
+    const [currency, setCurrency] = useState();
+    
+    useEffect(() => {
+        if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
+            const currency = JSON.parse(localStorage.getItem("countrySelected"));
+            setCurrency(currency.currencyCode);
+        };
+    }, []);
 
-    const currency = JSON.parse(localStorage.getItem("countrySelected"));
 
     const [searchLoan, setSearchLoan] = useState();
     const searchLoanApi = useApi(userApis.searchLoan);
@@ -55,7 +62,7 @@ const LandingPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(searchLoan);
-        if (JSON.parse(localStorage.getItem("userData"))) {
+        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -119,12 +126,12 @@ const LandingPage = () => {
                                         <div className="col-md-6 text-start">
                                             <label>How much would you like to borrow?</label>
                                             {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
                                                 const { formattedValue, value, floatValue } = values;
                                                 const newAmount = value;
                                                 setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
                                                 // do something with floatValue
-                                            }} className={styles.select} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                            }} className={styles.select} required placeholder={`${currency} 500,000,000`} />
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>
@@ -329,12 +336,12 @@ const LandingPage = () => {
                                 <div className="col-md-6 text-start">
                                     <label>How much would you like to borrow?</label>
                                     {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
                                         // do something with floatValue
-                                    }} className={styles.select} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                    }} className={styles.select} required placeholder={`${currency} 500,000,000`} />
                                 </div>
                                 <div className="col-md-6 text-start">
                                     <label>Types of Loan</label>

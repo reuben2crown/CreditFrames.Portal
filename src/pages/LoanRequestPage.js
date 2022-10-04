@@ -23,14 +23,27 @@ const LoanRequestPage = () => {
 
     const loanId = searchParams.get("loanId");
 
-    const currency = JSON.parse(localStorage.getItem("countrySelected"));
+    const [currency, setCurrency] = useState();
+    const [newData, setNewData] = useState();
+    const [search, setSearch] = useState();
 
-    const user = JSON.parse(localStorage.getItem("userData"));
-    const decodedData = jwtDecode(user.accessToken);
-    const newData = JSON.parse(decodedData.UserData);
+    useEffect(() => {
+        if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
+            const currency = JSON.parse(localStorage.getItem("countrySelected"));
+            setCurrency(currency.currencyCode);
+        };
+        window.localStorage.setItem("prevUrl", window.location.pathname);
+        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            setNewData(JSON.parse(decodedData.UserData));
+        }
+        if (localStorage.getItem("searchResult") !== null && localStorage.getItem("searchResult") !== undefined) {
+            const search = JSON.parse(localStorage.getItem("searchResult"));
+            setSearch(search);
+        }
+    }, []);
     
-    const search = JSON.parse(localStorage.getItem("searchResult"));
-    window.localStorage.setItem("prevUrl", window.location.pathname);
 
     const [activeTab, setActiveTab] = useState("first");
     //const [radioValue, setRadioValue] = useState();
@@ -58,31 +71,26 @@ const LoanRequestPage = () => {
 
     const [countries, setCountries] = useState([]);
     const getCountriesApi = useApi(userApis.getCountries);
-    useEffect(() => {
-        getCountries();
-    }, []);
-
+    const [state, setState] = useState([]);
+    const getStateApi = useApi(userApis.getState);
+    
     const getCountries = async () => {
         const res = await getCountriesApi.request();
         if (res.ok) {
             setCountries(res.data);
         }
     }
-
-    const [state, setState] = useState([]);
-    const getStateApi = useApi(userApis.getState);
-    useEffect(() => {
-        getState();
-    }, []);
-
-    //console.log(JSON.parse(loanApplication.));
-
     const getState = async () => {
         const res = await getStateApi.request();
         if (res.ok) {
             setState(res.data);
         }
     }
+    
+    useEffect(() => {
+        getCountries();
+        getState();
+    }, []);
 
     const [message, setMessage] = useState();
 
@@ -112,12 +120,12 @@ const LoanRequestPage = () => {
                             <div className="row">
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Loan Amount  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setLoanApplication({ ...loanApplication, loanAmount: newAmount })
                                         // do something with floatValue
-                                    }} className={styles.contactInput} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                    }} className={styles.contactInput} required placeholder={`${currency} 500,000,000`} />
                                     {/* <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanAmount: e.target.value })} placeholder="₦10,000,000.00"></Form.Control> */}
                                 </div>
                                 <div className="col-md-4">
@@ -126,7 +134,7 @@ const LoanRequestPage = () => {
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Loan Tenor (Maximum of 18 months)    <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanTenor: e.target.value })} placeholder=""></Form.Control>
+                                    <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanTenor: e.target.value })} range="" placeholder=""></Form.Control>
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Payback Frequency  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
@@ -162,12 +170,12 @@ const LoanRequestPage = () => {
                                 <div className="col-md-4">
                             
                                     <Form.Label className={styles.contactLabel}>Monthly Salary / Turnover <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setLoanApplication({ ...loanApplication, monthlySalaryOrTurnover: newAmount })
                                         // do something with floatValue
-                                    }} className={styles.contactInput} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                    }} className={styles.contactInput} required placeholder={`${currency} 500,000,000`} />
                                     {/* <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, monthlySalaryOrTurnover: e.target.value })} placeholder="₦2,000,000.00"></Form.Control> */}
                                 </div>
                                 <div className="col-md-4">
