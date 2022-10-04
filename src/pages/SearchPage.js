@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/SearchPage.module.css";
@@ -6,7 +6,7 @@ import styles from "../styles/SearchPage.module.css";
 // import pettycash from "../images/pettycash.png";
 // import carbon from "../images/carbon.png";
 // import branch from "../images/Branch.png";
-import { FaStar, FaStarHalf, FaStarHalfAlt } from "react-icons/fa";
+import { FaStar} from "react-icons/fa";
 // import useApi from "../hooks/useApi";
 // import userApis from "../api/users";
 // import jwtDecode from "jwt-decode";
@@ -16,10 +16,19 @@ import { Link } from "react-router-dom";
 
 const SearchPage = () => {
 
-    const currency = JSON.parse(localStorage.getItem("countrySelected"));
+    const [currency, setCurrency] = useState("NGN");
 
-    const loanSearch = JSON.parse(localStorage.getItem("searchResult"));
+    if (JSON.parse(localStorage.getItem("countrySelected")) !== null && JSON.parse(localStorage.getItem("countrySelected")) !== undefined) {
+        const currency = JSON.parse(localStorage.getItem("countrySelected"));
+        setCurrency(currency.currencyCode);
+    }
 
+    const [loanSearch, setLoanSearch] = useState("No Recent Search is Available");
+
+    if (JSON.parse(localStorage.getItem("searchResult")) !== null && JSON.parse(localStorage.getItem("searchResult")) !== undefined) {
+        const loanSearch = JSON.parse(localStorage.getItem("searchResult"));
+        setLoanSearch(loanSearch);
+    }
     
     return (
         <div>
@@ -33,7 +42,7 @@ const SearchPage = () => {
             <section className={styles.section2}>
                 <div className="container mt-5 mb-5 pb-5">
                     <div className={styles.searchBox}>
-                        {loanSearch.items?.map((list, key) => <div className={styles.card} key={key}>
+                        {loanSearch === "No Recent Search is Available" ? <h4>{loanSearch}</h4> : loanSearch.items?.map((list, key) => <div className={styles.card} key={key}>
                             <div className="row">
                                 <div className="col-md-4 text-start pb-3">
                                     <img src={list.lender.logo} width="200px" alt="" className={styles.searchImage} />
@@ -59,7 +68,7 @@ const SearchPage = () => {
                                 </div>
                                 <div className="col-md-2 text-start pb-3">
                                     <label className={styles.searchLabel}>Loan Range</label>
-                                    <span className={styles.searchSpan}>{currency.currencyCode} {list.minimumLoanAmount} <br/>{currency.currencyCode}{list.maximumLoanAmount}</span>
+                                    <span className={styles.searchSpan}>{currency} {list.minimumLoanAmount} <br/>{currency}{list.maximumLoanAmount}</span>
                                 </div>
                                 <div className="col-md-6 text-start pb-3">
                                     <label className={styles.searchLabel}>Rating</label>
