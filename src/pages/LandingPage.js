@@ -55,39 +55,34 @@ const LandingPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(searchLoan);
-        // We recommend to call `load` at application startup.
-        const fp = await FingerprintJS.load();
+        if (JSON.parse(localStorage.getItem("userData"))) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
 
-        // The FingerprintJS agent is ready.
-        // Get a visitor identifier when you'd like to.
-        const result = await fp.get();
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
 
-        // This is the visitor identifier:
-        //console.log(result.visitorId);
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
 
-        // if (JSON.parse(localStorage.getItem("userData")) === null || JSON.parse(localStorage.getItem("userData")) === undefined) {
-        //     setUserValid("");
-        // }
-        // else {
-        //     const user = JSON.parse(localStorage.getItem("userData"));
-        //     const decodedData = jwtDecode(user.accessToken);
-        //     setUserValid(decodedData.userId);
-        // }
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            const newData = JSON.parse(decodedData.UserData);
+            setUserValid(newData.userId);
 
-        //const userId = decodedData.userId  ;
-
-        const user = JSON.parse(localStorage.getItem("userData"));
-        const decodedData = jwtDecode(user.accessToken);
-        const newData = JSON.parse(decodedData.UserData);
-        setUserValid(newData.userId);
-
-        const country = JSON.parse(localStorage.getItem("countrySelected"));
-        console.log(userValid, country);
-        const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
-        if (res.status === 200) {
-            console.log(res.status);
-            window.localStorage.setItem("searchResult", JSON.stringify(res.data));
-            navigate(routes.SearchPage);
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                console.log(res.status);
+                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                navigate(routes.SearchPage);
+            }
+        }
+        else {
+            navigate(routes.LoginPage);
         }
     }
 

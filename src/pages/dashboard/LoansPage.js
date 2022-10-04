@@ -13,14 +13,12 @@ import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 
-
 const LoansPage = () => {
 
     const navigate = useNavigate();
 
     const authenticate = () => {
         const user = window.localStorage.getItem("userData");
-        console.log(user);
         if (user === null || user === "undefined") {
             navigate(routes.LoginPage);
         }
@@ -41,7 +39,6 @@ const LoansPage = () => {
         const decodedData = jwtDecode(user.accessToken);
         const newData = JSON.parse(decodedData.UserData);
         const res = await getLoanDataApi.request({UserId: newData.userId});
-        console.log(res.data);
         if (res.status === 200) { 
             setLoans(res.data);
         }

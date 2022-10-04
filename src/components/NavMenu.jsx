@@ -37,16 +37,18 @@ const NavMenu = () => {
 
     useEffect(() => {
         const refreshUserToken = async () => {
-            const user = JSON.parse(localStorage.getItem("userData"));
-            const decodedData = jwtDecode(user.accessToken);
-            console.log(decodedData.exp * 1000 > Date.now());
-            if (decodedData.exp * 1000 < Date.now()) {
-                const newData = JSON.parse(decodedData.UserData);
-                const fp = await FingerprintJS.load();
-                const result = await fp.get();
-                const res = await refreshTokenApi.request({ refreshToken: user.refreshToken, userId: newData.userId, deviceId: result.visitorId });
-                if (res.status === 200) {
-                    window.localStorage.setItem("userData", JSON.stringify(res.data.data));
+            if (JSON.parse(localStorage.getItem("userData"))) {
+                const user = JSON.parse(localStorage.getItem("userData"));
+                const decodedData = jwtDecode(user.accessToken);
+                //console.log(decodedData.exp * 1000 > Date.now());
+                if (decodedData.exp * 1000 < Date.now()) {
+                    const newData = JSON.parse(decodedData.UserData);
+                    const fp = await FingerprintJS.load();
+                    const result = await fp.get();
+                    const res = await refreshTokenApi.request({ refreshToken: user.refreshToken, userId: newData.userId, deviceId: result.visitorId });
+                    if (res.status === 200) {
+                        window.localStorage.setItem("userData", JSON.stringify(res.data));
+                    }
                 }
             }
             //return client.post("/api/Auth/RefreshToken", input);
@@ -142,29 +144,36 @@ const NavMenu = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //console.log(searchLoan);
-        // We recommend to call `load` at application startup.
-        const fp = await FingerprintJS.load();
+        if (JSON.parse(localStorage.getItem("userData"))) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
 
-        // The FingerprintJS agent is ready.
-        // Get a visitor identifier when you'd like to.
-        const result = await fp.get();
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
 
-        // This is the visitor identifier:
-        //console.log(result.visitorId);
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
 
-        const user = JSON.parse(localStorage.getItem("userData"));
-        const decodedData = jwtDecode(user.accessToken);
-        const newData = JSON.parse(decodedData.UserData);
-        setUserValid(newData.userId);
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            const newData = JSON.parse(decodedData.UserData);
+            setUserValid(newData.userId);
 
-        const country = JSON.parse(localStorage.getItem("countrySelected"));
-        console.log(userValid, country);
-        const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
-        if (res.ok) {
-            window.localStorage.setItem("searchResult", JSON.stringify(res.data.data));
-            navigate(routes.SearchPage);
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                console.log(res.status);
+                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                navigate(routes.SearchPage);
+            }
         }
+        else {
+            navigate(routes.LoginPage);
+        }
+        
     };
 
     const handleChangeCountry = (selectedOption) => {

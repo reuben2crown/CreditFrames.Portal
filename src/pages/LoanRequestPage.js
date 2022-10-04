@@ -10,6 +10,8 @@ import routes from "../routes";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import jwtDecode from "jwt-decode";
+import { Alert } from "react-bootstrap";
+import { NumericFormat } from "react-number-format";
 
 
 
@@ -20,6 +22,8 @@ const LoanRequestPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const loanId = searchParams.get("loanId");
+
+    const currency = JSON.parse(localStorage.getItem("countrySelected"));
 
     const user = JSON.parse(localStorage.getItem("userData"));
     const decodedData = jwtDecode(user.accessToken);
@@ -80,15 +84,18 @@ const LoanRequestPage = () => {
         }
     }
 
+    const [message, setMessage] = useState();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await loanApplicationApi.request({ ...loanApplication, userId: newData.userId, loanTypeId: search.items[loanId].loanTypeId, lenderId: search.items[loanId].lenderId, requestChannel: "web", brokerCode: "null" });
+        const res = await loanApplicationApi.request({ ...loanApplication, isBusinessRegistered: Boolean(loanApplication.isBusinessRegistered), userId: newData.userId, loanTypeId: search.items[loanId].loanTypeId, lenderId: search.items[loanId].lenderId, requestChannel: "web", brokerCode: "null" });
         if (res.status === 200) {
             setShow(true);
         }
-        // if (res.status === 400 || res.status === 500) {
-
-        // }
+        if (res.data.code === 400) {
+            const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
+            setMessage(message);
+        }
         // console.log({ ...loanApplication, userId: newData.userId, loanTypeId: search.items[loanId].loanTypeId, lenderId: search.items[loanId].lenderId, requestChannel: "web", brokerCode: "None"});
     }
 
@@ -100,11 +107,37 @@ const LoanRequestPage = () => {
                         <Link to="/" className="text-center"><img src={logo} alt="" className={styles.logo} /></Link>
                         <h3 align="center" className={styles.title}>Business loan</h3>
                         <h4 align="center" className={styles.subTitle}>Fill all required fields</h4>
+                        {message}
                         <Form onSubmit={handleSubmit} className={styles.contactForm}>
                             <div className="row">
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Loan Amount  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanAmount: e.target.value })} placeholder="₦10,000,000.00"></Form.Control>
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                        const { formattedValue, value, floatValue } = values;
+                                        const newAmount = value;
+                                        setLoanApplication({ ...loanApplication, loanAmount: newAmount })
+                                        // do something with floatValue
+                                    }} className={styles.contactInput} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                    {/* <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanAmount: e.target.value })} placeholder="₦10,000,000.00"></Form.Control> */}
+                                </div>
+                                <div className="col-md-4">
+                                    <Form.Label className={styles.contactLabel}>Loan Purpose  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
+                                    <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanPurpose: e.target.value })} placeholder="₦10,000,000.00"></Form.Control>
+                                </div>
+                                <div className="col-md-4">
+                                    <Form.Label className={styles.contactLabel}>Loan Tenor (Maximum of 18 months)    <span style={{ color: "#A9358D" }}>*</span></Form.Label>
+                                    <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanTenor: e.target.value })} placeholder=""></Form.Control>
+                                </div>
+                                <div className="col-md-4">
+                                    <Form.Label className={styles.contactLabel}>Payback Frequency  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
+                                    <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, paybackFrequency: e.target.value })}>
+                                        <option selected disabled>Select</option>
+                                        <option value="Daily">Daily</option>
+                                        <option value="Weekly">Weekly</option>
+                                        <option value="Fortnightly">Fortnightly</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Termly">Termly</option>
+                                    </Form.Select>
                                 </div>
                                 {/*<div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
@@ -127,8 +160,15 @@ const LoanRequestPage = () => {
                                     </Form.Select>
                                 </div> */}
                                 <div className="col-md-4">
+                            
                                     <Form.Label className={styles.contactLabel}>Monthly Salary / Turnover <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, monthlySalaryOrTurnover: e.target.value })} placeholder="₦2,000,000.00"></Form.Control>
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                        const { formattedValue, value, floatValue } = values;
+                                        const newAmount = value;
+                                        setLoanApplication({ ...loanApplication, monthlySalaryOrTurnover: newAmount })
+                                        // do something with floatValue
+                                    }} className={styles.contactInput} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                    {/* <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, monthlySalaryOrTurnover: e.target.value })} placeholder="₦2,000,000.00"></Form.Control> */}
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Employer / Business Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
@@ -138,8 +178,8 @@ const LoanRequestPage = () => {
                                     <Form.Label className={styles.contactLabel}>Business Registered?  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, isBusinessRegistered: e.target.value })}>
                                         <option selected disabled>Select</option>
-                                        <option value="true">Yes</option>
-                                        <option value="false">No</option>
+                                        <option value={true}>Yes</option>
+                                        <option value={false}>No</option>
                                     </Form.Select>
                                 </div>
                                 <div className="col-md-4">

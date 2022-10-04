@@ -1,0 +1,299 @@
+.dashboardbg {
+    background-color: rgb(218, 228, 237, 10%);
+    padding: 40px 0px;
+    font-family: 'Mulish';
+}
+.pageContent {
+    padding: 10px 60px 0px 0px;
+}
+.pageTitle {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.pageCard1 {
+    background-color: #F1F1FF;
+    margin: 50px 20px 20px 0px;
+    display: inline-block;
+    border-radius: 20px;
+    height: 280px;
+}
+.cardContent1 {
+    display: inline-block;
+    padding: 50px 10px 50px 40px;
+    width: 50%;
+}
+.cardContent1 h4 {
+    color: #282828;
+    font-size: 20px;
+    font-weight: 600;
+}
+.cardContent1 h1 {
+    color: #0000FB;
+    font-size: 36px;
+    font-weight: 600;
+}
+.cardContent1 span {
+    color: #000000;
+    font-size: 14px;
+}
+.illustration1 {
+    display: inline-block;
+    width: 50%;
+    padding: 0px 10px;
+    margin-top: -120px;
+}
+.pageCard2 {
+    background-color: #0000FB;
+    background-image: url("../images/card2Bg.png");
+    margin: 50px 0px 20px 20px;
+    display: inline-block;
+    border-radius: 20px;
+    height: 280px;
+}
+.pageCard2 h3 {
+    color: #FFF;
+    font-size: 32px;
+    font-weight: 600;
+    padding: 35px 50px;
+}
+.pageCard2 button {
+    background-color: #FFF;
+    color: #0000FB;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0px 20px;
+    padding: 20px 40px;
+    border-radius: 10px;
+    width: 90%;
+    border: none;
+}
+.pageCard3 {
+    background-color: rgba(152, 226, 255, 0.2);
+    padding: 10px;
+    margin: 20px 10px 20px 0px;
+    border-radius: 25px;
+}
+.card3Content {
+    background-color: #B9ECFF;
+    padding: 15px 20px;
+    border-radius: 25px;
+}
+.card3left {
+    display: inline-block;
+    margin-right: 30px;
+}
+.card3left img  {
+    display: inline-block;
+    vertical-align: top;
+}
+.card3left h5 {
+    display: inline-block;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 15px;
+}
+.card3left button {
+    display: block;
+    margin-top: 20px;
+    color: #FFF;
+    background-color: #0000FB;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: none;
+}
+.card3Content h1 {
+    display: inline-block;
+    color: #000000;
+    font-size: 100px;
+    font-weight: bold;
+    text-align: right;
+}
+.pageCard4 {
+    background-color: rgb(241, 241, 255, 20%);
+    padding: 10px;
+    margin: 20px 10px 20px 0px;
+    border-radius: 25px;
+}
+.card4Content {
+    background-color: #F1F1FF;
+    padding: 15px 20px;
+    border-radius: 25px;
+}
+.card4left {
+    display: inline-block;
+    margin-right: 30px;
+}
+.card4left img  {
+    display: inline-block;
+    vertical-align: top;
+}
+.card4left h5 {
+    display: inline-block;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 15px;
+}
+.card4left button {
+    display: block;
+    margin-top: 20px;
+    color: #FFF;
+    background-color: #0000FB;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: none;
+}
+.card4Content h1 {
+    display: inline-block;
+    color: #000000;
+    font-size: 100px;
+    font-weight: bold;
+    text-align: right;
+}
+.pageCard5 {
+    background-color: rgb(176, 108, 019, 20%);
+    padding: 10px;
+    margin: 20px 0px 20px 0px;
+    border-radius: 25px;
+}
+.card5Content {
+    background-color: #B06C13;
+    padding: 15px 20px;
+    border-radius: 25px;
+}
+.card5left {
+    display: inline-block;
+    margin-right: 30px;
+}
+.card5left img  {
+    display: inline-block;
+    vertical-align: top;
+}
+.card5left h5 {
+    display: inline-block;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 15px;
+}
+.card5left button {
+    display: block;
+    margin-top: 20px;
+    color: #B06C13;
+    background-color: #FFF;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: none;
+}
+.card5Content h1 {
+    display: inline-block;
+    color: #FFF;
+    font-size: 100px;
+    font-weight: bold;
+    text-align: right;
+}
+.viewAll {
+    background-color: #98E2FF;
+    color: #0000FB;
+    float: right;
+    border: none;
+    font-size: 14px;
+    padding: 6px 20px;
+    border-radius: 20px;
+}
+.cardTable1 {
+    background-color: rgb(219, 219, 219, 20%);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #F7EDF6;
+}
+.cardInside {
+    background-color: rgb(219, 219, 219, 50%);
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px 40px;
+    width: 100%;
+    display: table;
+}
+.cardInside th {
+    width: 20%;
+}
+.cardInside1 {
+    background-color: #FFF;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px 40px;
+    width: 100%;
+    display: table;
+}
+.cardInside1 td {
+    width: 20%;
+}
+.cardInside1 h4 {
+    font-family: Open+Sans;
+    font-size: 20px;
+    color: #465649;
+    margin: 0;
+}
+.cardInside1 span {
+    font-family: Open+Sans;
+    font-size: 14px;
+    color: #9CA69D;
+}
+.arrowIcon {
+    margin-top: 7px;
+    cursor: pointer;
+}
+
+.cardModal {
+    background-color: rgb(219, 219, 219, 50%);
+    font-family: Mulish;
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px 20px;
+    width: 100%;
+    display: table;
+}
+.cardModal1 {
+    background-color: #FFF;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px 10px;
+    width: 100%;
+    display: table;
+}
+.contactLabel {
+    margin-left: 20px;
+    padding: 0px 5px;
+    font-size: 12px;
+    color: #ADADAD !important;
+    font-weight: normal !important;
+    background-color: #FFF;
+}
+.contactInput {
+    padding: 20px !important;
+    margin-bottom: 10px;
+    color: #5A5A5A;
+}
+.apply {
+    background-color: #0000FB;
+    color: #FFF;
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 20px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    width: 150px !important;
+}
+.cancel {
+    background-color: #F7FAF8;
+    color: #465649;
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 20px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    width: 150px !important;
+}

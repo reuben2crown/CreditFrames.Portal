@@ -50,43 +50,6 @@ const DashboardPage = () => {
         }
     }
 
-    // activeLoan: null
-    // loanHistory: null
-    // recentSearch: []
-    // totalActiveLoan: 0
-    // totalCompletedLoan: 0
-    // totalLoans: 0
-
-    // const authenticate = () => {
-    //     const user = window.localStorage.getItem("userData");
-    //     console.log(user);
-    //     if (user === null || user === "undefined") {
-    //         navigate(routes.LoginPage);
-    //     }
-    // }
-    // useEffect(() => {
-    //     authenticate();
-    // }, []);
-
-    const loans = [
-        {
-            "loanId": 1,
-            "lendersName": renmoney,
-            "loanAmount": "₦10,000,000",
-            "amountPaid": "₦5,000,000",
-            "dueDate": "09/10/2023",
-            "status": "Completed",
-        },
-        {
-            "loanId": 1,
-            "lendersName": branch,
-            "loanAmount": "₦10,000,000",
-            "amountPaid": "₦5,000,000",
-            "dueDate": "09/10/2023",
-            "status": "Completed",
-        }
-    ];
-
     return (
         <div>
             <NavMenu />
