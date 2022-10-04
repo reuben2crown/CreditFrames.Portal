@@ -27,7 +27,7 @@ const NavMenu = () => {
 
     const [show, setShow] = useState(false);
 
-    const [currency, setCurrency] = useState();
+    const [currency, setCurrency] = useState("NGN");
 
     useEffect(() => {
         if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
