@@ -230,3 +230,70 @@
 .cardInside1 td {
     width: 20%;
 }
+.cardInside1 h4 {
+    font-family: Open+Sans;
+    font-size: 20px;
+    color: #465649;
+    margin: 0;
+}
+.cardInside1 span {
+    font-family: Open+Sans;
+    font-size: 14px;
+    color: #9CA69D;
+}
+.arrowIcon {
+    margin-top: 7px;
+    cursor: pointer;
+}
+
+.cardModal {
+    background-color: rgb(219, 219, 219, 50%);
+    font-family: Mulish;
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px 20px;
+    width: 100%;
+    display: table;
+}
+.cardModal1 {
+    background-color: #FFF;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px 10px;
+    width: 100%;
+    display: table;
+}
+.contactLabel {
+    margin-left: 20px;
+    padding: 0px 5px;
+    font-size: 12px;
+    color: #ADADAD !important;
+    font-weight: normal !important;
+    background-color: #FFF;
+}
+.contactInput {
+    padding: 20px !important;
+    margin-bottom: 10px;
+    color: #5A5A5A;
+}
+.apply {
+    background-color: #0000FB;
+    color: #FFF;
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 20px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    width: 150px !important;
+}
+.cancel {
+    background-color: #F7FAF8;
+    color: #465649;
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 20px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    width: 150px !important;
+}

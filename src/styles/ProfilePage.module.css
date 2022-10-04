@@ -1,0 +1,56 @@
+
+.dashboardbg {
+    background-color: rgb(218, 228, 237, 10%);
+    padding: 40px 0px;
+    font-family: 'Mulish';
+}
+.pageContent {
+    padding: 10px 60px 0px 0px;
+}
+.pageTitle {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.cardTable1 {
+    background-color: transparent;
+    padding: 15px;
+    border-radius: 10px;
+    stroke: #F7EDF6 1px;
+    border: 1px solid #F7EDF6;
+}
+.cardInside {
+    background-color: rgb(219, 219, 219, 50%);
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    width: 100%;
+}
+.contactForm {
+    padding: 10px 20px;
+}
+.contactLabel {
+    margin-left: 20px;
+    padding: 0px 5px;
+    font-size: 12px;
+    color: #ADADAD !important;
+    font-weight: normal !important;
+    background-color: #FFF;
+}
+.contactInput {
+    padding: 20px !important;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    color: #5A5A5A;
+}
+.apply {
+    background-color: #0000FB;
+    color: #FFF;
+    margin-top: 20px !important;
+    margin-left: 20px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    width: 150px !important;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
@@ -67,7 +67,10 @@ const LoginPage = () => {
 
         if (res.data.code === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
-            navigate(-1);
+            if (window.localStorage.getItem("prevUrl")) {
+                navigate(routes.LoanRequestPage);
+            }
+            else { navigate(routes.DashboardPage); }
         }
         if (res.data.code === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
@@ -88,12 +91,12 @@ const LoginPage = () => {
         //console.log(result.visitorId);
         const res = await userRegisterApi.request({ ...register, password: passwordInput, password1: passwordInput1, deviceId: result.visitorId });
 
-        if (res.data.code === 200) {
+        if (res.status === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
             const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setSuccessMessage(message);
         }
-        if (res.data.code === 400) {
+        if (res.status === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage1(message);
         }
@@ -121,17 +124,11 @@ const LoginPage = () => {
 
     ////////////////////////////////////////////////////////////////////////
     
-    // const deviceDetector = new DeviceDetector();
-    // const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36";
-    // const device = deviceDetector.parse(userAgent);
-
-    // console.log(device);
-    
     
     return (
         <div className={styles.popBg}>
             <div hidden={activePage !== "first"}>
-                <img src={logoWhite} className="mb-4" alt="" />
+                <Link to="/" ><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row col-md-4 m-auto"> 
                     <div className={styles.card}>
                         <h3>Welcome back</h3>
@@ -151,7 +148,7 @@ const LoginPage = () => {
                 <div><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
             </div>
             <div hidden={activePage !== "second"}>
-                <img src={logoWhite} className="mb-2" alt="" />
+                <Link to="/" ><img src={logoWhite} className="mb-2" alt="" /></Link>
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
                         <h3>Create account</h3>

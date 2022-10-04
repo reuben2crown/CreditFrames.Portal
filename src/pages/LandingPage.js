@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Carousel from "better-react-carousel";
 import NavMenu from "../components/NavMenu";
@@ -34,12 +34,20 @@ import news3 from "../images/news3.png";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import routes from "../routes";
-
+import { NumericFormat } from "react-number-format";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import jwtDecode from "jwt-decode";
+import Modal from "react-bootstrap/Modal";
 
 
 const LandingPage = () => {
 
     const navigate = useNavigate();
+
+    const [userValid, setUserValid] = useState();
+    const [show, setShow] = useState(false);
+
+    const currency = JSON.parse(localStorage.getItem("countrySelected"));
 
     const [searchLoan, setSearchLoan] = useState();
     const searchLoanApi = useApi(userApis.searchLoan);
@@ -47,15 +55,54 @@ const LandingPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(searchLoan);
-        const res = await searchLoanApi.request(searchLoan);
-        if (res.ok) {
-            //navigate(routes.SearchPage);
+        if (JSON.parse(localStorage.getItem("userData"))) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
+
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
+
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
+
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            const newData = JSON.parse(decodedData.UserData);
+            setUserValid(newData.userId);
+
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                console.log(res.status);
+                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                navigate(routes.SearchPage);
+            }
+        }
+        else {
+            navigate(routes.LoginPage);
         }
     }
+
+    const getLoanTypesApi = useApi(userApis.getLoanTypes);
+    const [loanTypes, setloanTypes] = useState([]);
+
+    useEffect(() => {
+        const getLoanTypes = async () => {
+            const res = await getLoanTypesApi.request();
+            if (res.status === 200) {
+                setloanTypes(res.data);
+            }
+        }
+        getLoanTypes();
+    }, []);
 
     const handleClick = () => {
         navigate(routes.LoanRequestPage);
     }
+
     
     return (
         <div>
@@ -71,14 +118,19 @@ const LandingPage = () => {
                                     <div className="row">
                                         <div className="col-md-6 text-start">
                                             <label>How much would you like to borrow?</label>
-                                            <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control>
+                                            {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
+                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                                const { formattedValue, value, floatValue } = values;
+                                                const newAmount = value;
+                                                setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
+                                                // do something with floatValue
+                                            }} className={styles.select} required placeholder={`${currency.currencyCode} 500,000,000`} />
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>
-                                            <Form.Select className={styles.select} onChange={(e) => setSearchLoan({...searchLoan, loanType: e.target.value})}>
+                                            <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value})}>
                                                 <option selected disabled>Select Loan Type</option>
-                                                <option value="1">Business Loan</option>
-                                                <option value="2">Personal Loan</option>
+                                                {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                             </Form.Select> 
                                         </div>
                                         <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
@@ -144,7 +196,7 @@ const LandingPage = () => {
                                 <img src={businessIcon} alt="" />
                                 <h3>Business Loan</h3>
                                 <p>Are you looking to grow or start a business? Explore your loan options here</p>
-                                <button onClick={handleClick} className={styles.apply1}>APPLY NOW</button>
+                                <button onClick={() => setShow(true)} className={styles.apply1}>APPLY NOW</button>
                             </div>
                         </div>
                         <div className="col-md-6 text-center">
@@ -152,7 +204,7 @@ const LandingPage = () => {
                                 <img src={personalIcon} alt="" />
                                 <h3>Personal Loan</h3>
                                 <p>We are here to give you the best loan rates for your personal needs. Explore your loan options here</p>
-                                <button onClick={handleClick} className={styles.apply1}>APPLY NOW</button>
+                                <button onClick={() => setShow(true)} className={styles.apply1}>APPLY NOW</button>
                             </div>
                         </div>
                     </div>
@@ -166,7 +218,7 @@ const LandingPage = () => {
                             <p className={styles.subTitle}>WHO WE ARE</p>
                             <h3 className={styles.secTitle}>We are your one stop Personlised Loan Marketplace Hub</h3>
                             <p className={styles.secSubTitle} style={{marginTop: "20px"}}>CreditFrames is building Africa's No 1 Credit marketplace, by connecting borrowers with lenders that suit their needs. We will present customers with the lenders that provide the cheapest interest rate via ranking...</p>
-                            <p><Link to="contact-us" className={styles.link}> Learn more </Link><FaArrowRight className={styles.arrow} /></p>
+                            <p><Link to="company" className={styles.link}> Learn more </Link><FaArrowRight className={styles.arrow} /></p>
                         </div>
                         <div className="col-md-1"></div>
                         <div className="col-md-6 text-center">
@@ -256,12 +308,47 @@ const LandingPage = () => {
                             <div className={styles.content}>
                                 <hr className={styles.titleLine}></hr>
                                 <h3 className={styles.secTitle}>Getting you access to the best loan offers.</h3>
-                                <button onClick={handleClick} className={styles.apply2}>Apply Here</button>
+                                <button onClick={() => setShow(true)} className={styles.apply2}>Apply Here</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+            <Modal
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered show={show}
+                onHide={() => setShow(false)}>
+                <Modal.Header closeButton>
+                    <h4 align="center">Search For Loans</h4>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className={styles.card}>
+                        <Form onSubmit={handleSubmit}>
+                            <div className="row">
+                                <div className="col-md-6 text-start">
+                                    <label>How much would you like to borrow?</label>
+                                    {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency.currencyCode} allowNegative={false} onValueChange={(values) => {
+                                        const { formattedValue, value, floatValue } = values;
+                                        const newAmount = value;
+                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
+                                        // do something with floatValue
+                                    }} className={styles.select} required placeholder={`${currency.currencyCode} 500,000,000`} />
+                                </div>
+                                <div className="col-md-6 text-start">
+                                    <label>Types of Loan</label>
+                                    <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
+                                        <option selected disabled>Select Loan Type</option>
+                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
+                                    </Form.Select>
+                                </div>
+                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
+                            </div>
+                        </Form>
+                    </div>
+                </Modal.Body>
+            </Modal>
             <section className={styles.section8}>
                 <div className="container mb-5 mt-5">
                     <div className="row col-md-5 pt-5 m-auto text-center">
