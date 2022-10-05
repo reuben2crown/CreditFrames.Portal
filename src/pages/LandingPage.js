@@ -62,7 +62,7 @@ const LandingPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(searchLoan);
-        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
+        if (localStorage.getItem("userData") !== null || localStorage.getItem("userData") !== undefined) {
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -88,8 +88,26 @@ const LandingPage = () => {
                 navigate(routes.SearchPage);
             }
         }
-        else {
-            navigate(routes.LoginPage);
+        if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
+
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
+
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
+
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                console.log(res.status);
+                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                navigate(routes.SearchPage);
+            }
         }
     }
 

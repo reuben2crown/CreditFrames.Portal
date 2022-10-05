@@ -55,6 +55,9 @@ const NavMenu = () => {
                     if (res.status === 200) {
                         window.localStorage.setItem("userData", JSON.stringify(res.data));
                     }
+                    if (res.status === 400 || res.status === 401 || res.status === 500) {
+                        navigate(routes.LoginPage);
+                    }
                 }
             }
             //return client.post("/api/Auth/RefreshToken", input);
@@ -189,7 +192,7 @@ const NavMenu = () => {
 
     const options = countries.map((option, idx) => ({
         value: option,
-        label: <><img src={option.flagUrl} height="30px" alt="" /> {option.code}</>
+        label: option.name
     }));
 
     const spacing = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
@@ -215,7 +218,7 @@ const NavMenu = () => {
                                 //placeholder="LANG"
                                 options={options}
                                 value={selectedOption}
-                                isSearchable={true}
+                                isSearchable={false}
                             />{spacing} 
                             <Button variant="success" onClick={() => setShow(true)} className={styles.searchIcon}><FaSearch /></Button>{spacing}
                             {localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined ? <Button className={styles.login} onClick={() => handleLogin()}>LOGIN</Button> : <div style={{verticalAlign: "bottom", cursor: "pointer"}}><FaUser style={{ fontSize: "40px", color: "grey", border: "1px solid grey", borderRadius: "50%", padding: "10px" }} /> <FaChevronDown onClick={() => handleDropdownSHow()} className={styles.loginDropdown} /></div>}

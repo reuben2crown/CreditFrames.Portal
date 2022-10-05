@@ -77,7 +77,7 @@ const getDashboardData = (data) => {
 }
 
 const getCountries = () => {
-    return client.get("/api/Countries?fetchAll=true");
+    return client.get("/api/Countries");
 }
 
 const getState = () => {
@@ -114,6 +114,11 @@ const updatePassword = (data) => {
     return client.post("/api/PasswordManagers/ChangePassword", input);
 }
 
+const updateProfile = (data) => {
+    //console.log(data);
+    return client.post(`/api/Users/${data.userId}`, data);
+}
+
 
 const userApis = { 
     login,
@@ -132,5 +137,6 @@ const userApis = {
     getLoanTypes,
     loanApplication,
     updatePassword,
+    updateProfile,
 };
 export default userApis;

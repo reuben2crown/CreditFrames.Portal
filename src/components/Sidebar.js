@@ -40,7 +40,7 @@ const Sidebar = () => {
                 <ul className={styles.sidebarMenu}>
                     <li><Link to="/dashboard" style={{textDecoration: "none"}}><DashboardIcon color={pathname === "/dashboard" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/dashboard" ? styles.menuTitleActive : styles.menuTitle}>Dashboard</span></Link></li>
                     <li><Link to="/loans" style={{textDecoration: "none"}}><CashIcon color={pathname === "/loans" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/loans" ? styles.menuTitleActive : styles.menuTitle}>Loans</span></Link></li>
-                    {/* <li><Link disabled to="/profile" style={{textDecoration: "none"}}><AvatarIcon color={pathname === "/profile" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/profile" ? styles.menuTitleActive : styles.menuTitle}>Profile</span></Link></li> */}
+                    <li><Link disabled to="/profile" style={{textDecoration: "none"}}><AvatarIcon color={pathname === "/profile" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/profile" ? styles.menuTitleActive : styles.menuTitle}>Profile</span></Link></li>
                     <li><Link to="/settings" style={{textDecoration: "none"}}><SettingsIcon color={pathname === "/settings" ? active : nonActive} iconHeight="25px" /> <span className={ pathname === "/settings" ? styles.menuTitleActive : styles.menuTitle}>Settings</span></Link></li>
                 </ul>
             </div>
