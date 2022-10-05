@@ -70,7 +70,7 @@ const LoginPage = () => {
             if (window.localStorage.getItem("prevUrl")) {
                 navigate(routes.LoanRequestPage);
             }
-            else { navigate(routes.DashboardPage); }
+            else { navigate(-1); }
         }
         if (res.data.code === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
@@ -93,8 +93,12 @@ const LoginPage = () => {
 
         if (res.status === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
-            const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
-            setSuccessMessage(message);
+            // const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
+            // setSuccessMessage(message);
+            if (window.localStorage.getItem("prevUrl")) {
+                navigate(routes.LoanRequestPage);
+            }
+            else { navigate(-1); }
         }
         if (res.status === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;

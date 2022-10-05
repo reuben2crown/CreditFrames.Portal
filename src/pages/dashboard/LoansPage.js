@@ -86,14 +86,14 @@ const LoansPage = () => {
                                 </tr>
                                 {loans.items?.map((loans, key) => <tr className={styles.cardInside1} key={key}>
                                     <td><img src={loans.lender?.logo} width="60%" alt="" /></td>
-                                    <td>{loans.currencyCode}{loans.loanAmount}</td>
+                                    <td>{loans.currencyCode} {loans.loanAmount}</td>
                                     <td>{loans.amountPaid}</td>
                                     <td>{loans.loanStatus}</td>
                                 </tr>)}
 
                             </div>
                         </div>
-                        <div className="row col-md-12 mt-4">
+                        {/* <div className="row col-md-12 mt-4">
                             <span className="mb-2"><b>Paid Loans</b></span>
                             <div className={styles.cardTable1}>
                                 <tr className={styles.cardInside}>
@@ -112,7 +112,7 @@ const LoansPage = () => {
                                 </tr>)}
 
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>
