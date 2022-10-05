@@ -116,7 +116,7 @@ const updatePassword = (data) => {
 
 const updateProfile = (data) => {
     //console.log(data);
-    return client.post(`/api/Users/${data.userId}`, data);
+    return client.put(`/api/Users/${data.userId}`, data);
 }
 
 
