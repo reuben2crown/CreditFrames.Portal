@@ -73,12 +73,16 @@ const ProfilePage = () => {
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
+    console.log(profile.firstName, profile.lastName);
+        if (profile.firstName === undefined && profile.lastName === undefined ) {
+            console.log("Invalid FirstName and LastName");
+        }
         const res = await updateProfileApi.request({...profile, userId: userProfile.userId});
-        if (res.status === true) {
+        if (res.data.status === true) {
             const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setMessage(message);
         }
-        if (res.status === false) {
+        if (res.data.status === false) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setMessage(message);
         }
@@ -106,11 +110,11 @@ const ProfilePage = () => {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>First Name  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
-                                            <Form.Control type="text" className={styles.contactInput} required value={userProfile.firstName} onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
+                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Last Name  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
-                                            <Form.Control type="text" className={styles.contactInput} required value={userProfile.lastName} onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
+                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Email Address  <span style={{ color: "#FF0000" }}>*</span></Form.Label>

@@ -152,7 +152,7 @@ const NavMenu = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (JSON.parse(localStorage.getItem("userData"))) {
+        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -178,8 +178,26 @@ const NavMenu = () => {
                 navigate(routes.SearchPage);
             }
         }
-        else {
-            navigate(routes.LoginPage);
+        if (localStorage.getItem("userData") === null) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
+
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
+
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
+
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                console.log(res.status);
+                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                navigate(routes.SearchPage);
+            }
         }
         
     };
@@ -218,7 +236,7 @@ const NavMenu = () => {
                                 //placeholder="LANG"
                                 options={options}
                                 value={selectedOption}
-                                isSearchable={false}
+                                isSearchable={true}
                             />{spacing} 
                             <Button variant="success" onClick={() => setShow(true)} className={styles.searchIcon}><FaSearch /></Button>{spacing}
                             {localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined ? <Button className={styles.login} onClick={() => handleLogin()}>LOGIN</Button> : <div style={{verticalAlign: "bottom", cursor: "pointer"}}><FaUser style={{ fontSize: "40px", color: "grey", border: "1px solid grey", borderRadius: "50%", padding: "10px" }} /> <FaChevronDown onClick={() => handleDropdownSHow()} className={styles.loginDropdown} /></div>}
@@ -238,9 +256,6 @@ const NavMenu = () => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered show={show} 
                 onHide={() => setShow(false)}>
-                <Modal.Header closeButton>
-                    <h4 align="center">Search For Loans</h4>
-                </Modal.Header>
                 <Modal.Body>
                     <div className={styles.card}>
                         <Form onSubmit={handleSubmit}>

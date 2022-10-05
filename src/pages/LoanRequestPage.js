@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import styles from "../styles/LoanRequestPage.module.css";
 import logo from "../images/CreditFrame-Logo.svg";
@@ -19,6 +19,12 @@ const LoanRequestPage = () => {
 
     const navigate = useNavigate();
 
+    const location = useLocation();
+    // console.log('pathname', location.pathname);
+    // console.log('search', location.search);
+
+    // const urlData = location.pathname+location.search;
+
     const [searchParams, setSearchParams] = useSearchParams();
 
     const loanId = searchParams.get("loanId");
@@ -32,7 +38,6 @@ const LoanRequestPage = () => {
             const currency = JSON.parse(localStorage.getItem("countrySelected"));
             setCurrency(currency.currencyCode);
         };
-        window.localStorage.setItem("prevUrl", window.location.pathname);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             const user = JSON.parse(localStorage.getItem("userData"));
             const decodedData = jwtDecode(user.accessToken);
