@@ -77,7 +77,7 @@ const getDashboardData = (data) => {
 }
 
 const getCountries = () => {
-    return client.get("/api/Countries");
+    return client.get("/api/Countries?fetchAll=true");
 }
 
 const getState = () => {

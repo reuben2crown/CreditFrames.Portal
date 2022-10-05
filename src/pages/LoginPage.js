@@ -95,10 +95,11 @@ const LoginPage = () => {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
             // const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             // setSuccessMessage(message);
-            if (window.localStorage.getItem("prevUrl")) {
-                navigate(routes.LoanRequestPage);
-            }
-            else { navigate(-1); }
+            // if (localStorage.getItem("prevUrl")) {
+            //     const newUrl = window.localStorage.getItem("prevUrl")
+            //     navigate({newUrl});
+            // }
+            return navigate(-1);
         }
         if (res.status === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;

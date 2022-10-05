@@ -61,8 +61,8 @@ const LandingPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(searchLoan);
-        if (localStorage.getItem("userData") !== null || localStorage.getItem("userData") !== undefined) {
+        //console.log(searchLoan);
+        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -88,7 +88,7 @@ const LandingPage = () => {
                 navigate(routes.SearchPage);
             }
         }
-        if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
+        if (localStorage.getItem("userData") === null) {
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -110,6 +110,8 @@ const LandingPage = () => {
             }
         }
     }
+
+    console.log(localStorage.getItem("userData"));
 
     const getLoanTypesApi = useApi(userApis.getLoanTypes);
     const [loanTypes, setloanTypes] = useState([]);
@@ -344,11 +346,8 @@ const LandingPage = () => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered show={show}
                 onHide={() => setShow(false)}>
-                <Modal.Header closeButton>
-                    <h4 align="center">Search For Loans</h4>
-                </Modal.Header>
                 <Modal.Body>
-                    <div className={styles.card}>
+                    <div className={styles.card1}>
                         <Form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-md-6 text-start">

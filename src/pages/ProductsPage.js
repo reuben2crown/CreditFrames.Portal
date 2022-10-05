@@ -54,28 +54,52 @@ const ProductsPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //console.log(searchLoan);
-        // We recommend to call `load` at application startup.
-        const fp = await FingerprintJS.load();
+        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
 
-        // The FingerprintJS agent is ready.
-        // Get a visitor identifier when you'd like to.
-        const result = await fp.get();
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
 
-        // This is the visitor identifier:
-        //console.log(result.visitorId);
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
 
-        const user = JSON.parse(localStorage.getItem("userData"));
-        const decodedData = jwtDecode(user.accessToken);
-        const newData = JSON.parse(decodedData.UserData);
-        setUserValid(newData.userId);
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            const newData = JSON.parse(decodedData.UserData);
+            setUserValid(newData.userId);
 
-        const country = JSON.parse(localStorage.getItem("countrySelected"));
-        console.log(userValid, country);
-        const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
-        if (res.ok) {
-            window.localStorage.setItem("searchResult", JSON.stringify(res.data.data));
-            navigate(routes.SearchPage);
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                console.log(res.status);
+                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                navigate(routes.SearchPage);
+            }
+        }
+        if (localStorage.getItem("userData") === null) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
+
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
+
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
+
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                console.log(res.status);
+                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                navigate(routes.SearchPage);
+            }
         }
     };
 
@@ -87,9 +111,6 @@ const ProductsPage = () => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered show={show}
                 onHide={() => setShow(false)}>
-                <Modal.Header closeButton>
-                    <h4 align="center">Search For Loans</h4>
-                </Modal.Header>
                 <Modal.Body>
                     <div className={styles.card}>
                         <Form onSubmit={handleSubmit}>

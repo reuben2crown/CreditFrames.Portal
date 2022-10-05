@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/SearchPage.module.css";
@@ -11,24 +11,34 @@ import { FaStar} from "react-icons/fa";
 // import userApis from "../api/users";
 // import jwtDecode from "jwt-decode";
 // import routes from "../routes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 const SearchPage = () => {
 
+    const location = useLocation();
+    // console.log('pathname', location.pathname);
+    // console.log('search', location.search);
+
+    // console.log(location.pathname + location.search);
+
     const [currency, setCurrency] = useState("NGN");
 
-    if (JSON.parse(localStorage.getItem("countrySelected")) !== null && JSON.parse(localStorage.getItem("countrySelected")) !== undefined) {
-        const currency = JSON.parse(localStorage.getItem("countrySelected"));
-        setCurrency(currency.currencyCode);
-    }
+    useEffect (() => {
+        if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
+            const currency = JSON.parse(localStorage.getItem("countrySelected"));
+            setCurrency(currency.currencyCode);
+        }
+
+        if (localStorage.getItem("searchResult") !== null && localStorage.getItem("searchResult") !== undefined) {
+            const loanSearch = JSON.parse(localStorage.getItem("searchResult"));
+            setLoanSearch(loanSearch);
+        }
+    }, []);
+
 
     const [loanSearch, setLoanSearch] = useState("No Recent Search is Available");
 
-    if (JSON.parse(localStorage.getItem("searchResult")) !== null && JSON.parse(localStorage.getItem("searchResult")) !== undefined) {
-        const loanSearch = JSON.parse(localStorage.getItem("searchResult"));
-        setLoanSearch(loanSearch);
-    }
     
     return (
         <div>

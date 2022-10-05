@@ -68,7 +68,7 @@ const PasswordRecovery = () => {
                         <h3>Password Recovery</h3>
                         <p>Please enter your registered email address to retrieve your password.</p>
                         {errorMessage}
-                        <Form onSubmit={handleSubmit} className="text-center">
+                        <Form onSubmit={handleSubmit} className="text-center mb-3">
                             {/* <div className="mt-4 mx-5 text-start">
                                 <Form.Check type="radio" name="options" aria-label="radio 1" style={{display: "inline-block", verticalAlign: "top" }} />
                                 <Form.Label style={{ display: "inline-block", wordBreak: "break-all", fontSize: "18px", color: "#38403A" }}>Get the code by text message <br />(SMS) at +234 703 320 8626</Form.Label>
@@ -87,6 +87,7 @@ const PasswordRecovery = () => {
                             </div> */}
                             <button type="submit" className={styles.submit}>{passRecoveryApi.loading ? "Submiting..." : "Continue"}</button>
                         </Form>
+                        <Link to={routes.LoginPage} style={{textDecoration: "none", fontWeight: "bold", fontSize: "18px"}}>Back to login</Link>
                     </div>
                 </div>
                 <div style={{position: "absolute", bottom: "0", width: "98%", textAlign: "center"}}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
