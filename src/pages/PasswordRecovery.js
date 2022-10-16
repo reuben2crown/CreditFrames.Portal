@@ -12,6 +12,8 @@ import Alert from "react-bootstrap/Alert";
 
 const PasswordRecovery = () => {
 
+    document.title = "Password Recovery Page - Creditframes";
+
     const navigate = useNavigate();
 
     const [activePage, setActivePage] = useState("first");

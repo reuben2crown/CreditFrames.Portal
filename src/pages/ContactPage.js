@@ -14,6 +14,7 @@ import Alert from "react-bootstrap/Alert";
 
 const ContactPage = () => {
 
+    document.title = "Contact Page - Creditframes";
 
     const userContactApi = useApi(userApis.contact);
     const [contact, setContact] = useState();

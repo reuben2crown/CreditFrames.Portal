@@ -15,6 +15,7 @@ import routes from "../routes";
 
 const PasswordReset = () => {
 
+    document.title = "Password Reset Page - Creditframes";
 
     const navigate = useNavigate();
 

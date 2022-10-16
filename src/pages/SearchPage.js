@@ -2,27 +2,46 @@ import React, { useEffect, useState } from "react";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/SearchPage.module.css";
-// import renmoney from "../images/renmoney.png";
-// import pettycash from "../images/pettycash.png";
-// import carbon from "../images/carbon.png";
-// import branch from "../images/Branch.png";
-import { FaStar} from "react-icons/fa";
-// import useApi from "../hooks/useApi";
-// import userApis from "../api/users";
-// import jwtDecode from "jwt-decode";
-// import routes from "../routes";
-import { Link, useLocation } from "react-router-dom";
+import { FaArrowLeft, FaArrowRight, FaStar} from "react-icons/fa";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import routes from "../routes";
+import useApi from "../hooks/useApi";
+import userApis from "../api/users";
+import { NumericFormat } from "react-number-format";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import jwtDecode from "jwt-decode";
+import { Form, Modal } from "react-bootstrap";
 
 
 const SearchPage = () => {
 
+    document.title = "Search Page - Creditframes";
+
     const location = useLocation();
-    // console.log('pathname', location.pathname);
-    // console.log('search', location.search);
+    const navigate = useNavigate
+    
+    const [show, setShow] = useState();
+    const [userValid, setUserValid] = useState();
+    
+    const [searchEmpty, setSearchEmpty] = useState();
+    //console.log('pathname', location.pathname);
+    //console.log(!location.search ? "No Data" : "Yes Data");
 
     // console.log(location.pathname + location.search);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+
+
+    const [loanSearch, setLoanSearch] = useState();
+
     const [currency, setCurrency] = useState("NGN");
+
+    const [searchLoan, setSearchLoan] = useState();
+    const searchLoanApi = useApi(userApis.searchLoan);
+    const searchResultApi = useApi(userApis.searchResult);
+    const [loanSearchNext, setLoanSearchNext] = useState();
+
+    console.log(loanSearchNext);
 
     useEffect (() => {
         if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
@@ -30,29 +49,177 @@ const SearchPage = () => {
             setCurrency(currency.currencyCode);
         }
 
-        if (localStorage.getItem("searchResult") !== null && localStorage.getItem("searchResult") !== undefined) {
-            const loanSearch = JSON.parse(localStorage.getItem("searchResult"));
-            setLoanSearch(loanSearch);
+        if (loanSearchNext === undefined) {
+            const searchData = JSON.parse(localStorage.getItem("searchLoan"));
+
+            const input = {
+                LoanAmount: searchData.LoanAmount,
+                PageNumber: searchData.PageNumber,
+                PageSize: searchData.PageSize,
+                LoanTypeId: searchData.LoanTypeId,
+                DeviceId: searchData.DeviceId,
+                CountryId: searchData.CountryId
+            }
+            const getLoanSearch = async () => {
+                const res = await searchLoanApi.request(input);
+                if (res.status === 200) {
+                    setLoanSearch(res.data);
+                }
+            }
+            getLoanSearch();
         }
+
+        // if (localStorage.getItem("searchResult") !== null && localStorage.getItem("searchResult") !== undefined) {
+        //     const loanSearch = JSON.parse(localStorage.getItem("searchResult"));
+        //     setLoanSearch(loanSearch);
+        // }
+    }, []);
+
+    const getLoanTypesApi = useApi(userApis.getLoanTypes);
+    const [loanTypes, setloanTypes] = useState([]);
+
+    useEffect(() => {
+        const getLoanTypes = async () => {
+            const res = await getLoanTypesApi.request();
+            if (res.status === 200) {
+                setloanTypes(res.data);
+            }
+        }
+        getLoanTypes();
     }, []);
 
 
-    const [loanSearch, setLoanSearch] = useState("No Recent Search is Available");
 
-    
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
+
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
+
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
+
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            const newData = JSON.parse(decodedData.UserData);
+            setUserValid(newData.userId);
+
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                const input = {
+                    LoanAmount: searchLoan.LoanAmount,
+                    PageNumber: searchLoan.PageNumber,
+                    PageSize: searchLoan.PageSize,
+                    LoanTypeId: searchLoan.LoanTypeId,
+                    DeviceId: result.visitorId,
+                    CountryId: country.id
+                }
+                window.localStorage.setItem("searchLoan", JSON.stringify(input));
+                setShow(false);
+                navigate(routes.SearchPage);
+            }
+        }
+        if (localStorage.getItem("userData") === null) {
+            //console.log(searchLoan);
+            // We recommend to call `load` at application startup.
+            const fp = await FingerprintJS.load();
+
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            const result = await fp.get();
+
+            // This is the visitor identifier:
+            //console.log(result.visitorId);
+
+            const country = JSON.parse(localStorage.getItem("countrySelected"));
+            console.log(userValid, country);
+            const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+            if (res.status === 200) {
+                const input = {
+                    LoanAmount: searchLoan.LoanAmount,
+                    PageNumber: searchLoan.PageNumber,
+                    PageSize: searchLoan.PageSize,
+                    LoanTypeId: searchLoan.LoanTypeId,
+                    DeviceId: result.visitorId,
+                    CountryId: country.id
+                }
+                window.localStorage.setItem("searchLoan", JSON.stringify(input));
+                setShow(false);
+                navigate(routes.SearchPage);
+            }
+        }
+
+    };
+
+
+    const handleNextPage = async() => {
+
+        const searchData = JSON.parse(localStorage.getItem("searchLoan"));
+
+        const input = {
+            LoanAmount: searchData.LoanAmount,
+            PageNumber: searchData.PageNumber + 1,
+            PageSize: searchData.PageSize,
+            LoanTypeId: searchData.LoanTypeId,
+            DeviceId: searchData.DeviceId,
+            CountryId: searchData.CountryId
+        }
+
+        const res = await searchResultApi.request(input);
+        if (res.status === 200){
+            setLoanSearch(res.data);
+            // window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+            // window.location.reload(false);
+        }
+
+    }
+
+    const handlePreviousPage = async() => {
+        const searchData = JSON.parse(localStorage.getItem("searchLoan"));
+
+        const input = {
+            LoanAmount: searchData.LoanAmount,
+            PageNumber: searchData.PageNumber - 1,
+            PageSize: searchData.PageSize,
+            LoanTypeId: searchData.LoanTypeId,
+            DeviceId: searchData.DeviceId,
+            CountryId: searchData.CountryId
+        }
+
+        console.log(input);
+
+        const res = await searchResultApi.request(input);
+        if (res.status === 200) {
+            setLoanSearch(res.data);
+            //window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+            //window.location.reload(false);
+        }
+    }
+    //Search -> Login/Signup (If not already log in) -> Application Form -> Lenders Result -> Apply -> Goto Lender Website-> End
+    //note the ?returnUrl=/lenders/lender-form?loanType=4&loanAmount=2000
+    //products.slice(0, 4).map(...);
+
     return (
         <div>
             <NavMenu />
             <section className={styles.section1}>
                 <div className="container text-center pt-5 pb-5">
                     <h2 className={styles.title}>Loan Search results</h2>
-                    <h4 className={styles.subTitle} >{loanSearch.items?.length} Lenders available </h4>
+                    <h4 className={styles.subTitle} > {loanSearch?.totalCount} Lenders available </h4>
                 </div>
             </section>
             <section className={styles.section2}>
                 <div className="container mt-5 mb-5 pb-5">
                     <div className={styles.searchBox}>
-                        {loanSearch === "No Recent Search is Available" ? <h4>{loanSearch}</h4> : loanSearch.items?.map((list, key) => <div className={styles.card} key={key}>
+                        {loanSearch?.items?.length === 0 ? <div className="text-center"><h3>No record found</h3> <h4><Link to="" onClick={() => setShow(true)} style={{color: "#000", textDecoration: "none"}}><b>Please update your search options</b></Link></h4></div> : loanSearch?.items?.map((list, key) => <div className={styles.card} key={key}>
                             <div className="row">
                                 <div className="col-md-4 text-start pb-3">
                                     <img src={list.lender.logo} width="200px" alt="" className={styles.searchImage} />
@@ -67,18 +234,18 @@ const SearchPage = () => {
                                 </div>
                                 <div className="col-md-2 text-start pb-3">
                                     <label className={styles.searchLabel}>Interest Rate</label>
-                                    <span className={styles.searchSpan}>{list.minimumInterestRate}%</span>
+                                    <span className={styles.searchSpan}>{list.minimumInterestRate}% <br />{list.maximumInterestRate}%</span>
                                 </div>
                                 <div className="col-md-2 text-start pb-3">
                                     <label className={styles.searchLabel}>Approval Time</label>
-                                    <span className={styles.searchSpan}>{list.moratoriumPeriod}</span>
+                                    <span className={styles.searchSpan}>{Math.floor(list.minTurnAroundTimeInMinute / 60)} Minutes <br />{Math.floor(list.maxTurnAroundTimeInMinute / 60)} Minutes</span>
                                 </div>
                                 <div className="col-md-4 text-start pb-3">
                                     {list.lender.apiActivated === true ? <Link to={`/loan-request?loanId=${key}`}><button className={styles.apply}>Apply</button></Link> : <a href={list.lender.website} target="Blank"><button className={styles.apply}>Apply</button></a>}
                                 </div>
                                 <div className="col-md-2 text-start pb-3">
                                     <label className={styles.searchLabel}>Loan Range</label>
-                                    <span className={styles.searchSpan}>{currency} {list.minimumLoanAmount} <br/>{currency}{list.maximumLoanAmount}</span>
+                                    <span className={styles.searchSpan}>{currency} {list.minimumLoanAmount.toLocaleString()} <br/>{currency} {list.maximumLoanAmount.toLocaleString()}</span>
                                 </div>
                                 <div className="col-md-6 text-start pb-3">
                                     <label className={styles.searchLabel}>Rating</label>
@@ -88,112 +255,45 @@ const SearchPage = () => {
                             </div>
                         </div>
                         )}
-                        {/* <div className={styles.card}>
-                            <div className="row">
-                                <div className="col-md-4 text-start pb-3">
-                                    <img src={branch} alt="" className={styles.searchImage} />
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Lenders Name</label>
-                                    <span className={styles.searchSpan}>Branch Loan</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Loan Type</label>
-                                    <span className={styles.searchSpan}>Personal</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Interest Rate</label>
-                                    <span className={styles.searchSpan}>5% - 6.5%</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Approval Time</label>
-                                    <span className={styles.searchSpan}>2hrs</span>
-                                </div>
-                                <div className="col-md-4 text-start pb-3">
-                                    <button className={styles.apply}>Apply</button>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Loan Range</label>
-                                    <span className={styles.searchSpan}>₦10,000,000 ₦20,000,000</span>
-                                </div>
-                                <div className="col-md-6 text-start pb-3">
-                                    <label className={styles.searchLabel}>Rating</label>
-                                    <span className={styles.searchSpan}>5 Stars &nbsp;<FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.card}>
-                            <div className="row">
-                                <div className="col-md-4 text-start pb-3">
-                                    <img src={carbon} alt="" className={styles.searchImage} />
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Lenders Name</label>
-                                    <span className={styles.searchSpan}>Branch Loan</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Loan Type</label>
-                                    <span className={styles.searchSpan}>Personal</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Interest Rate</label>
-                                    <span className={styles.searchSpan}>5% - 6.5%</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Approval Time</label>
-                                    <span className={styles.searchSpan}>2hrs</span>
-                                </div>
-                                <div className="col-md-4 text-start pb-3">
-                                    <button className={styles.apply}>Apply</button>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Loan Range</label>
-                                    <span className={styles.searchSpan}>₦10,000,000 ₦20,000,000</span>
-                                </div>
-                                <div className="col-md-6 text-start pb-3">
-                                    <label className={styles.searchLabel}>Rating</label>
-                                    <span className={styles.searchSpan}>5 Stars &nbsp;<FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.card}>
-                            <div className="row">
-                                <div className="col-md-4 text-start pb-3">
-                                    <img src={pettycash} alt="" className={styles.searchImage} />
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Lenders Name</label>
-                                    <span className={styles.searchSpan}>Branch Loan</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Loan Type</label>
-                                    <span className={styles.searchSpan}>Personal</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Interest Rate</label>
-                                    <span className={styles.searchSpan}>5% - 6.5%</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Approval Time</label>
-                                    <span className={styles.searchSpan}>2hrs</span>
-                                </div>
-                                <div className="col-md-4 text-start pb-3">
-                                    <button className={styles.apply}>Apply</button>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Loan Range</label>
-                                    <span className={styles.searchSpan}>₦10,000,000 ₦20,000,000</span>
-                                </div>
-                                <div className="col-md-6 text-start pb-3">
-                                    <label className={styles.searchLabel}>Rating</label>
-                                    <span className={styles.searchSpan}>5 Stars &nbsp;<FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /></span>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
+                    <h4 className="m-5">
+                    {loanSearch?.hasPreviousPage === true ? <button className={styles.apply} onClick={() => handlePreviousPage()}><FaArrowLeft /> See Previous</button> : ""}
+                        {loanSearch?.hasNextPage === true ? <button className={styles.apply} onClick={() => handleNextPage()}>See More <FaArrowRight /></button> : ""}</h4>
                 </div>
             </section>
             <Footer />
+            <Modal
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered show={show}
+                onHide={() => setShow(false)}>
+                <Modal.Body>
+                    <div className={styles.card1}>
+                        <Form onSubmit={handleSubmit}>
+                            <div className="row">
+                                <div className="col-md-6 text-start">
+                                    <label>How much would you like to borrow?</label>
+                                    {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
+                                        const { formattedValue, value, floatValue } = values;
+                                        const newAmount = value;
+                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
+                                        // do something with floatValue
+                                    }} className={styles.select} required placeholder={`${currency} 0.00`} />
+                                </div>
+                                <div className="col-md-6 text-start">
+                                    <label>Types of Loan</label>
+                                    <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
+                                        <option selected disabled>Select Loan Type</option>
+                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
+                                    </Form.Select>
+                                </div>
+                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
+                            </div>
+                        </Form>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </div>
     )
 }

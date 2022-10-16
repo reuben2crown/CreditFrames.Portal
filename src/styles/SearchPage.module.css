@@ -71,6 +71,54 @@ p {
     font-size: 20px;
 }
 
+.card1 {
+    padding: 40px 80px;
+    border: #FFE7EF solid 2px;
+    border-radius: 10px;
+}
+
+.select {
+    background-color: transparent !important;
+    padding: 20px 30px !important;
+    color: #333333 !important;
+    font-size: 18px !important;
+    width: 100%;
+    border: #FFE7EF solid 1px !important;
+    border-radius: 5px !important;
+    outline: none !important;
+    right: 5px !important;
+}
+
+.card label {
+    color: #344863;
+    font-size: 15px !important;
+}
+
+.submit {
+    background-color: #0000FB !important;
+    color: #fff !important;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    border: none !important;
+    padding: 20px 60px !important;
+    margin: auto;
+    border-radius: 40px !important;
+}
+
+.submit:hover {
+    background-color: #FFF !important;
+    color: #0000FB !important;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #0000FB !important;
+    padding: 20px 60px !important;
+    margin: auto;
+    transition: 0.5s;
+    border-radius: 40px !important;
+}
+
 
 
 /* Mobile Responsiveness Css */

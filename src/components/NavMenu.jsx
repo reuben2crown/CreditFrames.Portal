@@ -9,7 +9,7 @@ import logo from "../images/CreditFrame-Logo.svg";
 import styles from "../styles/NavMenu.module.css";
 import { FaSearch, FaUser, FaChevronDown } from "react-icons/fa";
 import Select from "react-select";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import routes from "../routes";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
@@ -23,19 +23,18 @@ const NavMenu = () => {
 
     const navigate = useNavigate();
 
+    const location = useLocation();
+
+    // console.log(decodeURIComponent(`site.com/post?comments=1%2C2%2C3%2C4`));
+    // console.log(encodeURIComponent(`site.com/post?comments=1,2,3,4`));
+
     const [userValid, setUserValid] = useState();
 
     const [show, setShow] = useState(false);
 
     const [currency, setCurrency] = useState("NGN");
 
-    useEffect(() => {
-        if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
-            const currency = JSON.parse(localStorage.getItem("countrySelected"));
-            setCurrency(currency.currencyCode);
-        };
-        window.localStorage.removeItem("prevUrl");
-    }, []);
+    //console.log(localStorage.getItem("countrySelected").length);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +103,7 @@ const NavMenu = () => {
                 setSelectedOption(preselectOptions);
             }
             if (localStorage.getItem("countrySelected") === null || localStorage.getItem("countrySelected") === undefined) {
-                window.localStorage.setItem("countrySelected", JSON.stringify(res.data[167]));
+                window.localStorage.setItem("countrySelected", JSON.stringify(res.data[0]));
                 const items = JSON.parse(localStorage.getItem("countrySelected"));
                 const preselectOptions = {
                     value: items,
@@ -115,6 +114,16 @@ const NavMenu = () => {
             setCountries(res.data);
         }
     }
+
+
+    // useEffect(() => {
+    //     if (localStorage.getItem("countrySelected") !== null || localStorage.getItem("countrySelected") !== undefined) {
+    //         const currency = JSON.parse(localStorage.getItem("countrySelected"));
+    //         setCurrency(currency.currencyCode);
+    //     };
+    //     window.localStorage.removeItem("prevUrl");
+    // }, []);
+
 
     const handleLogin = () => {
         navigate(routes.LoginPage);
@@ -153,7 +162,8 @@ const NavMenu = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            //console.log(searchLoan);
+            // return navigate(`./loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
+            
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
 
@@ -165,20 +175,33 @@ const NavMenu = () => {
             //console.log(result.visitorId);
 
             const user = JSON.parse(localStorage.getItem("userData"));
-            const decodedData = jwtDecode(user.accessToken);
-            const newData = JSON.parse(decodedData.UserData);
-            setUserValid(newData.userId);
+             const decodedData = jwtDecode(user.accessToken);
+             const newData = JSON.parse(decodedData.UserData);
+             setUserValid(newData.userId);
 
             const country = JSON.parse(localStorage.getItem("countrySelected"));
-            console.log(userValid, country);
+            
             const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
             if (res.status === 200) {
-                console.log(res.status);
-                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                const input = {
+                    LoanAmount: searchLoan.LoanAmount,
+                    PageNumber: searchLoan.PageNumber,
+                    PageSize: searchLoan.PageSize,
+                    LoanTypeId: searchLoan.LoanTypeId,
+                    DeviceId: result.visitorId,
+                    CountryId: country.id
+                }
+                window.localStorage.setItem("searchLoan", JSON.stringify(input));
+                setShow(false);
                 navigate(routes.SearchPage);
+            //  if (location.pathname === "/search-result") {
+            //      window.location.reload(false);
+            //  }
             }
         }
         if (localStorage.getItem("userData") === null) {
+            // return navigate(`./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);   
+            
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -190,13 +213,24 @@ const NavMenu = () => {
             // This is the visitor identifier:
             //console.log(result.visitorId);
 
-            const country = JSON.parse(localStorage.getItem("countrySelected"));
-            console.log(userValid, country);
-            const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+             const country = JSON.parse(localStorage.getItem("countrySelected"));
+            // console.log(userValid, country);
+             const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
             if (res.status === 200) {
-                console.log(res.status);
-                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                const input = {
+                    LoanAmount: searchLoan.LoanAmount,
+                    PageNumber: searchLoan.PageNumber,
+                    PageSize: searchLoan.PageSize,
+                    LoanTypeId: searchLoan.LoanTypeId,
+                    DeviceId: result.visitorId,
+                    CountryId: country.id
+                }
+                window.localStorage.setItem("searchLoan", JSON.stringify(input));
+                setShow(false);
                 navigate(routes.SearchPage);
+            //  if (location.pathname === "/search-result") {
+            //      window.location.reload(false);
+            //  }
             }
         }
         
@@ -263,12 +297,12 @@ const NavMenu = () => {
                                 <div className="col-md-6 text-start">
                                     <label>How much would you like to borrow?</label>
                                     {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
-                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
+                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount, PageNumber: 1, PageSize: 1 })
                                         // do something with floatValue
-                                    }} className={styles.select} required placeholder={`${currency} 500,000,000`} />
+                                    }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                 </div>
                                 <div className="col-md-6 text-start">
                                     <label>Types of Loan</label>
@@ -277,7 +311,7 @@ const NavMenu = () => {
                                         {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>
-                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
+                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
                             </div>
                         </Form>
                     </div>

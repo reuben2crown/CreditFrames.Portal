@@ -16,7 +16,7 @@ Nav {
     border: none !important;
     padding: 0px;
     width: 130px;
-    margin: auto;
+    text-align: left !important;
     outline: none !important;
 }
 .lang::after, .lang::before {
@@ -56,7 +56,7 @@ Nav {
 .select {
     background-color: transparent !important;
     padding: 20px 30px !important;
-    color: #939393 !important;
+    color: #333333 !important;
     font-size: 18px !important;
     width: 100%;
     border: #FFE7EF solid 1px !important;
@@ -105,6 +105,25 @@ Nav {
     padding: 0px;
     margin: 7px 0px;
 }
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: #939393
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #939393
+}
+
+:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #939393
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: #939393
+}
 
 
 
@@ -127,7 +146,7 @@ Nav {
     .select {
         background-color: transparent !important;
         padding: 20px 30px !important;
-        color: #939393 !important;
+        color: #333333 !important;
         font-size: 16px !important;
         width: 100%;
         border: #FFE7EF solid 1px !important;

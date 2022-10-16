@@ -14,6 +14,9 @@ import news6 from "../images/news6.png";
 
 
 const FinhackPage = () => {
+
+    document.title = "Finhack Page - Creditframes";
+
     return (
         <div>
             <NavMenu />

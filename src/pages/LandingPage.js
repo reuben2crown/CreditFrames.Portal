@@ -42,6 +42,8 @@ import Modal from "react-bootstrap/Modal";
 
 const LandingPage = () => {
 
+    document.title = "Welcome Home - Creditframes";
+
     const navigate = useNavigate();
 
     const [userValid, setUserValid] = useState();
@@ -61,8 +63,9 @@ const LandingPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //console.log(searchLoan);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
+            //return navigate(`./loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
+            //returnUrl=/lenders/lender-form?loanType=4&loanAmount=2000
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -80,15 +83,24 @@ const LandingPage = () => {
             setUserValid(newData.userId);
 
             const country = JSON.parse(localStorage.getItem("countrySelected"));
-            console.log(userValid, country);
+
             const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
             if (res.status === 200) {
-                console.log(res.status);
-                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                const input = {
+                    LoanAmount: searchLoan.LoanAmount,
+                    PageNumber: searchLoan.PageNumber,
+                    PageSize: searchLoan.PageSize,
+                    LoanTypeId: searchLoan.LoanTypeId,
+                    DeviceId: result.visitorId,
+                    CountryId: country.id
+                }
+                window.localStorage.setItem("searchLoan", JSON.stringify(input));
                 navigate(routes.SearchPage);
             }
         }
         if (localStorage.getItem("userData") === null) {
+            // return navigate(`./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);    
+
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -100,18 +112,23 @@ const LandingPage = () => {
             // This is the visitor identifier:
             //console.log(result.visitorId);
 
-            const country = JSON.parse(localStorage.getItem("countrySelected"));
-            console.log(userValid, country);
-            const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
-            if (res.status === 200) {
-                console.log(res.status);
-                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
-                navigate(routes.SearchPage);
-            }
+             const country = JSON.parse(localStorage.getItem("countrySelected"));
+             console.log(userValid, country);
+             const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+             if (res.status === 200) {
+                 const input = {
+                     LoanAmount: searchLoan.LoanAmount,
+                     PageNumber: searchLoan.PageNumber,
+                     PageSize: searchLoan.PageSize,
+                     LoanTypeId: searchLoan.LoanTypeId,
+                     DeviceId: result.visitorId,
+                     CountryId: country.id
+                 }
+                 window.localStorage.setItem("searchLoan", JSON.stringify(input));
+                 navigate(routes.SearchPage);
+             }
         }
     }
-
-    console.log(localStorage.getItem("userData"));
 
     const getLoanTypesApi = useApi(userApis.getLoanTypes);
     const [loanTypes, setloanTypes] = useState([]);
@@ -146,12 +163,12 @@ const LandingPage = () => {
                                         <div className="col-md-6 text-start">
                                             <label>How much would you like to borrow?</label>
                                             {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
+                                            <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                                 const { formattedValue, value, floatValue } = values;
                                                 const newAmount = value;
                                                 setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
                                                 // do something with floatValue
-                                            }} className={styles.select} required placeholder={`${currency} 500,000,000`} />
+                                            }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                         </div>
                                         <div className="col-md-6 text-start">
                                             <label>Types of Loan</label>
@@ -160,7 +177,7 @@ const LandingPage = () => {
                                                 {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                             </Form.Select> 
                                         </div>
-                                        <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
+                                        <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
                                     </div>
                                 </Form>
                             </div>
@@ -353,12 +370,12 @@ const LandingPage = () => {
                                 <div className="col-md-6 text-start">
                                     <label>How much would you like to borrow?</label>
                                     {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
                                         // do something with floatValue
-                                    }} className={styles.select} required placeholder={`${currency} 500,000,000`} />
+                                    }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                 </div>
                                 <div className="col-md-6 text-start">
                                     <label>Types of Loan</label>
@@ -367,7 +384,7 @@ const LandingPage = () => {
                                         {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>
-                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
+                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
                             </div>
                         </Form>
                     </div>

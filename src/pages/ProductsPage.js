@@ -23,6 +23,8 @@ import Form from "react-bootstrap/Form";
 
 const ProductsPage = () => {
 
+    document.title = "Products Page - Creditframes";
+
     const [show, setShow] = useState();
     const navigate = useNavigate();
 
@@ -55,7 +57,8 @@ const ProductsPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            //console.log(searchLoan);
+            //return navigate(`./loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
+            
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
 
@@ -67,20 +70,30 @@ const ProductsPage = () => {
             //console.log(result.visitorId);
 
             const user = JSON.parse(localStorage.getItem("userData"));
-            const decodedData = jwtDecode(user.accessToken);
-            const newData = JSON.parse(decodedData.UserData);
-            setUserValid(newData.userId);
+             const decodedData = jwtDecode(user.accessToken);
+             const newData = JSON.parse(decodedData.UserData);
+             setUserValid(newData.userId);
 
             const country = JSON.parse(localStorage.getItem("countrySelected"));
-            console.log(userValid, country);
+
             const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
-            if (res.status === 200) {
-                console.log(res.status);
-                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
-                navigate(routes.SearchPage);
-            }
+             if (res.status === 200) {
+                 const input = {
+                     LoanAmount: searchLoan.LoanAmount,
+                     PageNumber: searchLoan.PageNumber,
+                     PageSize: searchLoan.PageSize,
+                     LoanTypeId: searchLoan.LoanTypeId,
+                     DeviceId: result.visitorId,
+                     CountryId: country.id
+                 }
+                 window.localStorage.setItem("searchLoan", JSON.stringify(input));
+                 setShow(false);
+                 navigate(routes.SearchPage);
+             }
         }
         if (localStorage.getItem("userData") === null) {
+            //return navigate(`./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
+
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             const fp = await FingerprintJS.load();
@@ -96,8 +109,16 @@ const ProductsPage = () => {
             console.log(userValid, country);
             const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
             if (res.status === 200) {
-                console.log(res.status);
-                window.localStorage.setItem("searchResult", JSON.stringify(res.data));
+                const input = {
+                    LoanAmount: searchLoan.LoanAmount,
+                    PageNumber: searchLoan.PageNumber,
+                    PageSize: searchLoan.PageSize,
+                    LoanTypeId: searchLoan.LoanTypeId,
+                    DeviceId: result.visitorId,
+                    CountryId: country.id
+                }
+                window.localStorage.setItem("searchLoan", JSON.stringify(input));
+                setShow(false);
                 navigate(routes.SearchPage);
             }
         }
@@ -118,12 +139,12 @@ const ProductsPage = () => {
                                 <div className="col-md-6 text-start">
                                     <label>How much would you like to borrow?</label>
                                     {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
                                         // do something with floatValue
-                                    }} className={styles.select} required placeholder={`${currency} 500,000,000`} />
+                                    }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                 </div>
                                 <div className="col-md-6 text-start">
                                     <label>Types of Loan</label>
@@ -132,7 +153,7 @@ const ProductsPage = () => {
                                         {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>
-                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>Search for loan</button></div>
+                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
                             </div>
                         </Form>
                     </div>
