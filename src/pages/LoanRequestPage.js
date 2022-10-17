@@ -17,6 +17,8 @@ import { NumericFormat } from "react-number-format";
 
 const LoanRequestPage = () => {
 
+    document.title = "Loan Request Page - Creditframes";
+
     const navigate = useNavigate();
 
     const location = useLocation();

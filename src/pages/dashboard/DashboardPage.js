@@ -19,6 +19,8 @@ import jwtDecode from "jwt-decode";
 
 const DashboardPage = () => {
 
+    document.title = "Account Dashboard - Creditframes";
+
     const navigate = useNavigate();
 
     const authenticate = () => {

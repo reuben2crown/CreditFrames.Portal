@@ -13,6 +13,8 @@ import Carousel from "better-react-carousel";
 
 const CompanyPage = () => {
 
+    document.title = "Company Page - Creditframes";
+
     return (
         <div>
             <NavMenu />

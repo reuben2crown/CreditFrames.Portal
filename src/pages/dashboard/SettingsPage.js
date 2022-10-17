@@ -20,6 +20,8 @@ import jwtDecode from "jwt-decode";
 
 const SettingsPage = () => {
 
+    document.title = "Account Settings Page - Creditframes";
+
     const navigate = useNavigate();
 
     const [show, setShow] = useState(false);

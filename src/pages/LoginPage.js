@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
@@ -13,7 +13,13 @@ import routes from "../routes";
 
 const LoginPage = () => {
 
+    document.title = "Login & Register Page - Creditframes";
+
     const navigate = useNavigate();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const returnUrl = searchParams.get("returnUrl");
 
     const [activePage, setActivePage] = useState("first");
     const [passwordType, setPasswordType] = useState("password");
@@ -67,10 +73,15 @@ const LoginPage = () => {
 
         if (res.data.code === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
-            if (window.localStorage.getItem("prevUrl")) {
-                navigate(routes.LoanRequestPage);
+            if (returnUrl === null) {
+                navigate(-1);
+            } else {
+                navigate(`/.${returnUrl}`);
             }
-            else { navigate(-1); }
+            //if (window.localStorage.getItem("prevUrl")) {
+                //navigate(routes.LoanRequestPage);
+            //}
+            //else navigate(-1);
         }
         if (res.data.code === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
@@ -93,13 +104,12 @@ const LoginPage = () => {
 
         if (res.status === 200) {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
-            // const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
-            // setSuccessMessage(message);
-            // if (localStorage.getItem("prevUrl")) {
-            //     const newUrl = window.localStorage.getItem("prevUrl")
-            //     navigate({newUrl});
-            // }
-            return navigate(-1);
+            if (returnUrl === null) {
+                navigate(-1);
+            } else {
+                navigate(`/.${returnUrl}`);
+            }
+            navigate(-1);
         }
         if (res.status === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
@@ -128,7 +138,14 @@ const LoginPage = () => {
     }, [screenSize])
 
     ////////////////////////////////////////////////////////////////////////
-    
+
+    const handleReset = () => {
+        document.getElementById("clear").click();
+    }
+    const handleReset1 = () => {
+        document.getElementById("clear1").click();
+    }
+
     
     return (
         <div className={styles.popBg}>
@@ -145,8 +162,8 @@ const LoginPage = () => {
                             <Form.Label className="mt-2">Password</Form.Label>
                             <Form.Control type={passwordType} required onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={() => togglePassword()} /> : <FaEye onClick={() => togglePassword()} />}</div>
                             <p style={{ margin: "20px", color: "#424242" }}><Form.Check type="checkbox" style={{ height: "15px", width: "15px", float: "left" }}></Form.Check>&nbsp; <span>Remember me</span><Link to="/password-recovery" style={{ float: "right", color: "#FF6367", textDecoration: "none"}}>Forgot Password?</Link></p>
-                            <button type="submit" className={styles.submit}>{userLoginApi.loading ? "Signing in..." : "Sign in"}</button>
-                            <p className="mt-3 text-center">Don't have an account? <Link to="" onClick={() => setActivePage("second")} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
+                            <button type="submit" className={styles.submit}>{userLoginApi.loading ? "Signing in..." : "Sign in"}</button><button type="reset" id="clear" hidden>Clear</button>
+                            <p className="mt-3 text-center">Don't have an account? <Link to="" onClick={() => { setActivePage("second"); handleReset1()}} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
                         </Form>
                     </div>
                 </div>
@@ -161,7 +178,7 @@ const LoginPage = () => {
                         {errorMessage1}{successMessage}
                         <Form onSubmit={handleRegister} className="text-start">
                             <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, firstName: e.target.value })} placeholder="Sam Seyi"></Form.Control>
+                            <Form.Control type="text" required className={styles.input}  onChange={(e) => setRegister({ ...register, firstName: e.target.value })} placeholder="Sam Seyi"></Form.Control>
                             <Form.Label>Last Name</Form.Label>
                             <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, lastName: e.target.value })} placeholder="Sam Seyi"></Form.Control>
                             <Form.Label className="mt-1">Phone Number</Form.Label>
@@ -172,8 +189,8 @@ const LoginPage = () => {
                             <Form.Control type={passwordType} required onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={() => togglePassword()} /> : <FaEye onClick={() => togglePassword()} />}</div>
                             <Form.Label className="mt-2">Confirm Password &nbsp; &nbsp; &nbsp; &nbsp; {passwordInput !== passwordInput1 ? <span className="text-danger">Password does not match.</span> : passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? <span className="text-success">Password match.</span> : <></> }</Form.Label>
                             <Form.Control type={passwordType1} required onChange={handlePasswordChange1} value={passwordInput1} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType1 === "password" ? <FaEyeSlash onClick={() => togglePassword1()} /> : <FaEye onClick={() => togglePassword1()} />}</div>
-                            <button type="submit" disabled={passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? false : true} className={styles.submit1}>{userRegisterApi.loading ? "Creating your account..." : "Create account"}</button>
-                            <p className="mt-3 text-center">Already have an account? <Link to="" onClick={() => setActivePage("first")} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Login</Link> </p>
+                            <button type="submit" disabled={passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? false : true} className={styles.submit1}>{userRegisterApi.loading ? "Creating your account..." : "Create account"}</button><button type="reset" id="clear1" hidden>Clear</button>
+                            <p className="mt-3 text-center">Already have an account? <Link to="" onClick={() => {setActivePage("first"); handleReset()}} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Login</Link> </p>
                         </Form>
                     </div>
                 </div>

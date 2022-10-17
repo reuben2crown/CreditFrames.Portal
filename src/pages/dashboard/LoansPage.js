@@ -15,6 +15,8 @@ import jwtDecode from "jwt-decode";
 
 const LoansPage = () => {
 
+    document.title = "Loans Page - Creditframes";
+
     const navigate = useNavigate();
 
     const authenticate = () => {

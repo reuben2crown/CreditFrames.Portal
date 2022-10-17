@@ -18,6 +18,8 @@ import { Alert } from "react-bootstrap";
 
 const ProfilePage = () => {
 
+    document.title = "Account Profile Page - Creditframes";
+
     const navigate = useNavigate();
 
     const authenticate = () => {

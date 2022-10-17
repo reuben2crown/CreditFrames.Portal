@@ -45,10 +45,15 @@ const register = (data) => {
 
 const searchLoan = (data) => {
 
-    //console.log(data);
+    window.localStorage.setItem("searchLoan", JSON.stringify(data));
 
     return client.get("/api/Lenders/Compare", data);
     
+}
+
+const searchResult = (data) => {
+    window.localStorage.setItem("searchLoan", JSON.stringify(data));
+    return client.get("/api/Lenders/Compare", data);
 }
 
 const passRecovery = (data) => {
@@ -77,7 +82,7 @@ const getDashboardData = (data) => {
 }
 
 const getCountries = () => {
-    return client.get("/api/Countries?fetchAll=true");
+    return client.get("/api/Countries");
 }
 
 const getState = () => {
@@ -138,5 +143,6 @@ const userApis = {
     loanApplication,
     updatePassword,
     updateProfile,
+    searchResult,
 };
 export default userApis;
