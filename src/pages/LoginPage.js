@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
@@ -16,6 +16,9 @@ const LoginPage = () => {
     document.title = "Login & Register Page - Creditframes";
 
     const navigate = useNavigate();
+
+    const location = useLocation();
+   //console.log('pathname', location.search);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -164,7 +167,7 @@ const LoginPage = () => {
                             <Form.Control type={passwordType} required onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={() => togglePassword()} /> : <FaEye onClick={() => togglePassword()} />}</div>
                             <p style={{ margin: "20px", color: "#424242" }}><Form.Check type="checkbox" style={{ height: "15px", width: "15px", float: "left" }}></Form.Check>&nbsp; <span>Remember me</span><Link to="/password-recovery" style={{ float: "right", color: "#FF6367", textDecoration: "none"}}>Forgot Password?</Link></p>
                             <button type="submit" className={styles.submit}>{userLoginApi.loading ? "Signing in..." : "Sign in"}</button><button type="reset" id="clear" hidden>Clear</button>
-                            <p className="mt-3 text-center">Don't have an account? <Link to="" onClick={() => { setActivePage("second"); handleReset1()}} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
+                            <p className="mt-3 text-center">Don't have an account? <Link to={`/./login-register${location.search}`} onClick={() => { setActivePage("second"); handleReset1()}} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
                         </Form>
                     </div>
                 </div>
@@ -191,7 +194,7 @@ const LoginPage = () => {
                             <Form.Label className="mt-2">Confirm Password &nbsp; &nbsp; &nbsp; &nbsp; {passwordInput !== passwordInput1 ? <span className="text-danger">Password does not match.</span> : passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? <span className="text-success">Password match.</span> : <></> }</Form.Label>
                             <Form.Control type={passwordType1} required onChange={handlePasswordChange1} value={passwordInput1} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType1 === "password" ? <FaEyeSlash onClick={() => togglePassword1()} /> : <FaEye onClick={() => togglePassword1()} />}</div>
                             <button type="submit" disabled={passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? false : true} className={styles.submit1}>{userRegisterApi.loading ? "Creating your account..." : "Create account"}</button><button type="reset" id="clear1" hidden>Clear</button>
-                            <p className="mt-3 text-center">Already have an account? <Link to="" onClick={() => {setActivePage("first"); handleReset()}} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Login</Link> </p>
+                            <p className="mt-3 text-center">Already have an account? <Link to={`/./login-register${location.search}`} onClick={() => {setActivePage("first"); handleReset()}} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Login</Link> </p>
                         </Form>
                     </div>
                 </div>
