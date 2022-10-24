@@ -31,6 +31,15 @@ const SearchPage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
+    const authenticate = () => {
+        if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
+            navigate(routes.LoginPage);
+        }
+    }
+    useEffect(() => {
+        authenticate();
+    }, []);
+
 
     const [loanSearch, setLoanSearch] = useState();
 
@@ -39,9 +48,6 @@ const SearchPage = () => {
     const [searchLoan, setSearchLoan] = useState();
     const searchLoanApi = useApi(userApis.searchLoan);
     const searchResultApi = useApi(userApis.searchResult);
-    const [loanSearchNext, setLoanSearchNext] = useState();
-
-    console.log(loanSearchNext);
 
     useEffect (() => {
         if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
@@ -49,19 +55,16 @@ const SearchPage = () => {
             setCurrency(currency.currencyCode);
         }
 
-        if (loanSearchNext === undefined) {
-            const searchData = JSON.parse(localStorage.getItem("searchLoan"));
+        if (localStorage.getItem("loanSearchId")) {
+            const searchData = JSON.parse(localStorage.getItem("loanSearchId"));
 
             const input = {
-                LoanAmount: searchData.LoanAmount,
                 PageNumber: searchData.PageNumber,
                 PageSize: searchData.PageSize,
-                LoanTypeId: searchData.LoanTypeId,
-                DeviceId: searchData.DeviceId,
-                CountryId: searchData.CountryId
+                LoanSearchId: searchData.loanSearchId
             }
             const getLoanSearch = async () => {
-                const res = await searchLoanApi.request(input);
+                const res = await searchResultApi.request(input);
                 if (res.status === 200) {
                     setLoanSearch(res.data);
                 }
@@ -94,67 +97,76 @@ const SearchPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            //console.log(searchLoan);
+            return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
+
             // We recommend to call `load` at application startup.
-            const fp = await FingerprintJS.load();
+            // const fp = await FingerprintJS.load();
 
-            // The FingerprintJS agent is ready.
-            // Get a visitor identifier when you'd like to.
-            const result = await fp.get();
+            // // The FingerprintJS agent is ready.
+            // // Get a visitor identifier when you'd like to.
+            // const result = await fp.get();
 
-            // This is the visitor identifier:
-            //console.log(result.visitorId);
+            // // This is the visitor identifier:
+            // //console.log(result.visitorId);
 
-            const user = JSON.parse(localStorage.getItem("userData"));
-            const decodedData = jwtDecode(user.accessToken);
-            const newData = JSON.parse(decodedData.UserData);
-            setUserValid(newData.userId);
+            // const user = JSON.parse(localStorage.getItem("userData"));
+            //  const decodedData = jwtDecode(user.accessToken);
+            //  const newData = JSON.parse(decodedData.UserData);
+            //  setUserValid(newData.userId);
 
-            const country = JSON.parse(localStorage.getItem("countrySelected"));
-            console.log(userValid, country);
-            const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
-            if (res.status === 200) {
-                const input = {
-                    LoanAmount: searchLoan.LoanAmount,
-                    PageNumber: searchLoan.PageNumber,
-                    PageSize: searchLoan.PageSize,
-                    LoanTypeId: searchLoan.LoanTypeId,
-                    DeviceId: result.visitorId,
-                    CountryId: country.id
-                }
-                window.localStorage.setItem("searchLoan", JSON.stringify(input));
-                setShow(false);
-                navigate(routes.SearchPage);
-            }
+            // const country = JSON.parse(localStorage.getItem("countrySelected"));
+
+            // const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
+            // if (res.status === 200) {
+            //     const input = {
+            //         LoanAmount: searchLoan.LoanAmount,
+            //         PageNumber: searchLoan.PageNumber,
+            //         PageSize: searchLoan.PageSize,
+            //         LoanTypeId: searchLoan.LoanTypeId,
+            //         DeviceId: result.visitorId,
+            //         CountryId: country.id
+            //     }
+            //     window.localStorage.setItem("searchLoan", JSON.stringify(input));
+            //     setShow(false);
+            //     navigate(routes.SearchPage);
+            // //  if (location.pathname === "/search-result") {
+            // //      window.location.reload(false);
+            // //  }
+            // }
         }
         if (localStorage.getItem("userData") === null) {
+            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
+
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
-            const fp = await FingerprintJS.load();
+            // const fp = await FingerprintJS.load();
 
-            // The FingerprintJS agent is ready.
-            // Get a visitor identifier when you'd like to.
-            const result = await fp.get();
+            // // The FingerprintJS agent is ready.
+            // // Get a visitor identifier when you'd like to.
+            // const result = await fp.get();
 
-            // This is the visitor identifier:
-            //console.log(result.visitorId);
+            // // This is the visitor identifier:
+            // //console.log(result.visitorId);
 
-            const country = JSON.parse(localStorage.getItem("countrySelected"));
-            console.log(userValid, country);
-            const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
-            if (res.status === 200) {
-                const input = {
-                    LoanAmount: searchLoan.LoanAmount,
-                    PageNumber: searchLoan.PageNumber,
-                    PageSize: searchLoan.PageSize,
-                    LoanTypeId: searchLoan.LoanTypeId,
-                    DeviceId: result.visitorId,
-                    CountryId: country.id
-                }
-                window.localStorage.setItem("searchLoan", JSON.stringify(input));
-                setShow(false);
-                navigate(routes.SearchPage);
-            }
+            //  const country = JSON.parse(localStorage.getItem("countrySelected"));
+            // // console.log(userValid, country);
+            //  const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+            // if (res.status === 200) {
+            //     const input = {
+            //         LoanAmount: searchLoan.LoanAmount,
+            //         PageNumber: searchLoan.PageNumber,
+            //         PageSize: searchLoan.PageSize,
+            //         LoanTypeId: searchLoan.LoanTypeId,
+            //         DeviceId: result.visitorId,
+            //         CountryId: country.id
+            //     }
+            //     window.localStorage.setItem("searchLoan", JSON.stringify(input));
+            //     setShow(false);
+            //     navigate(routes.SearchPage);
+            // //  if (location.pathname === "/search-result") {
+            // //      window.location.reload(false);
+            // //  }
+            // }
         }
 
     };
@@ -162,50 +174,44 @@ const SearchPage = () => {
 
     const handleNextPage = async() => {
 
-        const searchData = JSON.parse(localStorage.getItem("searchLoan"));
-
+        const searchData = JSON.parse(localStorage.getItem("loanSearchId"));
         const input = {
-            LoanAmount: searchData.LoanAmount,
             PageNumber: searchData.PageNumber + 1,
             PageSize: searchData.PageSize,
-            LoanTypeId: searchData.LoanTypeId,
-            DeviceId: searchData.DeviceId,
-            CountryId: searchData.CountryId
+            LoanSearchId: searchData.loanSearchId
         }
 
         const res = await searchResultApi.request(input);
         if (res.status === 200){
+            window.localStorage.setItem("loanSearchId", JSON.stringify(input));
             setLoanSearch(res.data);
-            // window.localStorage.setItem("searchResult", JSON.stringify(res.data));
             // window.location.reload(false);
         }
 
     }
 
     const handlePreviousPage = async() => {
-        const searchData = JSON.parse(localStorage.getItem("searchLoan"));
+        
+        const searchData = JSON.parse(localStorage.getItem("loanSearchId"));
 
         const input = {
-            LoanAmount: searchData.LoanAmount,
             PageNumber: searchData.PageNumber - 1,
             PageSize: searchData.PageSize,
-            LoanTypeId: searchData.LoanTypeId,
-            DeviceId: searchData.DeviceId,
-            CountryId: searchData.CountryId
+            LoanSearchId: searchData.loanSearchId
         }
 
         console.log(input);
 
         const res = await searchResultApi.request(input);
         if (res.status === 200) {
+            window.localStorage.setItem("loanSearchId", JSON.stringify(input));
             setLoanSearch(res.data);
-            //window.localStorage.setItem("searchResult", JSON.stringify(res.data));
-            //window.location.reload(false);
         }
     }
     //Search -> Login/Signup (If not already log in) -> Application Form -> Lenders Result -> Apply -> Goto Lender Website-> End
     //note the ?returnUrl=/lenders/lender-form?loanType=4&loanAmount=2000
     //products.slice(0, 4).map(...);
+    
 
     return (
         <div>

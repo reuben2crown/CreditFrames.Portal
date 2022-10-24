@@ -24,7 +24,6 @@ const DashboardPage = () => {
     const navigate = useNavigate();
 
     const authenticate = () => {
-        //const user = window.localStorage.getItem("userData");
         if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
             navigate(routes.LoginPage);
         }

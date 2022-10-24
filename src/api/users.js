@@ -43,17 +43,16 @@ const register = (data) => {
     return client.post("/api/Auth/Register", input);
 };
 
-const searchLoan = (data) => {
+// const searchLoan = (data) => {
 
-    window.localStorage.setItem("searchLoan", JSON.stringify(data));
+//     window.localStorage.setItem("searchLoan", JSON.stringify(data));
 
-    return client.get("/api/Lenders/Compare", data);
+//     return client.get("/api/Lenders/Compare", data);
     
-}
+// }
 
 const searchResult = (data) => {
-    window.localStorage.setItem("searchLoan", JSON.stringify(data));
-    return client.get("/api/Lenders/Compare", data);
+    return client.get("/api/Lenders/SearchResult", data);
 }
 
 const passRecovery = (data) => {
@@ -89,6 +88,10 @@ const getState = () => {
     return client.get("/api/States");
 }
 
+const getBank = () => {
+    return client.get("/api/Banks");
+}
+
 const userLogout = (data) => {
     return client.post("/api/Auth/Logout", data);
 }
@@ -103,8 +106,8 @@ const getLoanTypes = () => {
 }
 
 const loanApplication = (data) => {
-    //console.log(data);
-    return client.post("/api/Loans", data);
+    console.log(data);
+    return client.post("/api/Lenders/CreateLoanSearch", data);
 }
 
 const updatePassword = (data) => {
@@ -128,7 +131,7 @@ const updateProfile = (data) => {
 const userApis = { 
     login,
     register,
-    searchLoan,
+    //searchLoan,
     passRecovery,
     tokenValidation,
     changePassword,
@@ -138,6 +141,7 @@ const userApis = {
     userLogout,
     getLoanData,
     getState,
+    getBank,
     refreshToken,
     getLoanTypes,
     loanApplication,
