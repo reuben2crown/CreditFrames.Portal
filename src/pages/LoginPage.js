@@ -75,8 +75,9 @@ const LoginPage = () => {
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
             if (returnUrl === null) {
                 navigate(-1);
-            } else {
-                navigate(`/.${returnUrl}`);
+            } 
+            if (returnUrl) {
+                navigate(returnUrl);
             }
             //if (window.localStorage.getItem("prevUrl")) {
                 //navigate(routes.LoanRequestPage);
@@ -107,7 +108,7 @@ const LoginPage = () => {
             if (returnUrl === null) {
                 navigate(-1);
             } else {
-                navigate(`/.${returnUrl}`);
+                navigate(returnUrl);
             }
             navigate(-1);
         }
