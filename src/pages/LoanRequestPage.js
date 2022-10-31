@@ -13,6 +13,7 @@ import jwtDecode from "jwt-decode";
 import { Alert } from "react-bootstrap";
 import { NumericFormat } from "react-number-format";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 
 
@@ -52,8 +53,36 @@ const LoanRequestPage = () => {
         //     setSearch(search);
         // }
     }, []);
-    
 
+    const getLoanTypesApi = useApi(userApis.getLoanTypes);
+    const [loanTypes, setloanTypes] = useState([]);
+
+    useEffect(() => {
+        const getLoanTypes = async () => {
+            const res = await getLoanTypesApi.request();
+            if (res.status === 200) {
+                setloanTypes(res.data);
+            }
+        }
+        getLoanTypes();
+    }, []);
+
+    const getRecentSearchDataApi = useApi(userApis.recentSearchData);
+    const [recentSearchData, setRecentSearchData] = useState([]);
+
+    useEffect(() => {
+        const getRecentSearchData = async () => {
+            const user = JSON.parse(localStorage.getItem("userData"));
+            const decodedData = jwtDecode(user.accessToken);
+            setNewData(JSON.parse(decodedData.UserData));
+            const res = await getRecentSearchDataApi.request({ userId: newData.userId, loanTypeId: parseInt(loanType)});
+            if (res.data.code === 200) {
+                setRecentSearchData(res.data);
+            }
+        }
+        getRecentSearchData();
+    }, []);
+    
     const [activeTab, setActiveTab] = useState("first");
     //const [radioValue, setRadioValue] = useState();
     const [show, setShow] = useState(false);
@@ -113,13 +142,15 @@ const LoanRequestPage = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setShow(true);
         const fp = await FingerprintJS.load();
         const result = await fp.get();
-        const res = await loanApplicationApi.request({ ...loanApplication, monthySalaryOrTurnover: parseInt(loanApplication.monthySalaryOrTurnover), isBusinessRegistered: Boolean(loanApplication.isBusinessRegistered), residenceStateId: parseInt(loanApplication.residenceStateId), residenceCountryId: parseInt(loanApplication.residenceCountryId), userId: newData.userId, loanTypeId: parseInt(loanType), loanAmount: parseInt(loanAmount), deviceId: result.visitorId, requestChannel: "web" });
+        const res = await loanApplicationApi.request({ ...loanApplication, monthySalaryOrTurnover: parseInt(loanApplication.monthySalaryOrTurnover), isBusinessRegistered: Boolean(loanApplication.isBusinessRegistered), residenceStateId: parseInt(loanApplication.residenceStateId), residenceCountryId: parseInt(loanApplication.residenceCountryId), userId: newData.userId, loanTypeId: parseInt(loanApplication.LoanTypeId), loanAmount: parseInt(loanApplication.loanAmount), deviceId: result.visitorId, requestChannel: "web" });
         if (res.status === 200) {
-            window.localStorage.setItem("loanSearchId", JSON.stringify({loanSearchId: res.data.data.id, PageNumber: 1, PageSize: 5}));
-            setMessage(res.data.message);
-            setShow(true);
+            setShow(false);
+            navigate(`/./search-result?LoanSearchId=${res.data.data.id}&PageNumber=1&PageSize=5`)
+            // window.localStorage.setItem("loanSearchId", JSON.stringify({loanSearchId: res.data.data.id, PageNumber: 1, PageSize: 5}));
+            // setMessage(res.data.message);
         }
         if (res.data.code === 400 || res.data.code === 500) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
@@ -139,15 +170,25 @@ const LoanRequestPage = () => {
                         {message}
                         <Form onSubmit={handleSubmit} className={styles.contactForm}>
                             <div className="row">
-                                {/* <div className="col-md-4">
+                                <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Loan Amount  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={currency} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} value={loanAmount} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setLoanApplication({ ...loanApplication, loanAmount: newAmount })
                                         // do something with floatValue
                                     }} className={styles.contactInput} required placeholder={`${currency} 0.00`} />
-                                </div> */}
+                                </div>
+                                <div className="col-md-4 text-start">
+                                    <Form.Label className={styles.contactLabel}>Types of Loan  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
+                                    <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, LoanTypeId: e.target.value })}>
+                                        {/* {loanTypes.filter((list) => list.id === loanType).map(item => <option value={item.id}>{item.name}</option>)} */}
+                                        
+                                        {loanType === 5 ? <option value="5">Business Loan</option> : <option value="4">Personal Loan</option>}
+                                        <option defaultSelected disabled>Select Loan Type</option>
+                                        {loanTypes.map(loans => <option selected={loanType === loans.id} value={loans.id}>{loans.name}</option>)}
+                                    </Form.Select>
+                                </div>
                                 {/* <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Loan Purpose  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, loanPurpose: e.target.value })} placeholder=""></Form.Control>
@@ -190,22 +231,23 @@ const LoanRequestPage = () => {
                                 <div className="col-md-4">
                             
                                     <Form.Label className={styles.contactLabel}>Monthly Salary / Turnover <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
+                                    <NumericFormat thousandSeparator={true} value={recentSearchData?.data?.monthySalaryOrTurnover} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
                                         setLoanApplication({ ...loanApplication, monthySalaryOrTurnover: newAmount })
                                         // do something with floatValue
-                                    }} className={styles.contactInput} required placeholder={`${currency} 500,000,000`} />
+                                    }} className={styles.contactInput} required placeholder={`${currency} 0.00`} />
                                     {/* <Form.Control type="number" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, monthlySalaryOrTurnover: e.target.value })} placeholder="₦2,000,000.00"></Form.Control> */}
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Employer / Business Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, employerOrBusinessName: e.target.value })} placeholder="Enter here"></Form.Control>
+                                    <Form.Control type="text" className={styles.contactInput} defaultValue={recentSearchData?.data?.employerOrBusinessName} required onChange={(e) => setLoanApplication({ ...loanApplication, employerOrBusinessName: e.target.value })} placeholder="Enter here"></Form.Control>
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Business Registered?  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, isBusinessRegistered: e.target.value })}>
-                                        <option selected disabled>Select</option>
+                                        {recentSearchData?.data?.isBusinessRegistered === true ? <option defaultSelected value={true}>Yes</option> : <option defaultSelected value={false}>No</option>}
+                                        <option disabled>Select</option>
                                         <option value={true}>Yes</option>
                                         <option value={false}>No</option>
                                     </Form.Select>
@@ -217,7 +259,8 @@ const LoanRequestPage = () => {
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Bank Account  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, bankCode: e.target.value })}>
-                                        <option selected disabled>Select</option>
+                                        <option defaultSelected value={recentSearchData?.data?.bankCode}>{recentSearchData?.data?.bankName}</option>
+                                        <option disabled>Select</option>
                                         {bank.map(list => <option value={list.code}>{list.name}</option>)}
                                     </Form.Select>
                                 </div>
@@ -259,34 +302,36 @@ const LoanRequestPage = () => {
                                     <Form.Label className={styles.contactLabel}>TAX ID  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, taxID: e.target.value })} placeholder="Type your Tax Id"></Form.Control>
                                 </div> */}
-                                <div className="col-md-8">
+                                {/* <div className="col-md-8">
                                     <Form.Label className={styles.contactLabel}>Residence Address  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceAddress: e.target.value })} placeholder="No 2 herbert macaulay way"></Form.Control>
-                                </div>
-                                <div className="col-md-6">
+                                </div> */}
+                                {/* <div className="col-md-6">
                                     <Form.Label className={styles.contactLabel}>Address Landmark  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, addressLandmark: e.target.value })} placeholder="Landmark"></Form.Control>
-                                </div>
-                                <div className="col-md-6">
+                                </div> */}
+                                <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Residence City  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceCity: e.target.value })} placeholder="Yaba"></Form.Control>
+                                    <Form.Control type="text" defaultValue={recentSearchData?.data?.residenceCity} className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceCity: e.target.value })} placeholder="Enter City"></Form.Control>
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>State of Residence  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceStateId: e.target.value })}>
-                                        <option selected disabled>Select</option>
+                                        <option defaultSelected value={recentSearchData?.data?.residenceState?.residenceStateId}>{recentSearchData?.data?.residenceState?.name}</option>
+                                        <option disabled>Select State</option>
                                         {state.map(item => <option value={item.id}>{item.name}</option>)}
                                     </Form.Select>
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Country  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceCountryId: e.target.value })}>
-                                        <option selected disabled>Select</option>
+                                        <option defaultSelected value={recentSearchData?.data?.residenceCountry?.residenceCountryId}>{recentSearchData?.data?.residenceCountry?.name}</option>
+                                        <option disabled>Select Country</option>
                                         {countries.map(item => <option value={item.id}>{item.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 <div className="col-md-11 m-auto">
-                                    <button type="submit" className={styles.apply}> Continue </button>
+                                    <button type="submit" className={styles.apply}> Proceed </button>
                                 </div>
                             </div>
                         </Form>
@@ -304,12 +349,13 @@ const LoanRequestPage = () => {
             </section>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body className="text-center">
-                    <div className={styles.contactForm}>
+                    <ProgressBar animated now={100} />
+                    {/* <div className={styles.contactForm}>
                         <img src={statusIcon} alt="" />
                         <h3 align="center" className={styles.sectitle}>Application Successful</h3>
                         <p>{message}</p>
                         <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div>
+                    </div> */}
                 </Modal.Body>
             </Modal>
         </div>

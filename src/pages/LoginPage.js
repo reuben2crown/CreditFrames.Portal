@@ -182,9 +182,9 @@ const LoginPage = () => {
                         {errorMessage1}{successMessage}
                         <Form onSubmit={handleRegister} className="text-start">
                             <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" required className={styles.input}  onChange={(e) => setRegister({ ...register, firstName: e.target.value })} placeholder="Sam Seyi"></Form.Control>
+                            <Form.Control type="text" required className={styles.input}  onChange={(e) => setRegister({ ...register, firstName: e.target.value })} placeholder="Enter firstname"></Form.Control>
                             <Form.Label>Last Name</Form.Label>
-                            <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, lastName: e.target.value })} placeholder="Sam Seyi"></Form.Control>
+                            <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, lastName: e.target.value })} placeholder="Enter lastname"></Form.Control>
                             <Form.Label className="mt-1">Phone Number</Form.Label>
                             <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, phone: e.target.value })} placeholder="0000 000 0000"></Form.Control>
                             <Form.Label className="mt-1">Email</Form.Label>

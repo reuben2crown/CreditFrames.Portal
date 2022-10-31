@@ -100,6 +100,7 @@ const NavMenu = () => {
                     value: items,
                     label: <><img src={items.flagUrl} height="30px" alt="" /> {items.code}</>
                 };
+                setCurrency(items.currencyCode);
                 setSelectedOption(preselectOptions);
             }
             if (localStorage.getItem("countrySelected") === null || localStorage.getItem("countrySelected") === undefined) {
@@ -109,6 +110,7 @@ const NavMenu = () => {
                     value: items,
                     label: <><img src={items.flagUrl} height="30px" alt="" /> {items.code}</>
                 };
+                setCurrency(items.currencyCode);
                 setSelectedOption(preselectOptions);
             }
             setCountries(res.data);
@@ -259,7 +261,7 @@ const NavMenu = () => {
                         <Nav className="me-auto text-center">{spacing}
                             {window.location.pathname === "/products" ? <Nav.Link href="./products" style={{color: "#0000FB"}} className="mx-4 active">Products</Nav.Link> : <Nav.Link href="./products" className="mx-4">Products</Nav.Link>}
                             {window.location.pathname === "/company" ? <Nav.Link href="./company" style={{color: "#0000FB"}} className="mx-4 active">Company</Nav.Link> : <Nav.Link href="./company" className="mx-4">Company</Nav.Link>}
-                            {window.location.pathname === "/finhack" ? <Nav.Link href="./finhack" style={{color: "#0000FB"}} className="mx-4 active">Finhack</Nav.Link> : <Nav.Link href="./finhack" className="mx-4">Finhack</Nav.Link>}
+                            {/* {window.location.pathname === "/finhack" ? <Nav.Link href="./finhack" style={{color: "#0000FB"}} className="mx-4 active">Finhack</Nav.Link> : <Nav.Link href="./finhack" className="mx-4">Finhack</Nav.Link>} */}
                             {window.location.pathname === "/contact-us" ? <Nav.Link href="./contact-us" style={{color: "#0000FB"}} className="mx-4 active">Contact Us</Nav.Link> : <Nav.Link href="./contact-us" className="mx-4">Contact Us</Nav.Link>}
                         </Nav>
                         <Nav className="text-center">

@@ -74,6 +74,13 @@ const SettingsPage = () => {
                                     <th>Account Settings</th>
                                 </div>
                                 <div className={styles.cardInside1}>
+                                    <div className="row" onClick={() => setShow(true)}>
+                                        <div className="col-md-1"><img src={security} width="100%" alt="" /></div>
+                                        <div className="col-md-10"><h4>Security</h4><span>Settings to keep your account safe</span></div>
+                                        <div className="col-md-1"><img src={smallArrowRight} className={styles.arrowIcon} alt="" /></div>
+                                    </div>
+                                </div>
+                                {/* <div className={styles.cardInside1}>
                                     <div className="row">
                                         <div className="col-md-1"><img src={profile} alt="" /></div>
                                         <div className="col-md-10"><h4>Profile</h4><span>Add or edit your personal details</span></div>
@@ -91,7 +98,7 @@ const SettingsPage = () => {
                                         <div className="col-md-10"><h4>Choose Country/Region</h4><span>Select your preferred country/region</span></div>
                                         <div className="col-md-1"><img src={smallArrowRight} className={styles.arrowIcon} alt="" /></div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -99,7 +106,7 @@ const SettingsPage = () => {
             </section>
             <Modal show={show} centered>
                 <Modal.Body className="mb-3">
-                    <Form onSubmit={() => handleSubmit()}>
+                    <Form onSubmit={handleSubmit}>
                         { activePage === "first" && <div>
                             <div className={styles.cardModal}>
                                 <th>Security Check</th>

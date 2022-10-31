@@ -155,7 +155,7 @@ const LandingPage = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-7 text-center m-auto">
-                            <h2 className={styles.title}>Africa's No 1. Personalised Loan Marketplace.</h2> 
+                            <h2 className={styles.title}>Africa's No 1. Personalised Loan Marketplace</h2> 
                             <h4 className={styles.subtitle}>Search, Compare, and Apply</h4>
                             <div className={styles.card}>
                                 <Form onSubmit={handleSubmit}>
@@ -362,9 +362,10 @@ const LandingPage = () => {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered show={show}
-                onHide={() => setShow(false)}>
+                onHide={() => setShow(false)}
+                className="m-0 p-0" >                
                 <Modal.Body>
-                    <div className={styles.card1}>
+                    <div className={styles.card2}>
                         <Form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-md-6 text-start">
@@ -373,7 +374,7 @@ const LandingPage = () => {
                                     <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
-                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
+                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount, PageNumber: 1, PageSize: 1 })
                                         // do something with floatValue
                                     }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                 </div>
@@ -399,45 +400,45 @@ const LandingPage = () => {
                     <Carousel cols={1} rows={1} gap={10} loop={true} autoplay={3000}>
                         <Carousel.Item>
                             <div className="row content pt-5">
-                                <div className="col-md-6 text-center">
+                                <div className="col-md-5 text-center">
                                     <img src={test1} height="400px" alt="" />
                                 </div>
-                                <div className="col-md-5 m-auto text-start" style={{ padding: "0px 50px 0px 50px" }}>
+                                <div className="col-md-6 m-auto text-start" style={{ padding: "0px 50px 0px 50px" }}>
                                     <p className={styles.subTitle}>TESTIMONIALS</p>
                                     <h3 className={styles.secTitle}>Ibrahim Joel</h3>
                                     <p>With CreditFrames, I was able to locate the right and suitable loan for my business, this has helped my business to move from a starter to a professional stage within few month.</p>
                                     <p>I will keep using and refering the brand. <br />Thank you CreditFrames </p>
-                                    <button className={styles.apply2}>See more</button>
+                                    {/* <button className={styles.apply2}>See more</button> */}
                                 </div>
                                 <div className="col-md-1"></div>
                             </div>
                         </Carousel.Item>
                         <Carousel.Item>
                             <div className="row content pt-5">
-                                <div className="col-md-6 text-center">
+                                <div className="col-md-5 text-center">
                                     <img src={test2} height="400px" alt="" />
                                 </div>
-                                <div className="col-md-5 m-auto text-start" style={{ padding: "0px 50px 0px 50px" }}>
+                                <div className="col-md-6 m-auto text-start" style={{ padding: "0px 50px 0px 50px" }}>
                                     <p className={styles.subTitle}>TESTIMONIALS</p>
                                     <h3 className={styles.secTitle}>Christian White</h3>
                                     <p>With CreditFrames, I was able to locate the right and suitable loan for my business, this has helped my business to move from a starter to a professional stage within few month.</p>
                                     <p>I will keep using and refering the brand. <br />Thank you CreditFrames </p>
-                                    <button className={styles.apply2}>See more</button>
+                                    {/* <button className={styles.apply2}>See more</button> */}
                                 </div>
                                 <div className="col-md-1"></div>
                             </div>
                         </Carousel.Item>
                         <Carousel.Item>
                             <div className="row content pt-5">
-                                <div className="col-md-6 text-center">
+                                <div className="col-md-5 text-center">
                                     <img src={test3} height="400px" alt="" />
                                 </div>
-                                <div className="col-md-5 m-auto text-start" style={{ padding: "0px 50px 0px 50px" }}>
+                                <div className="col-md-6 m-auto text-start" style={{ padding: "0px 50px 0px 50px" }}>
                                     <p className={styles.subTitle}>TESTIMONIALS</p>
                                     <h3 className={styles.secTitle}>Mark John</h3>
                                     <p>With CreditFrames, I was able to locate the right and suitable loan for my business, this has helped my business to move from a starter to a professional stage within few month.</p>
                                     <p>I will keep using and refering the brand. <br />Thank you CreditFrames </p>
-                                    <button className={styles.apply2}>See more</button>
+                                    {/* <button className={styles.apply2}>See more</button> */}
                                 </div>
                                 <div className="col-md-1"></div>
                             </div>
@@ -445,7 +446,7 @@ const LandingPage = () => {
                     </Carousel>
                 </div>
             </section>
-            <section className={styles.section9}>
+            {/* <section className={styles.section9}>
                 <div className="container">
                     <div className="row col-md-5">
                         <hr className={styles.titleLine1}/>
@@ -483,17 +484,16 @@ const LandingPage = () => {
                                 <h4 className={styles.postTitle}>My Money Mistake: My Friends Lost ₦3 Million Because Of Me</h4>
                                 <span className={styles.postContent}>Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.......... </span>
                                 <span className={styles.postTags}><FaRegComments /> 23 &nbsp;&nbsp;&nbsp;&nbsp;<FaRegEye /> 350</span>
-                            </div>
-                            
+                            </div>                            
                             <div className={styles.content2}>
                                 
                             </div>
                         </div>
                     </div>
-                    <div className="text-center"><button className={styles.apply2}>Read more</button></div>
+                    <div className="text-center"><button onClick={navigate(routes.FinhackPage)} className={styles.apply2}>Read more</button></div>
                 </div>
-            </section>
-            <section>
+            </section> */}
+            {/* <section>
                 <div className="container mt-5 mb-5">
                     <div className="row">
                         <div className="col-md-10 text-center pt-5 m-auto">
@@ -506,7 +506,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </div>
-            </section> 
+            </section>  */}
             <Footer />
         </div>
     )

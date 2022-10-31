@@ -2,6 +2,7 @@ import React from "react";
 import logoWhite from "../images/logoWhite.png";
 import styles from "../styles/Footer.module.css";
 import { FaInstagram, FaFacebook, FaTwitter, FaLinkedinIn } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 
 const Footer = () => {
@@ -18,28 +19,26 @@ const Footer = () => {
                         <div className="col-md-1"></div>
                         <div className="col-md-2 pt-5"> 
                             <h4>Quick Link </h4>
-                            <p>Home</p>
-                            <p>Services</p>
-                            <p>How it works</p>
+                            <p><Link className={styles.links} to="/">Home</Link></p>
+                            <p><Link className={styles.links} to="/products">Product & Services</Link></p>
                         </div>
                         <div className="col-md-2 pt-5"> 
                             <h4>Company </h4>
-                            <p>About</p>
-                            <p>Contact</p>
-                            <p>Blog</p>
+                            <p><Link className={styles.links} to="/company">About</Link></p>
+                            <p><Link className={styles.links} to="/contact-us">Contact Us</Link></p>
                         </div>
                         <div className="col-md-2 pt-5"> 
                             <h4>Social </h4>
-                            <p><FaInstagram style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Instagram</p>
-                            <p><FaFacebook style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Facebook</p>
-                            <p><FaTwitter style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Twitter</p>
-                            <p><FaLinkedinIn style={{ color: "#fff", fontSize: "24px" }} /> &nbsp; Linkedin</p>
+                            <p><Link className={styles.links} to="https://www.instagram.com/creditframes_africa/"><FaInstagram style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Instagram</Link></p>
+                            <p><Link className={styles.links} to="https://web.facebook.com/CreditFramesAfrica"><FaFacebook style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Facebook</Link></p>
+                            <p><Link className={styles.links} to="https://twitter.com/creditframes/"><FaTwitter style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Twitter</Link></p>
+                            {/* <p><Link className={styles.links} to="#"><FaLinkedinIn style={{ color: "#fff", fontSize: "24px" }} /> &nbsp; Linkedin</Link></p> */}
                         </div>
                         <div className="col-md-2 pt-5"> 
                             <h4>Legal</h4>
-                            <p>Privacy Policy</p>
-                            <p>Terms & Condition</p>
-                            <p>FAQ</p>
+                            <p><Link className={styles.links} to="#">Privacy Policy</Link></p>
+                            <p><Link className={styles.links} to="#">Terms & Condition</Link></p>
+                            <p><Link className={styles.links} to="#">FAQ</Link></p>
                         </div>
                     </div>
                     <div style={{ color: "#BABABA" }}><hr></hr></div>

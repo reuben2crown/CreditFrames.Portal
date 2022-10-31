@@ -57,8 +57,9 @@ const ProductsPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            return navigate(`./loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
-            
+            return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
+            //returnUrl=/lenders/lender-form?loanType=4&loanAmount=2000
+            //console.log(searchLoan);
             // We recommend to call `load` at application startup.
             // const fp = await FingerprintJS.load();
 
@@ -70,29 +71,28 @@ const ProductsPage = () => {
             //console.log(result.visitorId);
 
             // const user = JSON.parse(localStorage.getItem("userData"));
-            //  const decodedData = jwtDecode(user.accessToken);
-            //  const newData = JSON.parse(decodedData.UserData);
-            //  setUserValid(newData.userId);
+            // const decodedData = jwtDecode(user.accessToken);
+            // const newData = JSON.parse(decodedData.UserData);
+            // setUserValid(newData.userId);
 
             // const country = JSON.parse(localStorage.getItem("countrySelected"));
 
             // const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
-            //  if (res.status === 200) {
-            //      const input = {
-            //          LoanAmount: searchLoan.LoanAmount,
-            //          PageNumber: searchLoan.PageNumber,
-            //          PageSize: searchLoan.PageSize,
-            //          LoanTypeId: searchLoan.LoanTypeId,
-            //          DeviceId: result.visitorId,
-            //          CountryId: country.id
-            //      }
-            //      window.localStorage.setItem("searchLoan", JSON.stringify(input));
-            //      setShow(false);
-            //      navigate(routes.SearchPage);
-            //  }
+            // if (res.status === 200) {
+            //     const input = {
+            //         LoanAmount: searchLoan.LoanAmount,
+            //         PageNumber: searchLoan.PageNumber,
+            //         PageSize: searchLoan.PageSize,
+            //         LoanTypeId: searchLoan.LoanTypeId,
+            //         DeviceId: result.visitorId,
+            //         CountryId: country.id
+            //     }
+            //     window.localStorage.setItem("searchLoan", JSON.stringify(input));
+            //     navigate(routes.SearchPage);
+            // }
         }
         if (localStorage.getItem("userData") === null) {
-            return navigate(`./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
+            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
 
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
@@ -105,24 +105,23 @@ const ProductsPage = () => {
             // This is the visitor identifier:
             //console.log(result.visitorId);
 
-            // const country = JSON.parse(localStorage.getItem("countrySelected"));
-            // console.log(userValid, country);
-            // const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
-            // if (res.status === 200) {
-            //     const input = {
-            //         LoanAmount: searchLoan.LoanAmount,
-            //         PageNumber: searchLoan.PageNumber,
-            //         PageSize: searchLoan.PageSize,
-            //         LoanTypeId: searchLoan.LoanTypeId,
-            //         DeviceId: result.visitorId,
-            //         CountryId: country.id
-            //     }
-            //     window.localStorage.setItem("searchLoan", JSON.stringify(input));
-            //     setShow(false);
-            //     navigate(routes.SearchPage);
-            // }
+            //  const country = JSON.parse(localStorage.getItem("countrySelected"));
+            //  console.log(userValid, country);
+            //  const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
+            //  if (res.status === 200) {
+            //      const input = {
+            //          LoanAmount: searchLoan.LoanAmount,
+            //          PageNumber: searchLoan.PageNumber,
+            //          PageSize: searchLoan.PageSize,
+            //          LoanTypeId: searchLoan.LoanTypeId,
+            //          DeviceId: result.visitorId,
+            //          CountryId: country.id
+            //      }
+            //      window.localStorage.setItem("searchLoan", JSON.stringify(input));
+            //      navigate(routes.SearchPage);
+            //  }
         }
-    };
+    }
 
     return (
         <div>
@@ -131,7 +130,8 @@ const ProductsPage = () => {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered show={show}
-                onHide={() => setShow(false)}>
+                onHide={() => setShow(false)}
+                className="m-0 p-0" >
                 <Modal.Body>
                     <div className={styles.card}>
                         <Form onSubmit={handleSubmit}>
@@ -142,7 +142,7 @@ const ProductsPage = () => {
                                     <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                         const { formattedValue, value, floatValue } = values;
                                         const newAmount = value;
-                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount })
+                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount, PageNumber: 1, PageSize: 1 })
                                         // do something with floatValue
                                     }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                 </div>
