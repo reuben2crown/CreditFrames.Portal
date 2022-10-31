@@ -15,6 +15,8 @@ import routes from "../../routes";
 import useApi from "../../hooks/useApi";
 import userApis from "../../api/users";
 import jwtDecode from "jwt-decode";
+import { Form, Modal } from "react-bootstrap";
+import { NumericFormat } from "react-number-format";
 
 
 const DashboardPage = () => {
@@ -22,6 +24,11 @@ const DashboardPage = () => {
     document.title = "Account Dashboard - Creditframes";
 
     const navigate = useNavigate();
+    const [newData, setNewData] = useState([]);
+
+    const [show, setShow] = useState(false);
+
+    const [currency, setCurrency] = useState("NGN");
 
     const authenticate = () => {
         if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
@@ -42,7 +49,7 @@ const DashboardPage = () => {
     const getDashboardData = async () => {
         const user = JSON.parse(localStorage.getItem("userData"));
         const decodedData = jwtDecode(user.accessToken);
-        const newData = JSON.parse(decodedData.UserData);
+        setNewData(JSON.parse(decodedData.UserData));
         //console.log(newData.userId);
         const res = await getDashboardDataApi.request({userId: newData.userId});
         //console.log(res.data);
@@ -51,9 +58,103 @@ const DashboardPage = () => {
         }
     }
 
+    const [countries, setCountries] = useState([]);
+    const getCountriesApi = useApi(userApis.getCountries);
+    const [selectedOption, setSelectedOption] = useState();
+
+    useEffect(() => {
+        getCountries();
+    }, []);
+
+    const getCountries = async () => {
+        const res = await getCountriesApi.request();
+        if (res.status === 200) {
+            //console.log(res.data[167]);
+            if (localStorage.getItem("countrySelected") !== null) {
+                const items = JSON.parse(localStorage.getItem("countrySelected"));
+                const preselectOptions = {
+                    value: items,
+                    label: <><img src={items.flagUrl} height="30px" alt="" /> {items.code}</>
+                };
+                setCurrency(items.currencyCode);
+                setSelectedOption(preselectOptions);
+            }
+            if (localStorage.getItem("countrySelected") === null || localStorage.getItem("countrySelected") === undefined) {
+                window.localStorage.setItem("countrySelected", JSON.stringify(res.data[0]));
+                const items = JSON.parse(localStorage.getItem("countrySelected"));
+                const preselectOptions = {
+                    value: items,
+                    label: <><img src={items.flagUrl} height="30px" alt="" /> {items.code}</>
+                };
+                setCurrency(items.currencyCode);
+                setSelectedOption(preselectOptions);
+            }
+            setCountries(res.data);
+        }
+    }
+    const getLoanTypesApi = useApi(userApis.getLoanTypes);
+    const [loanTypes, setloanTypes] = useState([]);
+
+    useEffect(() => {
+        const getLoanTypes = async () => {
+            const res = await getLoanTypesApi.request();
+            if (res.status === 200) {
+                setloanTypes(res.data);
+            }
+        }
+        getLoanTypes();
+    }, []);
+    const [searchLoan, setSearchLoan] = useState();
+    const searchLoanApi = useApi(userApis.searchLoan);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
+            return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
+
+        }
+        if (localStorage.getItem("userData") === null) {
+            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
+        }
+
+    };
+
+
     return (
         <div>
             <NavMenu />
+            <Modal
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered show={show}
+                onHide={() => setShow(false)}>
+                <Modal.Body>
+                    <div className={styles.card}>
+                        <Form onSubmit={handleSubmit}>
+                            <div className="row">
+                                <div className="col-md-6 text-start">
+                                    <label>How much would you like to borrow?</label>
+                                    {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
+                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
+                                        const { formattedValue, value, floatValue } = values;
+                                        const newAmount = value;
+                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount, PageNumber: 1, PageSize: 1 })
+                                        // do something with floatValue
+                                    }} className={styles.select} required placeholder={`${currency} 0.00`} />
+                                </div>
+                                <div className="col-md-6 text-start">
+                                    <label>Types of Loan</label>
+                                    <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
+                                        <option selected disabled>Select Loan Type</option>
+                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
+                                    </Form.Select>
+                                </div>
+                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
+                            </div>
+                        </Form>
+                    </div>
+                </Modal.Body>
+            </Modal>
             <section className={styles.dashboardbg}> 
                 <div className="row m-0">
                     <div className="col-md-3">
@@ -67,7 +168,7 @@ const DashboardPage = () => {
                                     <div className={styles.pageCard1}>
                                         <div className={styles.cardContent1}>
                                             <h4>Welcome back</h4>
-                                            <h1>Seyi Martins</h1>
+                                            <h1>{`${newData.firstName} ${newData.lastName}`}</h1>
                                             <span>We've grouped all the important things in one place, to help personalised your experience</span>
                                         </div>
                                         <img src={Character} className={styles.illustration1} alt="" />
@@ -76,7 +177,7 @@ const DashboardPage = () => {
                                 <div className="col-md-5">
                                     <div className={styles.pageCard2}>
                                         <h3>Get the best loan offers that suits your needs</h3>
-                                        <button onClick={() => navigate(routes.LoanRequestPage)}>Apply Here</button>
+                                        <button onClick={() => setShow(true)}>Apply Here</button>
                                     </div>
                                 </div>
                             </div> 

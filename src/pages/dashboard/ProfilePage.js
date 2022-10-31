@@ -74,7 +74,7 @@ const ProfilePage = () => {
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
-    console.log(profile.firstName, profile.lastName);
+        console.log(profile.firstName, profile.lastName);
         if (profile.firstName === undefined && profile.lastName === undefined ) {
             console.log("Invalid FirstName and LastName");
         }

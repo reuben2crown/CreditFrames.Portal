@@ -103,39 +103,15 @@ const ContactPage = () => {
                         <h5 align="center" className={styles.secSubTitle}>Please contact us if you cannot find an answer to your question.</h5>
                         <Accordion defaultActiveKey="0" flush className="mt-5 mb-5">
                             <Accordion.Item eventKey="0">
-                                <Accordion.Header className={styles.accordionHeader}><b>Is CreditFrames a lending institution?</b></Accordion.Header>
+                                <Accordion.Header className={styles.accordionHeader}><b>Is CreditFrames a lending institution? </b></Accordion.Header>
                                 <Accordion.Body className={styles.accordionBody}>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
+                                    No, we connect borrowers to lenders to provide options on a single platform for ease of comparison and making a healthier financial decision.
                                 </Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="1">
-                                <Accordion.Header className={styles.accordionHeader}><b>When is CreditFrames live?</b></Accordion.Header>
+                                <Accordion.Header className={styles.accordionHeader}><b>Does CreditFrames show the best low interest rate loans from different lenders?</b></Accordion.Header>
                                 <Accordion.Body className={styles.accordionBody}>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="2">
-                                <Accordion.Header className={styles.accordionHeader}><b>Does CreditFrames shows the best low interest rate loans from diffrent users?</b></Accordion.Header>
-                                <Accordion.Body className={styles.accordionBody}>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
+                                    Yes, CreditFrames will provide personalized loan rates for customers through our purpose driven API across lending institutions.
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>

@@ -22,14 +22,18 @@ const SearchPage = () => {
     
     const [show, setShow] = useState();
     const [userValid, setUserValid] = useState();
+
+    const [searchParams, setSearchParams] = useSearchParams();
     
     const [searchEmpty, setSearchEmpty] = useState();
+    const LoanSearchId = searchParams.get("LoanSearchId");
+    const PageNumber = searchParams.get("PageNumber");
+    const PageSize = searchParams.get("PageSize");
     //console.log('pathname', location.pathname);
     //console.log(!location.search ? "No Data" : "Yes Data");
 
     // console.log(location.pathname + location.search);
 
-    const [searchParams, setSearchParams] = useSearchParams();
 
     const authenticate = () => {
         if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
@@ -55,27 +59,22 @@ const SearchPage = () => {
             setCurrency(currency.currencyCode);
         }
 
-        if (localStorage.getItem("loanSearchId")) {
-            const searchData = JSON.parse(localStorage.getItem("loanSearchId"));
-
+        if (LoanSearchId !== null && LoanSearchId !== undefined) {
             const input = {
-                PageNumber: searchData.PageNumber,
-                PageSize: searchData.PageSize,
-                LoanSearchId: searchData.loanSearchId
+                PageNumber: PageNumber,
+                PageSize: PageSize,
+                LoanSearchId: LoanSearchId
             }
+            console.log(input);
             const getLoanSearch = async () => {
                 const res = await searchResultApi.request(input);
                 if (res.status === 200) {
                     setLoanSearch(res.data);
+                    // navigate(`/./search-result?LoanSearchId=${loanSearchId}&PageNumber=${loanSearch.PageNumber}}&PageSize=${loanSearch.PageSize}`);
                 }
             }
             getLoanSearch();
         }
-
-        // if (localStorage.getItem("searchResult") !== null && localStorage.getItem("searchResult") !== undefined) {
-        //     const loanSearch = JSON.parse(localStorage.getItem("searchResult"));
-        //     setLoanSearch(loanSearch);
-        // }
     }, []);
 
     const getLoanTypesApi = useApi(userApis.getLoanTypes);
@@ -173,39 +172,36 @@ const SearchPage = () => {
 
 
     const handleNextPage = async() => {
-
-        const searchData = JSON.parse(localStorage.getItem("loanSearchId"));
         const input = {
-            PageNumber: searchData.PageNumber + 1,
-            PageSize: searchData.PageSize,
-            LoanSearchId: searchData.loanSearchId
+            PageNumber: PageNumber + 1,
+            PageSize: PageSize,
+            LoanSearchId: LoanSearchId
         }
 
         const res = await searchResultApi.request(input);
         if (res.status === 200){
-            window.localStorage.setItem("loanSearchId", JSON.stringify(input));
+            //window.localStorage.setItem("loanSearchId", JSON.stringify(input));
             setLoanSearch(res.data);
+            navigate(`/./search-result?LoanSearchId=${LoanSearchId}&PageNumber=${loanSearch.PageNumber}}&PageSize=${loanSearch.PageSize}`)
             // window.location.reload(false);
         }
 
     }
 
     const handlePreviousPage = async() => {
-        
-        const searchData = JSON.parse(localStorage.getItem("loanSearchId"));
-
         const input = {
-            PageNumber: searchData.PageNumber - 1,
-            PageSize: searchData.PageSize,
-            LoanSearchId: searchData.loanSearchId
+            PageNumber: PageNumber - 1,
+            PageSize: PageSize,
+            LoanSearchId: LoanSearchId
         }
 
         console.log(input);
 
         const res = await searchResultApi.request(input);
         if (res.status === 200) {
-            window.localStorage.setItem("loanSearchId", JSON.stringify(input));
+            //window.localStorage.setItem("loanSearchId", JSON.stringify(input));
             setLoanSearch(res.data);
+            navigate(`/./search-result?LoanSearchId=${LoanSearchId}&PageNumber=${loanSearch.PageNumber}}&PageSize=${loanSearch.PageSize}`)
         }
     }
     //Search -> Login/Signup (If not already log in) -> Application Form -> Lenders Result -> Apply -> Goto Lender Website-> End
@@ -230,34 +226,49 @@ const SearchPage = () => {
                                 <div className="col-md-4 text-start pb-3">
                                     <img src={list.lender.logo} width="200px" alt="" className={styles.searchImage} />
                                 </div>
-                                <div className="col-md-2 text-start pb-3">
+                                <div className="col-md-3 text-start pb-3">
                                     <label className={styles.searchLabel}>Lenders Name</label>
                                     <span className={styles.searchSpan}>{list.lender.lenderName}</span>
                                 </div>
-                                <div className="col-md-2 text-start pb-3">
+                                <div className="col-md-3 text-start pb-3">
                                     <label className={styles.searchLabel}>Loan Type</label>
                                     <span className={styles.searchSpan}>{list.loanTypeName}</span>
                                 </div>
                                 <div className="col-md-2 text-start pb-3">
                                     <label className={styles.searchLabel}>Interest Rate</label>
-                                    <span className={styles.searchSpan}>{list.minimumInterestRate}% <br />{list.maximumInterestRate}%</span>
+                                    <span className={styles.searchSpan}>{list.minimumInterestRate}% - {list.maximumInterestRate}%</span>
                                 </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Approval Time</label>
-                                    <span className={styles.searchSpan}>{Math.floor(list.minTurnAroundTimeInMinute / 60)} Minutes <br />{Math.floor(list.maxTurnAroundTimeInMinute / 60)} Minutes</span>
-                                </div>
+                            </div>
+                            <div className="row">
                                 <div className="col-md-4 text-start pb-3">
                                     {list.lender.apiActivated === true ? <Link to={`/loan-request?loanId=${key}`}><button className={styles.apply}>Apply</button></Link> : <a href={list.lender.website} target="Blank"><button className={styles.apply}>Apply</button></a>}
                                 </div>
-                                <div className="col-md-2 text-start pb-3">
+                                <div className="col-md-3 text-start pb-3">
+                                    <label className={styles.searchLabel}>Approval Time</label>
+                                    <span className={styles.searchSpan}>{Math.floor(list.minTurnAroundTimeInMinute / 60)} Min - {Math.floor(list.maxTurnAroundTimeInMinute / 60)} Min</span>
+                                </div>
+                                <div className="col-md-3 text-start pb-3">
                                     <label className={styles.searchLabel}>Loan Range</label>
                                     <span className={styles.searchSpan}>{currency} {list.minimumLoanAmount.toLocaleString()} <br/>{currency} {list.maximumLoanAmount.toLocaleString()}</span>
                                 </div>
-                                <div className="col-md-6 text-start pb-3">
+                                <div className="col-md-2 text-start pb-3">
                                     <label className={styles.searchLabel}>Rating</label>
-                                    <span className={styles.searchSpan}>{list.lender.averageRating} Stars &nbsp;
+                                    <span className={styles.searchSpan}>{list.lender.averageRating} Stars &nbsp;<br />
                                     {[...Array(list.lender.averageRating)].map((num, key) => <FaStar className={styles.star} key={key} />)}</span>
                                 </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-4 text-start pb-3">
+                                </div>
+                                <div className="col-md-3 text-start pb-3">
+                                    <label className={styles.searchLabel}>Requirements</label>
+                                    <span className={styles.searchSpan}>{list.requirements}</span>
+                                </div>
+                                <div className="col-md-3 text-start pb-3">
+                                    <label className={styles.searchLabel}>Eligibility Criteria</label>
+                                    <span className={styles.searchSpan}>{list.eligiblityCriteria} </span>
+                                </div>
+                                -	
                             </div>
                         </div>
                         )}

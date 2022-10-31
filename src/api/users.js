@@ -110,6 +110,13 @@ const loanApplication = (data) => {
     return client.post("/api/Lenders/CreateLoanSearch", data);
 }
 
+const recentSearchData = (data) => {
+    console.log(data);
+    const input = {"loanTypeId": data.loanTypeId};
+    console.log(input);
+    return client.get(`/api/Lenders/GetRecentSearch/${data.userId}`, input);
+}
+
 const updatePassword = (data) => {
     const input = {
         "emailAddress": data.emailAddress,
@@ -148,5 +155,6 @@ const userApis = {
     updatePassword,
     updateProfile,
     searchResult,
+    recentSearchData,
 };
 export default userApis;

@@ -41,7 +41,8 @@
     border: none;
     font-size: 18px;
     font-weight: 600;
-    padding: 20px 60px;
+    width: 100%;
+    padding: 15px 0px;
     border-radius: 50px;
     margin-top: 250px;
 }
@@ -53,7 +54,8 @@
     border: 1px #FFF solid;
     font-size: 18px;
     font-weight: 600;
-    padding: 20px 60px;
+    width: 100%;
+    padding: 15spx 0px;
     border-radius: 50px;
     margin-top: 250px;
 }
