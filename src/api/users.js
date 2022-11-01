@@ -111,10 +111,12 @@ const loanApplication = (data) => {
 }
 
 const recentSearchData = (data) => {
-    console.log(data);
-    const input = {"loanTypeId": data.loanTypeId};
-    console.log(input);
-    return client.get(`/api/Lenders/GetRecentSearch/${data.userId}`, input);
+    const input = {"loanTypeId": data};
+    const user = JSON.parse(localStorage.getItem("userData"));
+    const decodedData = jwtDecode(user.accessToken);
+    const newData = (JSON.parse(decodedData.UserData));
+    //console.log(input, data.userId);
+    return client.get(`/api/Lenders/GetRecentSearch/${newData.userId}`, input);
 }
 
 const updatePassword = (data) => {

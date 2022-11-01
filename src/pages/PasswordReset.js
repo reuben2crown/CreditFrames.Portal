@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import logoWhite from "../images/logoWhite.png";
 import statusIcon from "../images/check.png";
@@ -18,6 +18,9 @@ const PasswordReset = () => {
     document.title = "Password Reset Page - Creditframes";
 
     const navigate = useNavigate();
+
+    const location = useLocation();
+   //console.log('pathname', location.search);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
