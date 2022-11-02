@@ -385,8 +385,9 @@ const LandingPage = () => {
                                 <div className="col-md-6 text-start">
                                     <label>Types of Loan</label>
                                     <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
-                                        {selectedLoanType === 4 ? <option selected value={4}>Personal Loan</option> : selectedLoanType === 5 ? <option selected value={5}>Business Loan</option> : <option selected disabled>Select Loan Type</option>}
-                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
+                                        {/* {selectedLoanType === 4 ? <option selected value={4}>Personal Loan</option> : selectedLoanType === 5 ? <option selected value={5}>Business Loan</option> : <option selected disabled>Select Loan Type</option>} */}
+                                        <option disabled>Select Loan Type</option>
+                                        {loanTypes.map(loans => <option selected={selectedLoanType === loans.id} value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
