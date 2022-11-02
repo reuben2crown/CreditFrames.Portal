@@ -260,7 +260,7 @@ const LoanRequestPage = () => {
                                     <Form.Label className={styles.contactLabel}>Employer / Business Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} defaultValue={recentSearchData?.data?.employerOrBusinessName} required onChange={(e) => setLoanApplication({ ...loanApplication, employerOrBusinessName: e.target.value })} placeholder="Enter here"></Form.Control>
                                 </div>
-                                <div className="col-md-4">
+                                {loanType === "5" ? <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Business Registered?  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, isBusinessRegistered: e.target.value })}>
                                         {recentSearchData?.data?.isBusinessRegistered === true ? <option defaultSelected value={true}>Yes</option> : <option defaultSelected value={false}>No</option>}
@@ -268,7 +268,7 @@ const LoanRequestPage = () => {
                                         <option value={true}>Yes</option>
                                         <option value={false}>No</option>
                                     </Form.Select>
-                                </div>
+                                </div> : ""}
                                 {/* <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Business Registration Number  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, businessRegNumber: e.target.value })} placeholder="Enter here"></Form.Control>

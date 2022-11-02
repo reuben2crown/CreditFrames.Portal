@@ -38,33 +38,33 @@ const NavMenu = () => {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-    const refreshTokenApi = useApi(userApis.refreshToken);
+    //const refreshTokenApi = useApi(userApis.refreshToken);
 
-    useEffect(() => {
-        const refreshUserToken = async () => {
-            if (JSON.parse(localStorage.getItem("userData"))) {
-                const user = JSON.parse(localStorage.getItem("userData"));
-                const decodedData = jwtDecode(user.accessToken);
-                //console.log(decodedData.exp * 1000 > Date.now());
-                if (decodedData.exp * 1000 < Date.now()) {
-                    const newData = JSON.parse(decodedData.UserData);
-                    const fp = await FingerprintJS.load();
-                    const result = await fp.get();
-                    const res = await refreshTokenApi.request({ refreshToken: user.refreshToken, userId: newData.userId, deviceId: result.visitorId });
-                    if (res.status === 200) {
-                        window.localStorage.setItem("userData", JSON.stringify(res.data));
-                    }
-                    if (res.status === 400 || res.status === 401 || res.status === 500) {
-                        navigate(routes.LoginPage);
-                    }
-                }
-            }
-            //return client.post("/api/Auth/RefreshToken", input);
-            // window.localStorage.removeItem("userData");
-            // window.location.reload(false);
-        }
-        refreshUserToken();
-    }, []);
+    // useEffect(() => {
+    //     const refreshUserToken = async () => {
+    //         if (JSON.parse(localStorage.getItem("userData"))) {
+    //             const user = JSON.parse(localStorage.getItem("userData"));
+    //             const decodedData = jwtDecode(user.accessToken);
+    //             //console.log(decodedData.exp * 1000 > Date.now());
+    //             if (decodedData.exp * 1000 < Date.now()) {
+    //                 const newData = JSON.parse(decodedData.UserData);
+    //                 const fp = await FingerprintJS.load();
+    //                 const result = await fp.get();
+    //                 const res = await refreshTokenApi.request({ refreshToken: user.refreshToken, userId: newData.userId, deviceId: result.visitorId });
+    //                 if (res.status === 200) {
+    //                     window.localStorage.setItem("userData", JSON.stringify(res.data));
+    //                 }
+    //                 if (res.status === 400 || res.status === 401 || res.status === 500) {
+    //                     navigate(routes.LoginPage);
+    //                 }
+    //             }
+    //         }
+    //         //return client.post("/api/Auth/RefreshToken", input);
+    //         // window.localStorage.removeItem("userData");
+    //         // window.location.reload(false);
+    //     }
+    //     refreshUserToken();
+    // }, []);
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
