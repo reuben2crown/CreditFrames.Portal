@@ -226,49 +226,52 @@ const SearchPage = () => {
                                 <div className="col-md-4 text-start pb-3">
                                     <img src={list.lender.logo} width="200px" alt="" className={styles.searchImage} />
                                 </div>
-                                <div className="col-md-3 text-start pb-3">
+                                <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Lenders Name</label>
                                     <span className={styles.searchSpan}>{list.lender.lenderName}</span>
                                 </div>
-                                <div className="col-md-3 text-start pb-3">
+                                <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Loan Type</label>
                                     <span className={styles.searchSpan}>{list.loanTypeName}</span>
                                 </div>
-                                <div className="col-md-2 text-start pb-3">
+                            </div>
+                            <div className="row">
+                                <div className="col-md-4 text-start pb-3">
+                                </div>
+                                <div className="col-md-4 text-start pb-3">
+                                    <label className={styles.searchLabel}>Approval Time</label>
+                                    <span className={styles.searchSpan}>{Math.floor(list.minTurnAroundTimeInMinute / 60)} Min - {Math.floor(list.maxTurnAroundTimeInMinute / 60)} Min</span>
+                                </div>
+                                <div className="col-md-4 text-start pb-3">
+                                    <label className={styles.searchLabel}>Loan Range</label>
+                                    <span className={styles.searchSpan}>{currency} {list.minimumLoanAmount.toLocaleString()} - {currency} {list.maximumLoanAmount.toLocaleString()}</span>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-4 text-start pb-3">
+                                </div>
+                                <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Interest Rate</label>
                                     <span className={styles.searchSpan}>{list.minimumInterestRate}% - {list.maximumInterestRate}%</span>
+                                </div>
+                                <div className="col-md-4 text-start pb-3">
+                                    <label className={styles.searchLabel}>Rating</label>
+                                    <span className={styles.searchSpan}>{list.lender.averageRating} Stars &nbsp;&nbsp;
+                                        {[...Array(list.lender.averageRating)].map((num, key) => <FaStar className={styles.star} key={key} />)}</span>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-4 text-start pb-3">
                                     {list.lender.apiActivated === true ? <Link to={`/loan-request?loanId=${key}`}><button className={styles.apply}>Apply</button></Link> : <a href={list.lender.website} target="Blank"><button className={styles.apply}>Apply</button></a>}
                                 </div>
-                                <div className="col-md-3 text-start pb-3">
-                                    <label className={styles.searchLabel}>Approval Time</label>
-                                    <span className={styles.searchSpan}>{Math.floor(list.minTurnAroundTimeInMinute / 60)} Min - {Math.floor(list.maxTurnAroundTimeInMinute / 60)} Min</span>
-                                </div>
-                                <div className="col-md-3 text-start pb-3">
-                                    <label className={styles.searchLabel}>Loan Range</label>
-                                    <span className={styles.searchSpan}>{currency} {list.minimumLoanAmount.toLocaleString()} <br/>{currency} {list.maximumLoanAmount.toLocaleString()}</span>
-                                </div>
-                                <div className="col-md-2 text-start pb-3">
-                                    <label className={styles.searchLabel}>Rating</label>
-                                    <span className={styles.searchSpan}>{list.lender.averageRating} Stars &nbsp;<br />
-                                    {[...Array(list.lender.averageRating)].map((num, key) => <FaStar className={styles.star} key={key} />)}</span>
-                                </div>
-                            </div>
-                            <div className="row">
                                 <div className="col-md-4 text-start pb-3">
-                                </div>
-                                <div className="col-md-3 text-start pb-3">
                                     <label className={styles.searchLabel}>Requirements</label>
                                     <span className={styles.searchSpan}>{list.requirements}</span>
                                 </div>
-                                <div className="col-md-3 text-start pb-3">
+                                <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Eligibility Criteria</label>
                                     <span className={styles.searchSpan}>{list.eligiblityCriteria} </span>
                                 </div>
-                                -	
                             </div>
                         </div>
                         )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import routes from "../routes";
 import Form from "react-bootstrap/Form";
 import logoWhite from "../images/logoWhite.png";
@@ -15,6 +15,9 @@ const PasswordRecovery = () => {
     document.title = "Password Recovery Page - Creditframes";
 
     const navigate = useNavigate();
+
+    const location = useLocation();
+   //console.log('pathname', location.search);
 
     const [activePage, setActivePage] = useState("first");
     const [passRecovery, setPassRecovery] = useState();
@@ -89,7 +92,7 @@ const PasswordRecovery = () => {
                             </div> */}
                             <button type="submit" className={styles.submit}>{passRecoveryApi.loading ? "Submiting..." : "Continue"}</button>
                         </Form>
-                        <Link to={routes.LoginPage} style={{textDecoration: "none", fontWeight: "bold", fontSize: "18px"}}>Back to login</Link>
+                        <Link to={`/./login-register${location.search}`} style={{textDecoration: "none", fontWeight: "bold", fontSize: "18px"}}>Back to login</Link>
                     </div>
                 </div>
                 <div style={{position: "absolute", bottom: "0", width: "98%", textAlign: "center"}}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>

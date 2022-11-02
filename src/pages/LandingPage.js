@@ -48,6 +48,7 @@ const LandingPage = () => {
 
     const [userValid, setUserValid] = useState();
     const [show, setShow] = useState(false);
+    const [selectedLoanType, setSelectedLoanType] = useState();
     const [currency, setCurrency] = useState("NGN");
     
     useEffect(() => {
@@ -63,8 +64,10 @@ const LandingPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const newLoanType = selectedLoanType === null || selectedLoanType === undefined ? searchLoan.LoanTypeId : selectedLoanType;
+        console.log(newLoanType, selectedLoanType);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            return navigate(`./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
+            return navigate(`./loan-request?loanType=${newLoanType}&loanAmount=${searchLoan.LoanAmount}`);
             //returnUrl=/lenders/lender-form?loanType=4&loanAmount=2000
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
@@ -99,7 +102,7 @@ const LandingPage = () => {
             // }
         }
         if (localStorage.getItem("userData") === null) {
-            return navigate(`./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);    
+            return navigate(`./login-register?returnUrl=/loan-request?loanType%3D${newLoanType}%26loanAmount%3D${searchLoan.LoanAmount}`);    
 
             //console.log(searchLoan);
             // We recommend to call `load` at application startup.
@@ -240,7 +243,7 @@ const LandingPage = () => {
                                 <img src={businessIcon} alt="" />
                                 <h3>Business Loan</h3>
                                 <p>Are you looking to grow or start a business? Explore your loan options here</p>
-                                <button onClick={() => setShow(true)} className={styles.apply1}>APPLY NOW</button>
+                                <button onClick={() => { setShow(true); setSelectedLoanType(5) }} className={styles.apply1}>APPLY NOW</button>
                             </div>
                         </div>
                         <div className="col-md-6 text-center">
@@ -248,7 +251,7 @@ const LandingPage = () => {
                                 <img src={personalIcon} alt="" />
                                 <h3>Personal Loan</h3>
                                 <p>We are here to give you the best loan rates for your personal needs. Explore your loan options here</p>
-                                <button onClick={() => setShow(true)} className={styles.apply1}>APPLY NOW</button>
+                                <button onClick={() => { setShow(true); setSelectedLoanType(4)}} className={styles.apply1}>APPLY NOW</button>
                             </div>
                         </div>
                     </div>
@@ -302,6 +305,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
+            
             <section className={styles.section7}>
                 <div className="container mt-100 mb-5">
                     <div className="row col-md-5 pt-5 m-auto text-center">
@@ -381,7 +385,7 @@ const LandingPage = () => {
                                 <div className="col-md-6 text-start">
                                     <label>Types of Loan</label>
                                     <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
-                                        <option selected disabled>Select Loan Type</option>
+                                        {selectedLoanType === 4 ? <option selected value={4}>Personal Loan</option> : selectedLoanType === 5 ? <option selected value={5}>Business Loan</option> : <option selected disabled>Select Loan Type</option>}
                                         {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>

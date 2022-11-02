@@ -72,10 +72,10 @@ const LoanRequestPage = () => {
 
     useEffect(() => {
         const getRecentSearchData = async () => {
-            const user = JSON.parse(localStorage.getItem("userData"));
-            const decodedData = jwtDecode(user.accessToken);
-            setNewData(JSON.parse(decodedData.UserData));
-            const res = await getRecentSearchDataApi.request({ userId: newData.userId, loanTypeId: parseInt(loanType)});
+            // const user = JSON.parse(localStorage.getItem("userData"));
+            // const decodedData = jwtDecode(user.accessToken);
+            // setNewData(JSON.parse(decodedData.UserData));
+            const res = await getRecentSearchDataApi.request(parseInt(loanType));
             if (res.data.code === 200) {
                 setRecentSearchData(res.data);
             }
@@ -145,7 +145,24 @@ const LoanRequestPage = () => {
         setShow(true);
         const fp = await FingerprintJS.load();
         const result = await fp.get();
-        const res = await loanApplicationApi.request({ ...loanApplication, monthySalaryOrTurnover: parseInt(loanApplication.monthySalaryOrTurnover), isBusinessRegistered: Boolean(loanApplication.isBusinessRegistered), residenceStateId: parseInt(loanApplication.residenceStateId), residenceCountryId: parseInt(loanApplication.residenceCountryId), userId: newData.userId, loanTypeId: parseInt(loanApplication.LoanTypeId), loanAmount: parseInt(loanApplication.loanAmount), deviceId: result.visitorId, requestChannel: "web" });
+
+        const newLoanType = loanApplication.LoanTypeId === null || loanApplication.LoanTypeId === undefined ? loanType : loanApplication.LoanTypeId;
+
+        const newMonthySalaryOrTurnover = loanApplication.monthySalaryOrTurnover === null || loanApplication.monthySalaryOrTurnover === undefined ? recentSearchData?.data?.monthySalaryOrTurnover : loanApplication.monthySalaryOrTurnover;
+
+        const newResidenceCountryId = loanApplication.residenceCountryId === null || loanApplication.residenceCountryId === undefined ? recentSearchData?.data?.residenceCountry?.id : loanApplication.residenceCountryId;
+
+        const newResidenceStateId = loanApplication.residenceStateId === null || loanApplication.residenceStateId === undefined ? recentSearchData?.data?.residenceState?.id : loanApplication.residenceStateId;
+
+        const newResidenceCity = loanApplication.residenceCity === null || loanApplication.residenceCity === undefined ? recentSearchData?.data?.residenceCity : loanApplication.residenceCity;
+
+        const newBankCode = loanApplication.bankCode === null || loanApplication.bankCode === undefined ? recentSearchData?.data?.bankCode : loanApplication.bankCode;
+
+        const newEmployerOrBusinessName = loanApplication.employerOrBusinessName === null || loanApplication.employerOrBusinessName === undefined ? recentSearchData?.data?.employerOrBusinessName : loanApplication.employerOrBusinessName;
+        
+        console.log(recentSearchData?.data?.monthySalaryOrTurnover);
+                
+        const res = await loanApplicationApi.request({ ...loanApplication, monthySalaryOrTurnover: parseInt(newMonthySalaryOrTurnover), employerOrBusinessName: newEmployerOrBusinessName, bankCode: newBankCode, isBusinessRegistered: Boolean(loanApplication.isBusinessRegistered), residenceStateId: parseInt(newResidenceStateId), residenceCountryId: parseInt(newResidenceCountryId), residenceCity: newResidenceCity, userId: newData.userId, loanTypeId: parseInt(newLoanType), loanAmount: parseInt(loanApplication.loanAmount), deviceId: result.visitorId, requestChannel: "web" });
         if (res.status === 200) {
             setShow(false);
             navigate(`/./search-result?LoanSearchId=${res.data.data.id}&PageNumber=1&PageSize=5`)
@@ -165,10 +182,11 @@ const LoanRequestPage = () => {
                 <div className="container mt-5">
                     <div className="row col-md-8 m-auto" hidden={activeTab !== "first"}>
                         <Link to="/" className="text-center"><img src={logo} alt="" className={styles.logo} /></Link>
-                        <h3 align="center" className={styles.title}>Business loan</h3>
+                        {loanType === "4" ? <h3 align="center" className={styles.title}>Personal loan</h3> : <h3 align="center" className={styles.title}>Business loan</h3>}
                         <h4 align="center" className={styles.subTitle}>Fill all required fields</h4>
                         {message}
-                        <Form onSubmit={handleSubmit} className={styles.contactForm}>
+
+                        {getRecentSearchDataApi === false ? <h4 className="text-center mt-4 mb-4">Loading Search Form</h4> : <Form onSubmit={handleSubmit} className={styles.contactForm}>
                             <div className="row">
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Loan Amount  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
@@ -184,9 +202,8 @@ const LoanRequestPage = () => {
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, LoanTypeId: e.target.value })}>
                                         {/* {loanTypes.filter((list) => list.id === loanType).map(item => <option value={item.id}>{item.name}</option>)} */}
                                         
-                                        {loanType === 5 ? <option value="5">Business Loan</option> : <option value="4">Personal Loan</option>}
-                                        <option defaultSelected disabled>Select Loan Type</option>
-                                        {loanTypes.map(loans => <option selected={loanType === loans.id} value={loans.id}>{loans.name}</option>)}
+                                        {loanType === "5" ? <option selected value={5}>Business Loan</option> : loanType === "4" ? <option selected value={4}>Personal Loan</option> : <option selected disabled>Select Loan Type</option>}
+                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 {/* <div className="col-md-4">
@@ -317,7 +334,7 @@ const LoanRequestPage = () => {
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>State of Residence  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceStateId: e.target.value })}>
-                                        <option defaultSelected value={recentSearchData?.data?.residenceState?.residenceStateId}>{recentSearchData?.data?.residenceState?.name}</option>
+                                        <option defaultSelected value={recentSearchData?.data?.residenceState?.id}>{recentSearchData?.data?.residenceState?.name}</option>
                                         <option disabled>Select State</option>
                                         {state.map(item => <option value={item.id}>{item.name}</option>)}
                                     </Form.Select>
@@ -325,7 +342,7 @@ const LoanRequestPage = () => {
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Country  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceCountryId: e.target.value })}>
-                                        <option defaultSelected value={recentSearchData?.data?.residenceCountry?.residenceCountryId}>{recentSearchData?.data?.residenceCountry?.name}</option>
+                                        <option defaultSelected value={recentSearchData?.data?.residenceCountry?.id}>{recentSearchData?.data?.residenceCountry?.name}</option>
                                         <option disabled>Select Country</option>
                                         {countries.map(item => <option value={item.id}>{item.name}</option>)}
                                     </Form.Select>
@@ -334,7 +351,7 @@ const LoanRequestPage = () => {
                                     <button type="submit" className={styles.apply}> Proceed </button>
                                 </div>
                             </div>
-                        </Form>
+                        </Form>}
                     </div>
                     {/* <div className="row col-md-5 pt-5 text-center m-auto" hidden={activeTab !== "forth"}>
                         <div className={styles.contactForm}>

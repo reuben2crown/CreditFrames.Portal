@@ -29,9 +29,9 @@ const Footer = () => {
                         </div>
                         <div className="col-md-2 pt-5"> 
                             <h4>Social </h4>
-                            <p><Link className={styles.links} to="https://www.instagram.com/creditframes_africa/"><FaInstagram style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Instagram</Link></p>
-                            <p><Link className={styles.links} to="https://web.facebook.com/CreditFramesAfrica"><FaFacebook style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Facebook</Link></p>
-                            <p><Link className={styles.links} to="https://twitter.com/creditframes/"><FaTwitter style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Twitter</Link></p>
+                            <p><a href="https://www.instagram.com/creditframes_africa/" className={styles.links}><FaInstagram style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Instagram</a></p>
+                            <p><a href="https://web.facebook.com/CreditFramesAfrica" className={styles.links}><FaFacebook style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Facebook</a></p>
+                            <p><a href="https://twitter.com/creditframes/" className={styles.links}><FaTwitter style={{color: "#fff", fontSize: "24px"}} /> &nbsp; Twitter</a></p>
                             {/* <p><Link className={styles.links} to="#"><FaLinkedinIn style={{ color: "#fff", fontSize: "24px" }} /> &nbsp; Linkedin</Link></p> */}
                         </div>
                         <div className="col-md-2 pt-5"> 
