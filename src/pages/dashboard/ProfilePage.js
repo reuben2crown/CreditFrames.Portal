@@ -111,11 +111,11 @@ const ProfilePage = () => {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>First Name  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
-                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
+                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="Enter Firstname"></Form.Control>
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Last Name  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
-                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
+                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Enter Lastname"></Form.Control>
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Email Address  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
@@ -143,7 +143,7 @@ const ProfilePage = () => {
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Date of Birth  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
-                                            <Form.Control type="date" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, dateOfBirth: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
+                                            <Form.Control type="date" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, dateOfBirth: e.target.value })} placeholder="MM-DD-YYYY"></Form.Control>
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Gender  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
