@@ -76,8 +76,12 @@ const changePassword = (data) => {
     return client.post("/api/PasswordManagers/CompletePasswordReset", data);
 }
 
-const getDashboardData = (data) => {
-    return client.get(`/api/Dashboard/UserDashboard/${data.userId}`);
+const getDashboardData = () => {
+    const user = JSON.parse(localStorage.getItem("userData"));
+    const decodedData = jwtDecode(user.accessToken);
+    const newData = JSON.parse(decodedData.UserData);
+        //console.log(newData.userId);
+    return client.get(`/api/Dashboard/UserDashboard/${newData.userId}`);
 }
 
 const getCountries = () => {
@@ -136,6 +140,13 @@ const updateProfile = (data) => {
     return client.put(`/api/Users/${data.userId}`, data);
 }
 
+const getProfilePicture = () => {
+    const user = JSON.parse(localStorage.getItem("userData"));
+    const decodedData = jwtDecode(user.accessToken);
+    const newData = (JSON.parse(decodedData.UserData));
+    return client.get(`/api/Users/GetProfilePicture/${newData.userId}`, newData.userId);
+}
+
 
 const userApis = { 
     login,
@@ -158,5 +169,6 @@ const userApis = {
     updateProfile,
     searchResult,
     recentSearchData,
+    getProfilePicture,
 };
 export default userApis;
