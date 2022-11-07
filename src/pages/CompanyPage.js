@@ -7,7 +7,9 @@ import leftui from "../images/leftui.png";
 import productImage from "../images/productImage.png";
 import test1 from "../images/testi1.png";
 import test2 from "../images/testi2.png";
+import cus1 from "../images/cus1.png";
 import Carousel from "better-react-carousel";
+import { FaStar } from "react-icons/fa";
 
 
 
@@ -98,16 +100,52 @@ const CompanyPage = () => {
                         <div className="mt-4">
                             <Carousel cols={2} rows={1} gap={20} loop={true} autoplay={3000}>
                                 <Carousel.Item>
-                                    <img src={test1} alt="" />
+                                    <div className="row p-4" style={{ backgroundColor: "#FFF", border: "1px solid #F7EDF6", borderRadius: "5px", margin: "20px"}}>
+                                        <div className="col-md-4">
+                                            <img src={cus1} alt="" />
+                                        </div>
+                                        <div className="col-md-8 text-start">
+                                            <span style={{fontSize: "20px"}}>I love the way I can easily the best loan offers that suit my needs. This is awesome.</span>
+                                            <h2 className="mt-2 mb-3">Bola Lawal</h2>
+                                            <FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} />
+                                        </div>
+                                    </div>
                                 </Carousel.Item>
                                 <Carousel.Item>
-                                    <img src={test2} alt="" />
+                                    <div className="row p-4" style={{ backgroundColor: "#FFF", border: "1px solid #F7EDF6", borderRadius: "5px", margin: "20px" }}>
+                                        <div className="col-md-4">
+                                            <img src={cus1} alt="" />
+                                        </div>
+                                        <div className="col-md-8 text-start">
+                                            <span style={{ fontSize: "20px" }}>I love the way I can easily the best loan offers that suit my needs. This is awesome.</span>
+                                            <h2 className="mt-2 mb-3">Uzo Emeka</h2>
+                                            <FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} />
+                                        </div>
+                                    </div>
                                 </Carousel.Item>
                                 <Carousel.Item>
-                                    <img src={test1} alt="" />
+                                    <div className="row p-4" style={{ backgroundColor: "#FFF", border: "1px solid #F7EDF6", borderRadius: "5px", margin: "20px" }}>
+                                        <div className="col-md-4">
+                                            <img src={cus1} alt="" />
+                                        </div>
+                                        <div className="col-md-8 text-start">
+                                            <span style={{ fontSize: "20px" }}>I love the way I can easily the best loan offers that suit my needs. This is awesome.</span>
+                                            <h2 className="mt-2 mb-3">Bola Lawal</h2>
+                                            <FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} />
+                                        </div>
+                                    </div>
                                 </Carousel.Item>
                                 <Carousel.Item>
-                                    <img src={test2} alt="" />
+                                    <div className="row p-4" style={{ backgroundColor: "#FFF", border: "1px solid #F7EDF6", borderRadius: "5px", margin: "20px" }}>
+                                        <div className="col-md-4">
+                                            <img src={cus1} alt="" />
+                                        </div>
+                                        <div className="col-md-8 text-start">
+                                            <span style={{ fontSize: "20px" }}>I love the way I can easily the best loan offers that suit my needs. This is awesome.</span>
+                                            <h2 className="mt-2 mb-3">Uzo Emeka</h2>
+                                            <FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} /><FaStar className={styles.star} />
+                                        </div>
+                                    </div>
                                 </Carousel.Item>
                             </Carousel>
                         </div>

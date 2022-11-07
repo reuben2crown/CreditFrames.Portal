@@ -38,7 +38,7 @@ const Footer = () => {
                             <h4>Legal</h4>
                             <p><Link className={styles.links} to="#">Privacy Policy</Link></p>
                             <p><Link className={styles.links} to="#">Terms & Condition</Link></p>
-                            <p><Link className={styles.links} to="#">FAQ</Link></p>
+                            <p><Link className={styles.links} to="/contact-us">FAQ</Link></p>
                         </div>
                     </div>
                     <div style={{ color: "#BABABA" }}><hr></hr></div>

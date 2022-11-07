@@ -24,7 +24,10 @@ const DashboardPage = () => {
     document.title = "Account Dashboard - Creditframes";
 
     const navigate = useNavigate();
-    const [newData, setNewData] = useState([]);
+
+    const user = JSON.parse(localStorage.getItem("userData"));
+    const decodedData = jwtDecode(user.accessToken);
+    const newData = JSON.parse(decodedData.UserData);
 
     const [show, setShow] = useState(false);
 
@@ -47,12 +50,7 @@ const DashboardPage = () => {
     }, []);
 
     const getDashboardData = async () => {
-        const user = JSON.parse(localStorage.getItem("userData"));
-        const decodedData = jwtDecode(user.accessToken);
-        setNewData(JSON.parse(decodedData.UserData));
-        //console.log(newData.userId);
-        const res = await getDashboardDataApi.request({userId: newData.userId});
-        //console.log(res.data);
+        const res = await getDashboardDataApi.request();
         if (res.status === 200) { 
             setDashboard(res.data);
         }
