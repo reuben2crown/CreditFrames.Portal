@@ -74,7 +74,7 @@ const Sidebar = () => {
 
     return (
         <div className={styles.sideContainer}>
-            <img src={profilePhoto} className={styles.userImage} class="rounded-circle shadow-4-strong" width="80%" alt="" />
+            <img src={profilePhoto} className={styles.userImage} class="rounded-circle shadow-4-strong" width="85%" alt="" />
             {/* <img src={profilePicture} className={styles.userImage} class="rounded-circle shadow-4-strong" alt="" /> */}
             <div>
                 <ul className={styles.sidebarMenu}>
