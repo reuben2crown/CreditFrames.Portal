@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Sidebar.module.css";
 import profilePicture from "../images/profilePicture.png";
-import profilePhoto from "../images/profilePhoto.png";
+import profilePhoto from "../images/149071.png";
 import { DashboardIcon, AvatarIcon, CashIcon, SettingsIcon } from "./SidebarIcon";
 import { FiLogOut } from "react-icons/fi";
 import useApi from "../hooks/useApi";

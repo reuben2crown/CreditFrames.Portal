@@ -11,6 +11,8 @@ import useApi from "../hooks/useApi";
 import Alert from "react-bootstrap/Alert";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import routes from "../routes";
+import loaderLogo from "../images/CreditFrame logo.png";
+import { Modal, Spinner } from "react-bootstrap";
 
 
 const PasswordReset = () => {
@@ -21,6 +23,8 @@ const PasswordReset = () => {
 
     const location = useLocation();
    //console.log('pathname', location.search);
+
+    const [loader, setLoader] = useState(false);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -65,6 +69,7 @@ const PasswordReset = () => {
     }, []); 
 
     const tokenValidation = async () => {
+        setLoader(true);
         const res = await tokenValidationApi.request({ userId: uid, passwordResetToken: token });
         console.log(res.data); 
         if (res.data.code === 200) {
@@ -74,10 +79,12 @@ const PasswordReset = () => {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage(message);
         }
+        setLoader(false);
     };
 
     const handleChangePass = async (e) => {
         e.preventDefault();
+        setLoader(true);
         // We recommend to call `load` at application startup.
         const fp = await FingerprintJS.load();
 
@@ -96,6 +103,7 @@ const PasswordReset = () => {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage1(message);
         }
+        setLoader(false);
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -122,6 +130,19 @@ const PasswordReset = () => {
 
     return (
         <div className={styles.popBg} style={{ height: `${screenSize.dynamicHeight}px` }}>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <div hidden={activePage !== "first"}>
                 <Link to="/"><img src={logoWhite} className="mb-5" alt="" /></Link>
                 <div className="row col-md-4 m-auto">

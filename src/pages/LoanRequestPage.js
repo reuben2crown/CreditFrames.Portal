@@ -38,6 +38,8 @@ const LoanRequestPage = () => {
     const [newData, setNewData] = useState();
     const [search, setSearch] = useState();
 
+    const [changeLoanType, setChangeLoanType] = useState();
+
     useEffect(() => {
         if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
             const currency = JSON.parse(localStorage.getItem("countrySelected"));
@@ -182,7 +184,7 @@ const LoanRequestPage = () => {
                 <div className="container mt-5">
                     <div className="row col-md-8 m-auto" hidden={activeTab !== "first"}>
                         <Link to="/" className="text-center"><img src={logo} alt="" className={styles.logo} /></Link>
-                        {loanType === "4" ? <h3 align="center" className={styles.title}>Personal loan</h3> : <h3 align="center" className={styles.title}>Business loan</h3>}
+                        {loanType == 4 ? <h3 align="center" className={styles.title}>Personal loan</h3> : <h3 align="center" className={styles.title}>Business loan</h3>}
                         <h4 align="center" className={styles.subTitle}>Fill all required fields</h4>
                         {message}
 
@@ -199,11 +201,9 @@ const LoanRequestPage = () => {
                                 </div>
                                 <div className="col-md-4 text-start">
                                     <Form.Label className={styles.contactLabel}>Types of Loan  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
-                                    <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, LoanTypeId: e.target.value })}>
-                                        {/* {loanTypes.filter((list) => list.id === loanType).map(item => <option value={item.id}>{item.name}</option>)} */}
-                                        
-                                        {loanType === "5" ? <option selected value={5}>Business Loan</option> : loanType === "4" ? <option selected value={4}>Personal Loan</option> : <option selected disabled>Select Loan Type</option>}
-                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
+                                    <Form.Select className={styles.contactInput} required onChange={(e) => { setLoanApplication({ ...loanApplication, LoanTypeId: e.target.value }); setChangeLoanType(e.target.value)}}>
+                                        <option>Select Loan Type</option>                                        
+                                        {loanTypes.map(loans => <option {...(loanType == loans.id ? { selected: true } : {})} value={loans.id}>{loans.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 {/* <div className="col-md-4">
@@ -260,13 +260,10 @@ const LoanRequestPage = () => {
                                     <Form.Label className={styles.contactLabel}>Employer / Business Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} defaultValue={recentSearchData?.data?.employerOrBusinessName} required onChange={(e) => setLoanApplication({ ...loanApplication, employerOrBusinessName: e.target.value })} placeholder="Enter here"></Form.Control>
                                 </div>
-                                {loanType === "5" ? <div className="col-md-4">
+                                {loanType == 5 || changeLoanType == 5 ? <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Business Registered?  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, isBusinessRegistered: e.target.value })}>
-                                        {recentSearchData?.data?.isBusinessRegistered === true ? <option defaultSelected value={true}>Yes</option> : <option defaultSelected value={false}>No</option>}
-                                        <option disabled>Select</option>
-                                        <option value={true}>Yes</option>
-                                        <option value={false}>No</option>
+                                        {recentSearchData?.data?.isBusinessRegistered === true ? <><option>Select an option</option><option selected value={true}>Yes</option><option value={false}>No</option></> : recentSearchData?.data?.isBusinessRegistered === false ? <><option>Select an option</option><option selected value={false}>No</option><option value={true}>Yes</option></> : <><option>Select an option</option><option value={false}>No</option><option value={true}>Yes</option></>}
                                     </Form.Select>
                                 </div> : ""}
                                 {/* <div className="col-md-4">
@@ -276,9 +273,9 @@ const LoanRequestPage = () => {
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Bank Account  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, bankCode: e.target.value })}>
-                                        <option defaultSelected value={recentSearchData?.data?.bankCode}>{recentSearchData?.data?.bankName}</option>
-                                        <option disabled>Select</option>
-                                        {bank.map(list => <option value={list.code}>{list.name}</option>)}
+                                        {/* <option defaultSelected value={recentSearchData?.data?.bankCode}>{recentSearchData?.data?.bankName}</option> */}
+                                        <option>Select bank</option>
+                                        {bank.map(list => <option selected={recentSearchData?.data?.bankCode == list.code} value={list.code}>{list.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 {/* <div className="col-md-4">
@@ -334,17 +331,17 @@ const LoanRequestPage = () => {
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>State of Residence  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceStateId: e.target.value })}>
-                                        <option defaultSelected value={recentSearchData?.data?.residenceState?.id}>{recentSearchData?.data?.residenceState?.name}</option>
-                                        <option disabled>Select State</option>
-                                        {state.map(item => <option value={item.id}>{item.name}</option>)}
+                                        {/* <option defaultSelected value={recentSearchData?.data?.residenceState?.id}>{recentSearchData?.data?.residenceState?.name}</option> */}
+                                        <option>Select State</option>
+                                        {state.map(item => <option selected={recentSearchData?.data?.residenceState?.id == item.id} value={item.id}>{item.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Country  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, residenceCountryId: e.target.value })}>
-                                        <option defaultSelected value={recentSearchData?.data?.residenceCountry?.id}>{recentSearchData?.data?.residenceCountry?.name}</option>
-                                        <option disabled>Select Country</option>
-                                        {countries.map(item => <option value={item.id}>{item.name}</option>)}
+                                        {/* <option defaultSelected value={recentSearchData?.data?.residenceCountry?.id}>{recentSearchData?.data?.residenceCountry?.name}</option> */}
+                                        <option>Select Country</option>
+                                        {countries.map(item => <option selected={recentSearchData?.data?.residenceCountry?.id == item.id} value={item.id}>{item.name}</option>)}
                                     </Form.Select>
                                 </div>
                                 <div className="col-md-11 m-auto">

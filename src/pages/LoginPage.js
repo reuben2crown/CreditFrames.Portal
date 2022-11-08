@@ -5,10 +5,12 @@ import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import Form from "react-bootstrap/Form";
 import logoWhite from "../images/logoWhite.png";
+import loaderLogo from "../images/CreditFrame logo.png";
 import styles from "../styles/Login.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Alert from "react-bootstrap/Alert";
 import routes from "../routes";
+import { Modal, ModalBody, ProgressBar, Spinner } from "react-bootstrap";
 
 
 const LoginPage = () => {
@@ -23,6 +25,8 @@ const LoginPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const returnUrl = searchParams.get("returnUrl");
+
+    const [loader, setLoader] = useState(false);
 
     const [activePage, setActivePage] = useState("first");
     const [passwordType, setPasswordType] = useState("password");
@@ -63,6 +67,7 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoader(true);
         // We recommend to call `load` at application startup.
         const fp = await FingerprintJS.load();
 
@@ -91,10 +96,12 @@ const LoginPage = () => {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage(message);
         }
+        setLoader(false);
     }
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setLoader(true);
         // We recommend to call `load` at application startup.
         const fp = await FingerprintJS.load();
 
@@ -119,6 +126,7 @@ const LoginPage = () => {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage1(message);
         }
+        setLoader(false);
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -153,6 +161,19 @@ const LoginPage = () => {
     
     return (
         <div className={styles.popBg}>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute"}} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <div hidden={activePage !== "first"}>
                 <Link to="/" ><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row col-md-4 m-auto"> 

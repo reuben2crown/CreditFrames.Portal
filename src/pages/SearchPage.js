@@ -10,8 +10,8 @@ import userApis from "../api/users";
 import { NumericFormat } from "react-number-format";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import jwtDecode from "jwt-decode";
-import { Form, Modal } from "react-bootstrap";
-
+import { Form, Modal, Spinner } from "react-bootstrap";
+import loaderLogo from "../images/CreditFrame logo.png";
 
 const SearchPage = () => {
 
@@ -19,6 +19,8 @@ const SearchPage = () => {
 
     const location = useLocation();
     const navigate = useNavigate
+
+    const [loader, setLoader] = useState(false);
     
     const [show, setShow] = useState();
     const [userValid, setUserValid] = useState();
@@ -67,11 +69,13 @@ const SearchPage = () => {
             }
             console.log(input);
             const getLoanSearch = async () => {
+                setLoader(true);
                 const res = await searchResultApi.request(input);
                 if (res.status === 200) {
                     setLoanSearch(res.data);
                     // navigate(`/./search-result?LoanSearchId=${loanSearchId}&PageNumber=${loanSearch.PageNumber}}&PageSize=${loanSearch.PageSize}`);
                 }
+                setLoader(false);
             }
             getLoanSearch();
         }
@@ -82,10 +86,12 @@ const SearchPage = () => {
 
     useEffect(() => {
         const getLoanTypes = async () => {
+            setLoader(true);
             const res = await getLoanTypesApi.request();
             if (res.status === 200) {
                 setloanTypes(res.data);
             }
+            setLoader(false);
         }
         getLoanTypes();
     }, []);
@@ -95,6 +101,7 @@ const SearchPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
 
@@ -167,11 +174,13 @@ const SearchPage = () => {
             // //  }
             // }
         }
+        setLoader(false);
 
     };
 
 
     const handleNextPage = async() => {
+        setLoader(true);
         const input = {
             PageNumber: PageNumber + 1,
             PageSize: PageSize,
@@ -185,10 +194,12 @@ const SearchPage = () => {
             navigate(`/./search-result?LoanSearchId=${LoanSearchId}&PageNumber=${loanSearch.PageNumber}}&PageSize=${loanSearch.PageSize}`)
             // window.location.reload(false);
         }
+        setLoader(false);
 
     }
 
     const handlePreviousPage = async() => {
+        setLoader(true);
         const input = {
             PageNumber: PageNumber - 1,
             PageSize: PageSize,
@@ -203,6 +214,7 @@ const SearchPage = () => {
             setLoanSearch(res.data);
             navigate(`/./search-result?LoanSearchId=${LoanSearchId}&PageNumber=${loanSearch.PageNumber}}&PageSize=${loanSearch.PageSize}`)
         }
+        setLoader(false);
     }
     //Search -> Login/Signup (If not already log in) -> Application Form -> Lenders Result -> Apply -> Goto Lender Website-> End
     //note the ?returnUrl=/lenders/lender-form?loanType=4&loanAmount=2000
@@ -211,6 +223,19 @@ const SearchPage = () => {
 
     return (
         <div>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <NavMenu />
             <section className={styles.section1}>
                 <div className="container text-center pt-5 pb-5">

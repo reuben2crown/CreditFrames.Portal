@@ -174,11 +174,17 @@ const LandingPage = () => {
                                             }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                         </div>
                                         <div className="col-md-6 text-start">
-                                            <label>Types of Loan</label>
-                                            <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value})}>
-                                                <option selected disabled>Select Loan Type</option>
+                                            {/* <label for="loanType">Types of Loan</label>
+                                            <select name="loanType" id="loanType" className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value})}>
+                                                <option>Select Loan Type</option>
                                                 {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
-                                            </Form.Select> 
+                                            </select>  */}
+
+                                            <label for="cars">Types of Loan</label>
+                                            <Form.Select name="cars" id="cars" required className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
+                                                <option value="">Select loan type </option>
+                                                {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
+                                            </Form.Select>
                                         </div>
                                         <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
                                     </div>
