@@ -10,7 +10,9 @@ import routes from "../../routes";
 import useApi from "../../hooks/useApi";
 import userApis from "../../api/users";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import jwtDecode from "jwt-decode"; 
+import loaderLogo from "../../images/CreditFrame logo.png";
+import { Modal, Spinner } from "react-bootstrap";
 
 
 const LoansPage = () => {
@@ -18,6 +20,8 @@ const LoansPage = () => {
     document.title = "Loans Page - Creditframes";
 
     const navigate = useNavigate();
+
+    const [loader, setLoader] = useState(false);
 
     const authenticate = () => {
         if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
@@ -36,13 +40,15 @@ const LoansPage = () => {
     }, []);
 
     const getLoanData = async () => {
+        setLoader(true);
         const user = JSON.parse(localStorage.getItem("userData"));
         const decodedData = jwtDecode(user.accessToken);
         const newData = JSON.parse(decodedData.UserData);
         const res = await getLoanDataApi.request({UserId: newData.userId});
         if (res.status === 200) { 
             setLoans(res.data);
-        }
+        };
+        setLoader(false);
     }
 
     const loan = [
@@ -66,6 +72,19 @@ const LoansPage = () => {
 
     return (
         <div>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <NavMenu />
             <section className={styles.dashboardbg}> 
                 <div className="row m-0">

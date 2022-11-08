@@ -8,17 +8,20 @@ import styles from "../styles/PasswordRecovery.module.css";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import Alert from "react-bootstrap/Alert";
+import { Modal, Spinner } from "react-bootstrap"; 
+import loaderLogo from "../images/CreditFrame logo.png";
 
 
 const PasswordRecovery = () => {
-
+    
     document.title = "Password Recovery Page - Creditframes";
-
+    
     const navigate = useNavigate();
-
+    
     const location = useLocation();
-   //console.log('pathname', location.search);
-
+    //console.log('pathname', location.search);
+    
+    const [loader, setLoader] = useState(false);
     const [activePage, setActivePage] = useState("first");
     const [passRecovery, setPassRecovery] = useState();
     const passRecoveryApi = useApi(userApis.passRecovery);
@@ -27,6 +30,7 @@ const PasswordRecovery = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true);
         const res = await passRecoveryApi.request({...passRecovery, channel: "web"});
 
         if (res.data.code === 200) {
@@ -36,6 +40,7 @@ const PasswordRecovery = () => {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage(message);
         }
+        setLoader(false);
     }
 
     const handleSendCode = () => {
@@ -66,6 +71,19 @@ const PasswordRecovery = () => {
 
     return (
         <div className={styles.popBg} style={{ height: `${screenSize.dynamicHeight}px` }}>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <div hidden={activePage !== "first"}>
                 <Link to="/"><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row col-md-4 m-auto">

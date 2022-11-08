@@ -15,7 +15,8 @@ import routes from "../../routes";
 import useApi from "../../hooks/useApi";
 import userApis from "../../api/users";
 import jwtDecode from "jwt-decode";
-import { Form, Modal } from "react-bootstrap";
+import { Form, Modal, Spinner } from "react-bootstrap";
+import loaderLogo from "../../images/CreditFrame logo.png";
 import { NumericFormat } from "react-number-format";
 
 
@@ -30,6 +31,8 @@ const DashboardPage = () => {
     const newData = JSON.parse(decodedData.UserData);
 
     const [show, setShow] = useState(false);
+
+    const [loader, setLoader] = useState(false);
 
     const [currency, setCurrency] = useState("NGN");
 
@@ -50,10 +53,12 @@ const DashboardPage = () => {
     }, []);
 
     const getDashboardData = async () => {
+        setLoader(true);
         const res = await getDashboardDataApi.request();
         if (res.status === 200) { 
             setDashboard(res.data);
         }
+        setLoader(false);
     }
 
     const [countries, setCountries] = useState([]);
@@ -107,6 +112,7 @@ const DashboardPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
 
@@ -114,12 +120,26 @@ const DashboardPage = () => {
         if (localStorage.getItem("userData") === null) {
             return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
         }
+        setLoader(false);
 
     };
 
 
     return (
         <div>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <NavMenu />
             <Modal
                 size="lg"

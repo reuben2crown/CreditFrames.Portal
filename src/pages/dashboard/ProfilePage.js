@@ -13,7 +13,8 @@ import routes from "../../routes";
 import userApis from "../../api/users";
 import useApi from "../../hooks/useApi";
 import jwtDecode from "jwt-decode";
-import { Alert } from "react-bootstrap";
+import { Alert, Modal, Spinner } from "react-bootstrap";
+import loaderLogo from "../../images/CreditFrame logo.png";
 
 
 const ProfilePage = () => {
@@ -21,6 +22,7 @@ const ProfilePage = () => {
     document.title = "Account Profile Page - Creditframes";
 
     const navigate = useNavigate();
+    const [loader, setLoader] = useState(false);
 
     const authenticate = () => {
         if (localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined) {
@@ -74,6 +76,7 @@ const ProfilePage = () => {
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
+        setLoader(true);
         console.log(profile.firstName, profile.lastName);
         if (profile.firstName === undefined && profile.lastName === undefined ) {
             console.log("Invalid FirstName and LastName");
@@ -87,10 +90,25 @@ const ProfilePage = () => {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setMessage(message);
         }
+        setLoader(false);
     } 
+    console.log(userProfile);
     
     return (
         <div>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <NavMenu />
             <section className={styles.dashboardbg}> 
                 <div className="row m-0">
