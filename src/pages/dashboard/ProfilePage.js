@@ -129,11 +129,11 @@ const ProfilePage = () => {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>First Name  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
-                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
+                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} placeholder="Enter Firstname"></Form.Control>
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Last Name  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
-                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Samuel Emmanuel"></Form.Control>
+                                            <Form.Control type="text" className={styles.contactInput} required onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} placeholder="Enter Lastname"></Form.Control>
                                         </div>
                                         <div className="col-md-6">
                                             <Form.Label className={styles.contactLabel}>Email Address  <span style={{ color: "#FF0000" }}>*</span></Form.Label>
