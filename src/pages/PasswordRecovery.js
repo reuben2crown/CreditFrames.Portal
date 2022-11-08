@@ -102,7 +102,7 @@ const PasswordRecovery = () => {
                             </div> */}
                             <div className="mt-2 mb-4 text-start">
                                 <Form.Label className="mt-3">Email Address</Form.Label>
-                                <Form.Control type="email" className={styles.input} required onChange={(e) => setPassRecovery({ ...passRecovery, emailAddress: e.target.value })} placeholder="samseyi00@gmail.com"></Form.Control>
+                                <Form.Control type="email" className={styles.input} required onChange={(e) => setPassRecovery({ ...passRecovery, emailAddress: e.target.value })} placeholder="username@mail.com"></Form.Control>
                             </div>
                             {/* <div>
                                 <input type="radio" style={{heigth: "50px", width: "50px"}}></input>
