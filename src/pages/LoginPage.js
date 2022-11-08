@@ -183,10 +183,10 @@ const LoginPage = () => {
                         {errorMessage}
                         <Form onSubmit={handleLogin} className="text-start">
                             <Form.Label className="mt-3">Email Address</Form.Label>
-                            <Form.Control type="email" className={styles.input} required onChange={(e) => setLogin({ ...login, email: e.target.value })} placeholder="samseyi00@gmail.com"></Form.Control>
+                            <Form.Control type="email" className={styles.input} required onChange={(e) => setLogin({ ...login, email: e.target.value })} placeholder="E.g: username@mail.com"></Form.Control>
                             <Form.Label className="mt-2">Password</Form.Label>
                             <Form.Control type={passwordType} required onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={() => togglePassword()} /> : <FaEye onClick={() => togglePassword()} />}</div>
-                            <p style={{ margin: "20px", color: "#424242" }}><Form.Check type="checkbox" style={{ height: "15px", width: "15px", float: "left" }}></Form.Check>&nbsp; <span>Remember me</span><Link to={`/./password-recovery${location.search}`} style={{ float: "right", color: "#FF6367", textDecoration: "none"}}>Forgot Password?</Link></p>
+                            <p style={{ margin: "20px", color: "#424242" }}><label><Form.Check type="checkbox" style={{ height: "15px", width: "15px", float: "left" }}></Form.Check>&nbsp; <span>Remember me</span></label><Link to={`/./password-recovery${location.search}`} style={{ float: "right", color: "#FF6367", textDecoration: "none"}}>Forgot Password?</Link></p>
                             <button type="submit" className={styles.submit}>{userLoginApi.loading ? "Signing in..." : "Sign in"}</button><button type="reset" id="clear" hidden>Clear</button>
                             <p className="mt-3 text-center">Don't have an account? <Link to={`/./login-register${location.search}`} onClick={() => { setActivePage("second"); handleReset1()}} style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
                         </Form>
@@ -209,7 +209,7 @@ const LoginPage = () => {
                             <Form.Label className="mt-1">Phone Number</Form.Label>
                             <Form.Control type="text" required className={styles.input} onChange={(e) => setRegister({ ...register, phone: e.target.value })} placeholder="0000 000 0000"></Form.Control>
                             <Form.Label className="mt-1">Email</Form.Label>
-                            <Form.Control type="email" required className={styles.input} onChange={(e) => setRegister({ ...register, email: e.target.value })} placeholder="samseyi00@gmail.com"></Form.Control>
+                            <Form.Control type="email" required className={styles.input} onChange={(e) => setRegister({ ...register, email: e.target.value })} placeholder="username@mail.com"></Form.Control>
                             <Form.Label className="mt-2">Password</Form.Label>
                             <Form.Control type={passwordType} required onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={() => togglePassword()} /> : <FaEye onClick={() => togglePassword()} />}</div>
                             <Form.Label className="mt-2">Confirm Password &nbsp; &nbsp; &nbsp; &nbsp; {passwordInput !== passwordInput1 ? <span className="text-danger">Password does not match.</span> : passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? <span className="text-success">Password match.</span> : <></> }</Form.Label>
