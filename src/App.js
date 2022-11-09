@@ -14,8 +14,14 @@ import DashboardPage from "./pages/dashboard/DashboardPage";
 import LoansPage from "./pages/dashboard/LoansPage";
 import ProfilePage from "./pages/dashboard/ProfilePage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
+import ReactGA from "react-ga";
 
 const App = () => {
+
+  const TRACKING_ID = "G-2ZSFS18C56"; // YOUR_OWN_TRACKING_ID
+  ReactGA.initialize(TRACKING_ID);
+
+
   return (
     <Router>
       <Routes>

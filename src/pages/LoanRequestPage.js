@@ -10,11 +10,11 @@ import routes from "../routes";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import jwtDecode from "jwt-decode";
-import { Alert } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 import { NumericFormat } from "react-number-format";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import ProgressBar from "react-bootstrap/ProgressBar";
-
+import ProgressBar from "react-bootstrap/ProgressBar"; 
+import loaderLogo from "../images/CreditFrame logo.png";
 
 
 const LoanRequestPage = () => {
@@ -24,21 +24,23 @@ const LoanRequestPage = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
+
+    const [loader, setLoader] = useState(false);
     // console.log('pathname', location.pathname);
     // console.log('search', location.search);
 
     // const urlData = location.pathname+location.search;
-
     const [searchParams, setSearchParams] = useSearchParams();
 
     const loanType = searchParams.get("loanType");
     const loanAmount = searchParams.get("loanAmount");
 
+
     const [currency, setCurrency] = useState();
     const [newData, setNewData] = useState();
     const [search, setSearch] = useState();
 
-    const [changeLoanType, setChangeLoanType] = useState();
+    const [changeLoanType, setChangeLoanType] = useState(loanType);
 
     useEffect(() => {
         if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
@@ -74,6 +76,7 @@ const LoanRequestPage = () => {
 
     useEffect(() => {
         const getRecentSearchData = async () => {
+            setLoader(true);
             // const user = JSON.parse(localStorage.getItem("userData"));
             // const decodedData = jwtDecode(user.accessToken);
             // setNewData(JSON.parse(decodedData.UserData));
@@ -81,6 +84,7 @@ const LoanRequestPage = () => {
             if (res.data.code === 200) {
                 setRecentSearchData(res.data);
             }
+            setLoader(false);
         }
         getRecentSearchData();
     }, []);
@@ -144,7 +148,7 @@ const LoanRequestPage = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setShow(true);
+        setLoader(true);
         const fp = await FingerprintJS.load();
         const result = await fp.get();
 
@@ -166,7 +170,6 @@ const LoanRequestPage = () => {
                 
         const res = await loanApplicationApi.request({ ...loanApplication, monthySalaryOrTurnover: parseInt(newMonthySalaryOrTurnover), employerOrBusinessName: newEmployerOrBusinessName, bankCode: newBankCode, isBusinessRegistered: Boolean(loanApplication.isBusinessRegistered), residenceStateId: parseInt(newResidenceStateId), residenceCountryId: parseInt(newResidenceCountryId), residenceCity: newResidenceCity, userId: newData.userId, loanTypeId: parseInt(newLoanType), loanAmount: parseInt(loanApplication.loanAmount), deviceId: result.visitorId, requestChannel: "web" });
         if (res.status === 200) {
-            setShow(false);
             navigate(`/./search-result?LoanSearchId=${res.data.data.id}&PageNumber=1&PageSize=5`)
             // window.localStorage.setItem("loanSearchId", JSON.stringify({loanSearchId: res.data.data.id, PageNumber: 1, PageSize: 5}));
             // setMessage(res.data.message);
@@ -175,16 +178,31 @@ const LoanRequestPage = () => {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setMessage(message);
         }
+        setLoader(false);
         // console.log({ ...loanApplication, userId: newData.userId, loanTypeId: search.items[loanId].loanTypeId, lenderId: search.items[loanId].lenderId, requestChannel: "web", brokerCode: "None"});
     }
 
+    console.log(changeLoanType);
     return (
         <div>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <section className={styles.section1}>
                 <div className="container mt-5">
                     <div className="row col-md-8 m-auto" hidden={activeTab !== "first"}>
                         <Link to="/" className="text-center"><img src={logo} alt="" className={styles.logo} /></Link>
-                        {loanType == 4 ? <h3 align="center" className={styles.title}>Personal loan</h3> : <h3 align="center" className={styles.title}>Business loan</h3>}
+                        {changeLoanType == 4 ? <h3 align="center" className={styles.title}>Personal loan</h3> : changeLoanType == 5 ?<h3 align="center" className={styles.title}>Business loan</h3> : ""}
                         <h4 align="center" className={styles.subTitle}>Fill all required fields</h4>
                         {message}
 
@@ -260,7 +278,7 @@ const LoanRequestPage = () => {
                                     <Form.Label className={styles.contactLabel}>Employer / Business Name  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Control type="text" className={styles.contactInput} defaultValue={recentSearchData?.data?.employerOrBusinessName} required onChange={(e) => setLoanApplication({ ...loanApplication, employerOrBusinessName: e.target.value })} placeholder="Enter here"></Form.Control>
                                 </div>
-                                {loanType == 5 || changeLoanType == 5 ? <div className="col-md-4">
+                                {changeLoanType == 5 ? <div className="col-md-4">
                                     <Form.Label className={styles.contactLabel}>Business Registered?  <span style={{ color: "#A9358D" }}>*</span></Form.Label>
                                     <Form.Select className={styles.contactInput} required onChange={(e) => setLoanApplication({ ...loanApplication, isBusinessRegistered: e.target.value })}>
                                         {recentSearchData?.data?.isBusinessRegistered === true ? <><option>Select an option</option><option selected value={true}>Yes</option><option value={false}>No</option></> : recentSearchData?.data?.isBusinessRegistered === false ? <><option>Select an option</option><option selected value={false}>No</option><option value={true}>Yes</option></> : <><option>Select an option</option><option value={false}>No</option><option value={true}>Yes</option></>}
@@ -361,17 +379,11 @@ const LoanRequestPage = () => {
                     <div><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
                 </div>
             </section>
-            <Modal show={show} onHide={handleClose} centered>
+            {/* <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body className="text-center">
                     <ProgressBar animated now={100} />
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
                 </Modal.Body>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }
