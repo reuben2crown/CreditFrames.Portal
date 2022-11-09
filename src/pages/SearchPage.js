@@ -291,11 +291,11 @@ const SearchPage = () => {
                                 </div>
                                 <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Requirements</label>
-                                    <span className={styles.searchSpan}>{list.requirements}</span>
+                                    <span className={styles.searchSpan}>{list.requirements === null ? "None" : list.requirements}</span>
                                 </div>
                                 <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Eligibility Criteria</label>
-                                    <span className={styles.searchSpan}>{list.eligiblityCriteria} </span>
+                                    <span className={styles.searchSpan}>{list.eligiblityCriteria === null ? "None" : list.eligiblityCriteria} </span>
                                 </div>
                             </div>
                         </div>

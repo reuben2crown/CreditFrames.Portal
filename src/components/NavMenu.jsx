@@ -16,6 +16,8 @@ import userApis from "../api/users";
 import { NumericFormat } from "react-number-format";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import jwtDecode from "jwt-decode";
+import loaderLogo from "../images/CreditFrame logo.png";
+import { Spinner } from "react-bootstrap";
 
 
 
@@ -27,6 +29,8 @@ const NavMenu = () => {
 
     // console.log(decodeURIComponent(`site.com/post?comments=1%2C2%2C3%2C4`));
     // console.log(encodeURIComponent(`site.com/post?comments=1,2,3,4`));
+
+    const [loader, setLoader] = useState(false);
 
     const [userValid, setUserValid] = useState();
 
@@ -134,6 +138,7 @@ const NavMenu = () => {
     const userLogoutApi = useApi(userApis.userLogout);
 
     const handleLogout = async () => {
+        setLoader(true);
         const user = JSON.parse(localStorage.getItem("userData"));
         const decodedData = jwtDecode(user.accessToken);
         const newData = JSON.parse(decodedData.UserData);
@@ -142,6 +147,7 @@ const NavMenu = () => {
             window.localStorage.removeItem("userData");
             navigate(routes.LoginPage);
         }
+        setLoader(false);
     } 
 
     const getLoanTypesApi = useApi(userApis.getLoanTypes);
@@ -163,6 +169,7 @@ const NavMenu = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
             
@@ -235,6 +242,7 @@ const NavMenu = () => {
             // //  }
             // }
         }
+        setLoader(false);
         
     };
 
@@ -253,6 +261,19 @@ const NavMenu = () => {
 
     return (
         <div className="container-fluid">
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
+                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
+                    {/* <ProgressBar animated now={100} /> */}
+                    {/* <div className={styles.contactForm}>
+                        <img src={statusIcon} alt="" />
+                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
+                        <p>{message}</p>
+                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
+                    </div> */}
+                </Modal.Body>
+            </Modal>
             <Navbar className={styles.navBar} collapseOnSelect expand="lg" bg="white" sticky="top" variant="white">
                 <Container style={{minWidth: "90%"}}>
                     <Navbar.Brand href="./"><img src={logo} width="90%" alt=""></img></Navbar.Brand>
