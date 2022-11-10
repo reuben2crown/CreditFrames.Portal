@@ -18,6 +18,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import SearchModal from "../components/SearchModal";
 
 
 
@@ -25,7 +26,11 @@ const ProductsPage = () => {
 
     document.title = "Products Page - Creditframes";
 
-    const [show, setShow] = useState();
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const navigate = useNavigate();
 
     const [userValid, setUserValid] = useState();
@@ -58,107 +63,16 @@ const ProductsPage = () => {
         e.preventDefault();
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
-            //returnUrl=/lenders/lender-form?loanType=4&loanAmount=2000
-            //console.log(searchLoan);
-            // We recommend to call `load` at application startup.
-            // const fp = await FingerprintJS.load();
-
-            // The FingerprintJS agent is ready.
-            // Get a visitor identifier when you'd like to.
-            // const result = await fp.get();
-
-            // This is the visitor identifier:
-            //console.log(result.visitorId);
-
-            // const user = JSON.parse(localStorage.getItem("userData"));
-            // const decodedData = jwtDecode(user.accessToken);
-            // const newData = JSON.parse(decodedData.UserData);
-            // setUserValid(newData.userId);
-
-            // const country = JSON.parse(localStorage.getItem("countrySelected"));
-
-            // const res = await searchLoanApi.request({ ...searchLoan, UserId: userValid, DeviceId: result.visitorId, CountryId: country.id });
-            // if (res.status === 200) {
-            //     const input = {
-            //         LoanAmount: searchLoan.LoanAmount,
-            //         PageNumber: searchLoan.PageNumber,
-            //         PageSize: searchLoan.PageSize,
-            //         LoanTypeId: searchLoan.LoanTypeId,
-            //         DeviceId: result.visitorId,
-            //         CountryId: country.id
-            //     }
-            //     window.localStorage.setItem("searchLoan", JSON.stringify(input));
-            //     navigate(routes.SearchPage);
-            // }
         }
         if (localStorage.getItem("userData") === null) {
             return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
-
-            //console.log(searchLoan);
-            // We recommend to call `load` at application startup.
-            // const fp = await FingerprintJS.load();
-
-            // The FingerprintJS agent is ready.
-            // Get a visitor identifier when you'd like to.
-            // const result = await fp.get();
-
-            // This is the visitor identifier:
-            //console.log(result.visitorId);
-
-            //  const country = JSON.parse(localStorage.getItem("countrySelected"));
-            //  console.log(userValid, country);
-            //  const res = await searchLoanApi.request({ ...searchLoan, DeviceId: result.visitorId, CountryId: country.id });
-            //  if (res.status === 200) {
-            //      const input = {
-            //          LoanAmount: searchLoan.LoanAmount,
-            //          PageNumber: searchLoan.PageNumber,
-            //          PageSize: searchLoan.PageSize,
-            //          LoanTypeId: searchLoan.LoanTypeId,
-            //          DeviceId: result.visitorId,
-            //          CountryId: country.id
-            //      }
-            //      window.localStorage.setItem("searchLoan", JSON.stringify(input));
-            //      navigate(routes.SearchPage);
-            //  }
         }
     }
 
     return (
         <div>
+            <SearchModal show={show} handleClose={handleClose} handleShow={handleShow} />
             <NavMenu />
-            <Modal
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered show={show}
-                onHide={() => setShow(false)}
-                className="m-0 p-0" >
-                <Modal.Body>
-                    <div className={styles.card}>
-                        <Form onSubmit={handleSubmit}>
-                            <div className="row">
-                                <div className="col-md-6 text-start">
-                                    <label>How much would you like to borrow?</label>
-                                    {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
-                                        const { formattedValue, value, floatValue } = values;
-                                        const newAmount = value;
-                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount, PageNumber: 1, PageSize: 1 })
-                                        // do something with floatValue
-                                    }} className={styles.select} required placeholder={`${currency} 0.00`} />
-                                </div>
-                                <div className="col-md-6 text-start">
-                                    <label>Types of Loan</label>
-                                    <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
-                                        <option selected disabled>Select Loan Type</option>
-                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
-                                    </Form.Select>
-                                </div>
-                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
-                            </div>
-                        </Form>
-                    </div>
-                </Modal.Body>
-            </Modal>
             <section className={styles.section1}>
                 <div className="container mt-2 mb-2 text-center">
                     <div className="row col-md-5 mb-5 m-auto">
@@ -205,7 +119,7 @@ const ProductsPage = () => {
                         <div className="row">
                             <div className="col-md-6 m-auto">
                                 <h3 className={styles.secTitle1}>Get access to the best loan offers with ease</h3>
-                                <button onClick={() => setShow(true)} className={styles.apply}>Apply Here</button>
+                                <button onClick={() => handleShow()} className={styles.apply}>Apply Here</button>
                             </div>
                             <div className="col-md-6 m-0 p-0 text-end">
                                 <img src={productImage} className={styles.productImage} alt="" />

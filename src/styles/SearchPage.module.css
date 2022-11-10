@@ -137,12 +137,19 @@ p {
         text-align: center;
         margin-top: 15px;
     }
-    .card {
-        background-color: #FFF;
-        padding: 40px 40px;
-        margin-top: 40px;
-        margin-bottom: 30px;
-        border: #FFE7EF solid 2px;
+    .searchBox {
+        background-color: rgb(152, 226, 255, 10%);
+        padding: 10px;
+        margin: 20px;
+        border: 1px solid #FFE7EF;
         border-radius: 10px;
     }
+    .card {
+        background-color: #FFF;
+        padding: 20px;
+        margin-bottom: 30px;
+        border: #FFE7EF solid 1px;
+        border-radius: 10px;
+    }
+    
 }
