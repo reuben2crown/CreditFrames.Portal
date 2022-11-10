@@ -18,6 +18,7 @@ import jwtDecode from "jwt-decode";
 import { Form, Modal, Spinner } from "react-bootstrap";
 import loaderLogo from "../../images/CreditFrame logo.png";
 import { NumericFormat } from "react-number-format";
+import SearchModal from "../../components/SearchModal";
 
 
 const DashboardPage = () => {
@@ -26,11 +27,14 @@ const DashboardPage = () => {
 
     const navigate = useNavigate();
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const user = JSON.parse(localStorage.getItem("userData"));
     const decodedData = jwtDecode(user.accessToken);
     const newData = JSON.parse(decodedData.UserData);
-
-    const [show, setShow] = useState(false);
 
     const [loader, setLoader] = useState(false);
 
@@ -127,6 +131,7 @@ const DashboardPage = () => {
 
     return (
         <div>
+            <SearchModal show={show} handleClose={handleClose} handleShow={handleShow} />
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
                     <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
@@ -141,38 +146,6 @@ const DashboardPage = () => {
                 </Modal.Body>
             </Modal>
             <NavMenu />
-            <Modal
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered show={show}
-                onHide={() => setShow(false)}>
-                <Modal.Body>
-                    <div className={styles.card}>
-                        <Form onSubmit={handleSubmit}>
-                            <div className="row">
-                                <div className="col-md-6 text-start">
-                                    <label>How much would you like to borrow?</label>
-                                    {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
-                                    <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
-                                        const { formattedValue, value, floatValue } = values;
-                                        const newAmount = value;
-                                        setSearchLoan({ ...searchLoan, LoanAmount: newAmount, PageNumber: 1, PageSize: 1 })
-                                        // do something with floatValue
-                                    }} className={styles.select} required placeholder={`${currency} 0.00`} />
-                                </div>
-                                <div className="col-md-6 text-start">
-                                    <label>Types of Loan</label>
-                                    <Form.Select className={styles.select} required onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
-                                        <option selected disabled>Select Loan Type</option>
-                                        {loanTypes.map(loans => <option value={loans.id}>{loans.name}</option>)}
-                                    </Form.Select>
-                                </div>
-                                <div className="col-md-10 m-auto pt-4"><button type="submit" className={styles.submit}>{searchLoanApi.loading ? "Searching..." : "Search for loan"}</button></div>
-                            </div>
-                        </Form>
-                    </div>
-                </Modal.Body>
-            </Modal>
             <section className={styles.dashboardbg}> 
                 <div className="row m-0">
                     <div className="col-md-3">
@@ -195,7 +168,7 @@ const DashboardPage = () => {
                                 <div className="col-md-5">
                                     <div className={styles.pageCard2}>
                                         <h3>Get the best loan offers that suits your needs</h3>
-                                        <button onClick={() => setShow(true)}>Apply Here</button>
+                                        <button onClick={() => handleShow()}>Apply Here</button>
                                     </div>
                                 </div>
                             </div> 

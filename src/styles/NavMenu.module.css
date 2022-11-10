@@ -8,6 +8,10 @@ Nav {
     font-family: Open+Sans;
 }
 
+.logo {
+    width: 90%;
+}
+
 .lang, .lang:focus, .lang::after, .lang::before {
     background-color: rgba(0, 0, 251, 0.06) !important;
     border-radius: 10px !important;
@@ -17,6 +21,7 @@ Nav {
     padding: 0px;
     width: 130px;
     text-align: left !important;
+    margin: auto;
     outline: none !important;
 }
 .lang::after, .lang::before {
@@ -129,6 +134,12 @@ Nav {
 
 /* Mobile Responsiveness Css */
 @media only screen and (max-width: 600px) {
+    .logoParent {
+        max-width: 230px !important;
+    }
+    .logo {
+        width: 80%;
+    }
     .search {
         display: block;
         padding: 0px 10px;
