@@ -14,6 +14,7 @@ import DashboardPage from "./pages/dashboard/DashboardPage";
 import LoansPage from "./pages/dashboard/LoansPage";
 import ProfilePage from "./pages/dashboard/ProfilePage";
 import SettingsPage from "./pages/dashboard/SettingsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ReactGA from "react-ga";
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
         <Route exact={true} path={routes.LoansPage} element={<LoansPage />} />
         <Route exact={true} path={routes.ProfilePage} element={<ProfilePage />} />
         <Route exact={true} path={routes.SettingsPage} element={<SettingsPage />} />
+        <Route exact={true} path={routes.PrivacyPolicyPage} element={<PrivacyPolicyPage />} />
       </Routes>
     </Router>
   );

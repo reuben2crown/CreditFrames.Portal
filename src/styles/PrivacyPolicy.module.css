@@ -1,0 +1,36 @@
+.title {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 50px;
+    text-align: center;
+    line-height: 57.6px;
+}
+.title1 {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 57.6px;
+    margin-top: 25px;
+}
+
+.sectitle {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 57.6px;
+}
+
+.subtitle {
+    font-family: Open+Sans;
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+p {
+    font-family: Open+Sans;
+    font-size: 20px;
+    text-align: justify;
+}
