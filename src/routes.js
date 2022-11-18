@@ -13,4 +13,5 @@ export default Object.freeze({
     LoansPage: "/loans",
     ProfilePage: "/profile",
     SettingsPage: "/settings",
+    PrivacyPolicyPage: "/privacy-policy",
 });

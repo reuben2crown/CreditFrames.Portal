@@ -36,7 +36,7 @@ const Footer = () => {
                         </div>
                         <div className="col-md-2 pt-5"> 
                             <h4>Legal</h4>
-                            <p><Link className={styles.links} to="#">Privacy Policy</Link></p>
+                            <p><Link className={styles.links} to="/privacy-policy">Privacy Policy</Link></p>
                             <p><Link className={styles.links} to="#">Terms & Condition</Link></p>
                             <p><Link className={styles.links} to="/contact-us">FAQ</Link></p>
                         </div>
