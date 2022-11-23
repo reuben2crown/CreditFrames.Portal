@@ -2,16 +2,11 @@ import React, {useState, useEffect} from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import styles from "../styles/NavMenu.module.css";
-import Select from "react-select";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import routes from "../routes";
+import { useNavigate } from "react-router-dom";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import { NumericFormat } from "react-number-format";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import jwtDecode from "jwt-decode";
-import loaderLogo from "../images/CreditFrame logo.png";
-import { Form, Spinner } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 
 
 
@@ -21,14 +16,8 @@ const SearchModal = (props) => {
 
     const navigate = useNavigate();
 
-    const location = useLocation();
-
     // console.log(decodeURIComponent(`site.com/post?comments=1%2C2%2C3%2C4`));
     // console.log(encodeURIComponent(`site.com/post?comments=1,2,3,4`));
-
-    const [loader, setLoader] = useState(false);
-
-    const [userValid, setUserValid] = useState();
 
     const [currency, setCurrency] = useState("NGN");
 
@@ -51,14 +40,12 @@ const SearchModal = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoader(true);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId === undefined ? selectedLoanType : searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
         }
         if (localStorage.getItem("userData") === null) {
             return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);   
         }
-        setLoader(false);
         
     };
 

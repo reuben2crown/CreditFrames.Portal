@@ -4,8 +4,6 @@ import Footer from "../../components/Footer";
 import Sidebar from "../../components/Sidebar";
 import styles from "../../styles/LoansPage.module.css";
 import { BsArrowLeft } from "react-icons/bs";
-import renmoney from "../../images/renmoney.png";
-import branch from "../../images/Branch.png";
 import routes from "../../routes";
 import useApi from "../../hooks/useApi";
 import userApis from "../../api/users";
@@ -46,43 +44,17 @@ const LoansPage = () => {
         const newData = JSON.parse(decodedData.UserData);
         const res = await getLoanDataApi.request({UserId: newData.userId});
         if (res.status === 200) { 
+            setLoader(false);
             setLoans(res.data);
         };
-        setLoader(false);
     }
-
-    const loan = [
-        {
-            "loanId": 1,
-            "lendersName": renmoney,
-            "loanAmount": "₦10,000,000",
-            "amountPaid": "₦5,000,000",
-            "dueDate": "09/10/2023",
-            "status": "Completed",
-        },
-        {
-            "loanId": 1,
-            "lendersName": branch,
-            "loanAmount": "₦10,000,000",
-            "amountPaid": "₦5,000,000",
-            "dueDate": "09/10/2023",
-            "status": "Completed",
-        }
-    ];
 
     return (
         <div>
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <NavMenu />

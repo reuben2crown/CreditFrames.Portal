@@ -25,7 +25,6 @@ const Sidebar = () => {
     const getProfilePicture = async () => {
         const res = await getProfilePictureApi.request();
         if (res.status === 200) {
-            console.log(res.data);
             setProfilePicture(res.data);
         }
     }
@@ -36,8 +35,6 @@ const Sidebar = () => {
     const uploadPictureApi = useApi.apply(userApis.uploadPicture);
     
     const onFileChange = (e) => {
-        console.log(e.target.files[0]);
-
         const upload = e.target.files[0]
         setImgDisplay(URL.createObjectURL(upload));
         setFileToUpload(upload);

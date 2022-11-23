@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import styles from "../styles/LoanRequestPage.module.css";
 import logo from "../images/CreditFrame-Logo.svg";
-import ToggleButton from "react-bootstrap/ToggleButton";
 import Modal from "react-bootstrap/Modal";
-import statusIcon from "../images/check.png";
 import routes from "../routes";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
@@ -13,7 +11,6 @@ import jwtDecode from "jwt-decode";
 import { Alert, Spinner } from "react-bootstrap";
 import { NumericFormat } from "react-number-format";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import ProgressBar from "react-bootstrap/ProgressBar"; 
 import loaderLogo from "../images/CreditFrame logo.png";
 
 
@@ -23,14 +20,8 @@ const LoanRequestPage = () => {
 
     const navigate = useNavigate();
 
-    const location = useLocation();
-
     const [loader, setLoader] = useState(false);
-    // console.log('pathname', location.pathname);
-    // console.log('search', location.search);
-
-    // const urlData = location.pathname+location.search;
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const loanType = searchParams.get("loanType");
     const loanAmount = searchParams.get("loanAmount");
@@ -38,7 +29,6 @@ const LoanRequestPage = () => {
 
     const [currency, setCurrency] = useState();
     const [newData, setNewData] = useState();
-    const [search, setSearch] = useState();
 
     const [changeLoanType, setChangeLoanType] = useState(loanType);
 
@@ -89,12 +79,6 @@ const LoanRequestPage = () => {
         getRecentSearchData();
     }, []);
     
-    const [activeTab, setActiveTab] = useState("first");
-    //const [radioValue, setRadioValue] = useState();
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
     const [loanApplication, setLoanApplication] = useState();
     const loanApplicationApi = useApi(userApis.loanApplication);
     
@@ -165,11 +149,10 @@ const LoanRequestPage = () => {
         const newBankCode = loanApplication.bankCode === null || loanApplication.bankCode === undefined ? recentSearchData?.data?.bankCode : loanApplication.bankCode;
 
         const newEmployerOrBusinessName = loanApplication.employerOrBusinessName === null || loanApplication.employerOrBusinessName === undefined ? recentSearchData?.data?.employerOrBusinessName : loanApplication.employerOrBusinessName;
-        
-        console.log(recentSearchData?.data?.monthySalaryOrTurnover);
                 
         const res = await loanApplicationApi.request({ ...loanApplication, monthySalaryOrTurnover: parseInt(newMonthySalaryOrTurnover), employerOrBusinessName: newEmployerOrBusinessName, bankCode: newBankCode, isBusinessRegistered: Boolean(loanApplication.isBusinessRegistered), residenceStateId: parseInt(newResidenceStateId), residenceCountryId: parseInt(newResidenceCountryId), residenceCity: newResidenceCity, userId: newData.userId, loanTypeId: parseInt(newLoanType), loanAmount: parseInt(loanApplication.loanAmount), deviceId: result.visitorId, requestChannel: "web" });
         if (res.status === 200) {
+            setLoader(false);
             navigate(`/./search-result?LoanSearchId=${res.data.data.id}&PageNumber=1&PageSize=5`)
             // window.localStorage.setItem("loanSearchId", JSON.stringify({loanSearchId: res.data.data.id, PageNumber: 1, PageSize: 5}));
             // setMessage(res.data.message);
@@ -177,30 +160,22 @@ const LoanRequestPage = () => {
         if (res.data.code === 400 || res.data.code === 500) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setMessage(message);
+            setLoader(false);
         }
-        setLoader(false);
-        // console.log({ ...loanApplication, userId: newData.userId, loanTypeId: search.items[loanId].loanTypeId, lenderId: search.items[loanId].lenderId, requestChannel: "web", brokerCode: "None"});
+        
     }
 
-    console.log(changeLoanType);
     return (
         <div>
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <section className={styles.section1}>
                 <div className="container mt-5">
-                    <div className="row col-md-8 m-auto" hidden={activeTab !== "first"}>
+                    <div className="row col-md-8 m-auto">
                         <Link to="/" className="text-center"><img src={logo} alt="" className={styles.logo} /></Link>
                         {changeLoanType == 4 ? <h3 align="center" className={styles.title}>Personal loan</h3> : changeLoanType == 5 ?<h3 align="center" className={styles.title}>Business loan</h3> : ""}
                         <h4 align="center" className={styles.subTitle}>Fill all required fields</h4>
@@ -368,14 +343,6 @@ const LoanRequestPage = () => {
                             </div>
                         </Form>}
                     </div>
-                    {/* <div className="row col-md-5 pt-5 text-center m-auto" hidden={activeTab !== "forth"}>
-                        <div className={styles.contactForm}>
-                            <img src={statusIcon} alt="" />
-                            <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                            <p>Thank you for completing your loan application, kindly click the below button to proceed.</p>
-                            <button className={styles.apply}> Proceed </button>
-                        </div>
-                    </div> */}
                     <div><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
                 </div>
             </section>

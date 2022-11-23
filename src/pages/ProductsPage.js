@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/ProductPage.module.css";
@@ -7,17 +7,6 @@ import businessIcon from "../images/business.png";
 import personalIcon from "../images/personal.png";
 import leftui from "../images/leftui.png";
 import productImage from "../images/productImage.png";
-import routes from "../routes";
-import useApi from "../hooks/useApi";
-import userApis from "../api/users";
-import { NumericFormat } from "react-number-format";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import jwtDecode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import SearchModal from "../components/SearchModal";
 
 
@@ -30,44 +19,6 @@ const ProductsPage = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const navigate = useNavigate();
-
-    const [userValid, setUserValid] = useState();
-    const getLoanTypesApi = useApi(userApis.getLoanTypes);
-    const [loanTypes, setloanTypes] = useState([]);
-    const [currency, setCurrency] = useState();
-
-    useEffect(() => {
-        if (localStorage.getItem("countrySelected") !== null && localStorage.getItem("countrySelected") !== undefined) {
-            const currency = JSON.parse(localStorage.getItem("countrySelected"));
-            setCurrency(currency.currencyCode);
-        };
-    }, []);
-
-    useEffect(() => {
-        const getLoanTypes = async () => {
-            const res = await getLoanTypesApi.request();
-            if (res.status === 200) {
-                setloanTypes(res.data);
-            }
-        }
-        getLoanTypes();
-    }, []);
-
-
-    const [searchLoan, setSearchLoan] = useState();
-    const searchLoanApi = useApi(userApis.searchLoan);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
-        }
-        if (localStorage.getItem("userData") === null) {
-            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
-        }
-    }
 
     return (
         <div>

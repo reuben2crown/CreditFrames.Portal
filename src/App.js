@@ -19,8 +19,9 @@ import ReactGA from "react-ga";
 
 const App = () => {
 
-  const TRACKING_ID = "G-2ZSFS18C56"; // YOUR_OWN_TRACKING_ID
-  ReactGA.initialize(TRACKING_ID);
+  //const TRACKING_ID = "G-2ZSFS18C56"; // YOUR_OWN_TRACKING_ID
+  ReactGA.initialize('G-2ZSFS18C56');
+  ReactGA.pageview(window.location.pathname + window.location.search);
 
 
   return (

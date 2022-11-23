@@ -6,16 +6,14 @@ import styles from "../../styles/SettingsPage.module.css";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
 import { BsArrowLeft } from "react-icons/bs";
-import profile from "../../images/profile.svg";
 import security from "../../images/security.svg";
-import countryChange from "../../images/countryChange.svg";
 import smallArrowRight from "../../images/small-arrow-right.svg";
-import { FaArrowRight } from "react-icons/fa";
-import { Form, Modal } from "react-bootstrap";
+import { Form, Modal, Spinner } from "react-bootstrap";
 import userApis from "../../api/users";
 import useApi from "../../hooks/useApi";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import jwtDecode from "jwt-decode";
+import loaderLogo from "../../images/CreditFrame logo.png";
 
 
 const SettingsPage = () => {
@@ -23,9 +21,9 @@ const SettingsPage = () => {
     document.title = "Account Settings Page - Creditframes";
 
     const navigate = useNavigate();
+    const [loader, setLoader] = useState(false);
 
     const [show, setShow] = useState(false);
-    const [button, setButton] = useState(false);
     const [activePage, setActivePage] = useState("first");
 
     const authenticate = () => {
@@ -42,6 +40,7 @@ const SettingsPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true);
         const fp = await FingerprintJS.load();
 
         // The FingerprintJS agent is ready.
@@ -52,12 +51,19 @@ const SettingsPage = () => {
         const newData = JSON.parse(decodedData.UserData);
         const res = await updatePasswordApi.request({ ...changePassword, emailAddress: newData.emailAddress, deviceId: result.visitorId, channel: "web"});
         if (res.status.code === 200) {
+            setLoader(false);
             setActivePage("third");
         }
     }
 
     return (
         <div>
+            <Modal size="sm" show={loader} centered>
+                <Modal.Body className="text-center">
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
+                </Modal.Body>
+            </Modal>
             <NavMenu />
             <section className={styles.dashboardbg}> 
                 <div className="row m-0">

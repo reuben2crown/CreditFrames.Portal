@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavMenu from "../../components/NavMenu";
 import Footer from "../../components/Footer";
 import Sidebar from "../../components/Sidebar";
@@ -9,15 +9,12 @@ import Character from "../../images/Character.svg";
 import refresh from "../../images/refresh.png";
 import cash from "../../images/cash.png";
 import usertime from "../../images/usertime.png";
-import renmoney from "../../images/renmoney.png";
-import branch from "../../images/Branch.png";
 import routes from "../../routes";
 import useApi from "../../hooks/useApi";
 import userApis from "../../api/users";
 import jwtDecode from "jwt-decode";
-import { Form, Modal, Spinner } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import loaderLogo from "../../images/CreditFrame logo.png";
-import { NumericFormat } from "react-number-format";
 import SearchModal from "../../components/SearchModal";
 
 
@@ -76,7 +73,6 @@ const DashboardPage = () => {
     const getCountries = async () => {
         const res = await getCountriesApi.request();
         if (res.status === 200) {
-            //console.log(res.data[167]);
             if (localStorage.getItem("countrySelected") !== null) {
                 const items = JSON.parse(localStorage.getItem("countrySelected"));
                 const preselectOptions = {
@@ -111,22 +107,6 @@ const DashboardPage = () => {
         }
         getLoanTypes();
     }, []);
-    const [searchLoan, setSearchLoan] = useState();
-    const searchLoanApi = useApi(userApis.searchLoan);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoader(true);
-        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
-
-        }
-        if (localStorage.getItem("userData") === null) {
-            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
-        }
-        setLoader(false);
-
-    };
 
 
     return (
@@ -134,15 +114,8 @@ const DashboardPage = () => {
             <SearchModal show={show} handleClose={handleClose} handleShow={handleShow} />
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <NavMenu />
@@ -220,18 +193,6 @@ const DashboardPage = () => {
                                         <th>Overdue Balance</th>
                                         <th>Status</th>
                                     </tr>
-                                    {/* "loanHistory": [
-                                        {
-                                            "id": 0,
-                                            "userId": 0,
-                                            "loanTypeId": 0,
-                                            "loanTypeName": "string",
-                                            "lenderId": 0,
-                                            "lenderName": "string",
-                                            "loanAmount": 0,
-                                            "loanStatus": "Pending",
-                                            "overdueBalance": 0
-                                        } */}
                                     {dashboard.loanHistory === null ? "No available loan history." : <></>}
                                     {dashboard.loanHistory?.map((items, key) => <tr className={styles.cardInside1} key={key}>
                                         <td>{items.lenderName}</td>
@@ -241,60 +202,9 @@ const DashboardPage = () => {
                                         <td>{items.loanStatus}</td>
                                     </tr>)
                                     }
-                                    {/* {loans.map((items, key) => <tr className={styles.cardInside1} key={key}>
-                                        <td><img src={items.lendersName} width="60%" alt="" /></td>
-                                        <td>{items.loanAmount}</td>
-                                        <td>{items.amountPaid}</td>
-                                        <td>{items.dueDate}</td>
-                                        <td>{items.status}</td>
-                                    </tr>)} */}
-                                    
                                 </div>
                             </div>
                         </div>
-                        {/* <div class="">
-                            <h3>Example</h3>
-                            <div className="">
-                                <table className="table table-striped " id="">
-                                    <tbody><tr>
-                                        <th>Company</th>
-                                        <th>Contact</th>
-                                        <th>Country</th>
-                                    </tr>
-                                        <tr>
-                                            <td>Alfreds Futterkiste</td>
-                                            <td>Maria Anders</td>
-                                            <td>Germany</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Centro comercial Moctezuma</td>
-                                            <td>Francisco Chang</td>
-                                            <td>Mexico</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ernst Handel</td>
-                                            <td>Roland Mendel</td>
-                                            <td>Austria</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Island Trading</td>
-                                            <td>Helen Bennett</td>
-                                            <td>UK</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Laughing Bacchus Winecellars</td>
-                                            <td>Yoshi Tannamuri</td>
-                                            <td>Canada</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Magazzini Alimentari Riuniti</td>
-                                            <td>Giovanni Rovelli</td>
-                                            <td>Italy</td>
-                                        </tr>
-                                    </tbody></table>
-                            </div>
-                            <a className="w3-btn w3-margin-top w3-margin-bottom" href="tryit.asp?filename=tryhtml_table_intro" target="_blank">Try it Yourself »</a>
-                        </div> */}
                     </div>
                 </div>
             </section>

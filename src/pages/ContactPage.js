@@ -23,7 +23,7 @@ const ContactPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(contact);
+        
         const res = await userContactApi.request(contact);
 
         if (res.data.code === 200) {

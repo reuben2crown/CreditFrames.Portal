@@ -9,12 +9,10 @@ import logo from "../images/CreditFrame-Logo.svg";
 import styles from "../styles/NavMenu.module.css";
 import { FaSearch, FaUser, FaChevronDown } from "react-icons/fa";
 import Select from "react-select";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import routes from "../routes";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
-import { NumericFormat } from "react-number-format";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import jwtDecode from "jwt-decode";
 import loaderLogo from "../images/CreditFrame logo.png";
 import { Spinner } from "react-bootstrap";
@@ -26,8 +24,6 @@ const NavMenu = () => {
 
     const navigate = useNavigate();
 
-    const location = useLocation();
-
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -37,8 +33,6 @@ const NavMenu = () => {
     // console.log(encodeURIComponent(`site.com/post?comments=1,2,3,4`));
 
     const [loader, setLoader] = useState(false);
-
-    const [userValid, setUserValid] = useState();
 
     const [currency, setCurrency] = useState("NGN");
 
@@ -122,25 +116,6 @@ const NavMenu = () => {
         }
         getLoanTypes();
     }, []);
-
-
-    const [searchLoan, setSearchLoan] = useState();
-    const searchLoanApi = useApi(userApis.searchLoan);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoader(true);
-        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
-            
-        }
-        if (localStorage.getItem("userData") === null) {
-            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);   
-            
-        }
-        setLoader(false);
-        
-    };
 
     const handleChangeCountry = (selectedOption) => {
         setSelectedOption(selectedOption);

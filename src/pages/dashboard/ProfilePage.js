@@ -5,9 +5,6 @@ import Sidebar from "../../components/Sidebar";
 import styles from "../../styles/ProfilePage.module.css";
 import { BsArrowLeft } from "react-icons/bs";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup"; 
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/bootstrap.css";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
 import userApis from "../../api/users";
@@ -71,42 +68,31 @@ const ProfilePage = () => {
 
     const [profile, setProfile] = useState();
     const [message, setMessage] = useState();
-    const [phone, setPhone] = useState("");
     const updateProfileApi = useApi(userApis.updateProfile);
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
         setLoader(true);
-        console.log(profile.firstName, profile.lastName);
-        if (profile.firstName === undefined && profile.lastName === undefined ) {
-            console.log("Invalid FirstName and LastName");
-        }
+        
         const res = await updateProfileApi.request({...profile, userId: userProfile.userId});
         if (res.data.status === true) {
+            setLoader(false);
             const message = <Alert key="success" variant="success" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setMessage(message);
         }
         if (res.data.status === false) {
+            setLoader(false);
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setMessage(message);
         }
-        setLoader(false);
-    } 
-    console.log(userProfile);
+    }
     
     return (
         <div>
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <NavMenu />

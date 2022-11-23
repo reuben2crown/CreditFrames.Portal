@@ -5,8 +5,6 @@ import styles from "../styles/CompanyPage.module.css";
 import companybg from "../images/companybg.png";
 import leftui from "../images/leftui.png";
 import productImage from "../images/productImage.png";
-import test1 from "../images/testi1.png";
-import test2 from "../images/testi2.png";
 import cus1 from "../images/cus1.png";
 import Carousel from "better-react-carousel";
 import { FaStar } from "react-icons/fa";
