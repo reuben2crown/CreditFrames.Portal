@@ -375,12 +375,15 @@ p {
 
 
 /* Mobile Responsiveness Css */
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1000px) and (min-width: 600px) {
     .title {
         font-family: Ubuntu;
         font-weight: 700;
         font-size: 40px;
         line-height: 57.6px;
+        width: 80vw;
+        text-align: center;
+        margin-top: 60px;
     }
 
     .subtitle {
@@ -388,15 +391,18 @@ p {
         font-size: 22px;
         font-weight: normal;
         margin-top: 15px;
+        width: 80vw;
+        text-align: center;
     }
 
     .card {
         background-color: transparent;
         padding: 20px 20px;
         margin-top: 40px;
-        margin-bottom: 30px;
         border: #FFE7EF solid 2px;
         border-radius: 10px;
+        width: 80vw;
+        text-align: center;
     }
 
     .select {
@@ -428,6 +434,12 @@ p {
         margin: auto;
         border-radius: 40px !important;
     }
+    .circle1 {
+       display: none;
+    }
+    .lady {
+        display: none;
+    }
     
     .section2, .circle2 {
         display: none;
@@ -456,10 +468,11 @@ p {
     .section5 {
         margin-top: 50px;
     }
-    .secTitle {
+    .section5 .secTitle {
         font-family: 'Ubuntu';
         font-size: 35px;
         font-weight: medium;
+        width: 350px;
     }
     .subTitle {
         font-family: Open+Sans;
@@ -470,94 +483,68 @@ p {
         font-family: Open+Sans;
         font-size: 18px;
         font-weight: normal;
+        width: 350px;
     }
     .illustration1 {
-        width: 100%;
+        width: 80%;
+        margin: 150px -100px 0px 0px;
     }
     .illustration2 {
         width: 100%;
         margin-top: 500px;
     }
-    /* .rightFloating {
-        float: right;
-        width: 30px;
-    }
-    .content .secTitle {
-        font-size: 40px;
-        margin-top: 20px;
-    }
-    .content {
-        text-align: center !important;
-        margin-top: -700px;
-        padding: 0px 20px 0px 20px;
-    }
-    .titleLine {
-        text-align: center;
-        margin: auto;
-    }
-    
-    .link {
-        margin-bottom: 50px;
-    }
     .box1 {
-        margin-bottom: 40px;
+        padding: 0px 20px;
     }
-    .iconCard, .iconCard1 {
-        margin: 0px 30px 20px 30px;
+    .box1 p {
+        padding-top: 10px;
     }
-    .middleSec {
-        background-color: rgb(152, 226, 255, 15%); 
-        height: 1200px;
-        margin-top: -1160px;
-    }
-    .titleLine1 {
-        background-color: #0000FB;
-        opacity: 1;
-        border: none;
-        height: 10px;
-        width: 80px;
+    .box1 img {
+        display: block;
         text-align: center;
-        margin: 20px auto;
-    }    
-    .section9 {
-        height: 200px;
-        margin-bottom: 150px;
-    }
-    .section9 .subTitle, .section9 .secTitle {
         margin: auto;
-        text-align: center;
     }
-    .content1 {
-        padding: 20px;
-        margin-top: 120px;
-        color: #FFF;
-        width: 90vw;
-        position: absolute;
-    }
-    .content1 span {
-        font-size: 12px;
-    }
-    .newsTitle {
-        font-size: 22px;
-        font-family: 'Ubuntu';
+    .iconTitle {
         display: inline-block;
-        width: 70%;
+        font-size: 20px; 
+        font-weight: 600;
+        text-align: left;
+        vertical-align: center;
     }
-    .newBg {
-        width: 100%;
+    .iconCard {
+        height: 380px;
+        width: 170px;
+        background-color: #0000FB;
+        padding: 30px 20px;
+        border-radius: 10px;
     }
-    .tags {
-        display: inline-block;
-        text-align: right;
-        margin-top: 45px;
-        width: 30%;
-    } */
+    .iconCard1 {
+        height: 380px;
+        width: 170px;
+        background-color: #98E2FF;
+        padding: 30px 20px;
+        border-radius: 10px;
+    }
+    .iconCard p, .iconCard1 p {
+        font-size: 18px;
+    }
+    .illustration2 {
+        margin: 50px 0px;
+    }  
+    .content {
+        text-align: left;
+        padding: 0px;
+    }
+    .section8 .subTitle, .section8 .secTitle, .section8 p {
+        margin: 0px -50px 0px 30px;
+        padding: 0;
+    }
 }
 
 
 
 /* Mobile Responsiveness Css */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) and (min-width: 300px) {
     .title {
         font-family: Ubuntu;
         font-weight: 700;
