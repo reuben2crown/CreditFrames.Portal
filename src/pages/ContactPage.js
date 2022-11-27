@@ -54,7 +54,7 @@ const ContactPage = () => {
                             </div>
                         </div>
                         <div className="col-md-6 m-auto">
-                            <img src={telephone} alt="" />
+                            <img src={telephone} className={styles.telephone} alt="" />
                         </div>
                     </div>
                 </div>

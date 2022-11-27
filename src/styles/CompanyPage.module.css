@@ -130,10 +130,52 @@ p {
     vertical-align: baseline;
 }
 
+/* Mobile Responsiveness Css */
+
+@media only screen and (max-width: 1000px) and (min-width: 600px) {
+    .secTitle1 {
+        color: #fff;
+        font-family: 'Ubuntu';
+        font-size: 40px;
+        font-weight: medium;
+        margin: 40px 40px 10px 40px;
+    }
+
+    .apply {
+        color: #FFF;
+        background-color: transparent;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 14px 40px;
+        margin: 20px 20px 20px 40px;
+        border: 1px solid #FFF;
+        border-radius: 30px;
+        transition: 0.5s;
+    }
+    .section5 img {
+        display: block;
+        width: 100px;
+    }
+    .section5 span {
+        display: block;
+        margin-left: -70px;
+        margin-top: 80px;
+    }
+    .section5 h2 {
+        margin-left: -70px;
+        font-size: 20px;
+    }
+
+    .productImage {
+        border-radius: 0px 30px 30px 0px;
+        width: 94%;
+        margin-right: 12px !important;
+    }
+}
 
 /* Mobile Responsiveness Css */
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) and (min-width: 300px) {
     .title {
         font-family: Ubuntu;
         font-weight: 700;

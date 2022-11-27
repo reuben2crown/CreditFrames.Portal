@@ -171,11 +171,19 @@ p {
     padding: 10px 30px;
 }
 
-
+@media only screen and (max-width: 1000px) and (min-width: 600px) {
+    .telephone {
+        width: 100%;
+        text-align: right;
+    }
+    .contactForm {
+        margin: 0px -100px;
+    }
+}
 
 
 /* Mobile Responsiveness Css */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) and (min-width: 300px) {
     .section1 {
         background-color: rgb(218, 228, 237, 10%);
         padding: 20px 15%;
