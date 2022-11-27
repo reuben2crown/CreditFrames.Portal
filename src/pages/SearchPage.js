@@ -3,14 +3,11 @@ import NavMenu from "../components/NavMenu";
 import Footer from "../components/Footer";
 import styles from "../styles/SearchPage.module.css";
 import { FaArrowLeft, FaArrowRight, FaStar} from "react-icons/fa";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import routes from "../routes";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
-import { NumericFormat } from "react-number-format";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import jwtDecode from "jwt-decode";
-import { Form, Modal, Spinner } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import loaderLogo from "../images/CreditFrame logo.png";
 import SearchModal from "../components/SearchModal";
 
@@ -19,7 +16,6 @@ const SearchPage = () => {
 
     document.title = "Search Page - Creditframes";
 
-    const location = useLocation();
     const navigate = useNavigate
 
     const [loader, setLoader] = useState(false);
@@ -28,19 +24,11 @@ const SearchPage = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    
-    const [userValid, setUserValid] = useState();
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    
-    const [searchEmpty, setSearchEmpty] = useState();
+    const [searchParams] = useSearchParams();
     const LoanSearchId = searchParams.get("LoanSearchId");
     const PageNumber = searchParams.get("PageNumber");
     const PageSize = searchParams.get("PageSize");
-    //console.log('pathname', location.pathname);
-    //console.log(!location.search ? "No Data" : "Yes Data");
-
-    // console.log(location.pathname + location.search);
 
 
     const authenticate = () => {
@@ -57,8 +45,6 @@ const SearchPage = () => {
 
     const [currency, setCurrency] = useState("NGN");
 
-    const [searchLoan, setSearchLoan] = useState();
-    const searchLoanApi = useApi(userApis.searchLoan);
     const searchResultApi = useApi(userApis.searchResult);
 
     useEffect (() => {
@@ -73,7 +59,7 @@ const SearchPage = () => {
                 PageSize: PageSize,
                 LoanSearchId: LoanSearchId
             }
-            console.log(input);
+            
             const getLoanSearch = async () => {
                 setLoader(true);
                 const res = await searchResultApi.request(input);
@@ -88,35 +74,17 @@ const SearchPage = () => {
     }, []);
 
     const getLoanTypesApi = useApi(userApis.getLoanTypes);
-    const [loanTypes, setloanTypes] = useState([]);
 
     useEffect(() => {
         const getLoanTypes = async () => {
             setLoader(true);
             const res = await getLoanTypesApi.request();
             if (res.status === 200) {
-                setloanTypes(res.data);
+                setLoader(false);
             }
-            setLoader(false);
         }
         getLoanTypes();
     }, []);
-
-
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoader(true);
-        if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
-            return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
-        }
-        if (localStorage.getItem("userData") === null) {
-            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);
-        }
-        setLoader(false);
-
-    };
 
 
     const handleNextPage = async() => {
@@ -146,15 +114,13 @@ const SearchPage = () => {
             LoanSearchId: LoanSearchId
         }
 
-        console.log(input);
-
         const res = await searchResultApi.request(input);
         if (res.status === 200) {
+            setLoader(false);
             //window.localStorage.setItem("loanSearchId", JSON.stringify(input));
             setLoanSearch(res.data);
             navigate(`/./search-result?LoanSearchId=${LoanSearchId}&PageNumber=${loanSearch.PageNumber}}&PageSize=${loanSearch.PageSize}`)
         }
-        setLoader(false);
     }    
 
     return (
@@ -162,15 +128,8 @@ const SearchPage = () => {
             <SearchModal show={show} handleClose={handleClose} handleShow={handleShow} />
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <NavMenu />

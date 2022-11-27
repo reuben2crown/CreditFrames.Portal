@@ -374,10 +374,177 @@ p {
 
 
 
+/* Mobile Responsiveness Css */
+@media only screen and (max-width: 1000px) and (min-width: 600px) {
+    .title {
+        font-family: Ubuntu;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 57.6px;
+        width: 80vw;
+        text-align: center;
+        margin-top: 60px;
+    }
+
+    .subtitle {
+        font-family: Open+Sans;
+        font-size: 22px;
+        font-weight: normal;
+        margin-top: 15px;
+        width: 80vw;
+        text-align: center;
+    }
+
+    .card {
+        background-color: transparent;
+        padding: 20px 20px;
+        margin-top: 40px;
+        border: #FFE7EF solid 2px;
+        border-radius: 10px;
+        width: 80vw;
+        text-align: center;
+    }
+
+    .select {
+        background-color: transparent !important;
+        padding: 20px 30px !important;
+        color: #333333 !important;
+        font-size: 16px !important;
+        width: 100%;
+        border: #FFE7EF solid 1px !important;
+        border-radius: 5px !important;
+        outline: none !important;
+        right: 5px !important;
+    }
+
+    label {
+        color: #344863;
+        font-size: 14px;
+        display: block;
+    }
+
+    .submit {
+        background-color: #0000FB !important;
+        color: #fff !important;
+        text-align: center;
+        font-size: 16px;
+        width: 100%;
+        border: none !important;
+        padding: 20px 60px !important;
+        margin: auto;
+        border-radius: 40px !important;
+    }
+    .circle1 {
+       display: none;
+    }
+    .lady {
+        display: none;
+    }
+    
+    .section2, .circle2 {
+        display: none;
+    }
+    .section3 {
+        background-color: rgb(152, 226, 255, 10%);
+        margin-top: 30px;
+    }
+    .card1 {
+        background-color: rgb(152, 226, 255, 15%);
+        margin-top: 20px;
+        padding: 30px 30px 50px 30px;
+        border: #F7EDF6 solid 1px;
+        border-radius: 20px;
+    }
+    .carousel {
+        margin: 50px 0px -50px 0px;
+    }
+    
+    .carousel {
+        margin: 50px 0px -50px 0px;
+    }
+    .section4 {
+        padding: 20px 0px;
+    }
+    .section5 {
+        margin-top: 50px;
+    }
+    .section5 .secTitle {
+        font-family: 'Ubuntu';
+        font-size: 35px;
+        font-weight: medium;
+        width: 350px;
+    }
+    .subTitle {
+        font-family: Open+Sans;
+        font-size: 16px;
+        letter-spacing: 5px;
+    }
+    .secSubTitle {
+        font-family: Open+Sans;
+        font-size: 18px;
+        font-weight: normal;
+        width: 350px;
+    }
+    .illustration1 {
+        width: 80%;
+        margin: 150px -100px 0px 0px;
+    }
+    .illustration2 {
+        width: 100%;
+        margin-top: 500px;
+    }
+    .box1 {
+        padding: 0px 20px;
+    }
+    .box1 p {
+        padding-top: 10px;
+    }
+    .box1 img {
+        display: block;
+        text-align: center;
+        margin: auto;
+    }
+    .iconTitle {
+        display: inline-block;
+        font-size: 20px; 
+        font-weight: 600;
+        text-align: left;
+        vertical-align: center;
+    }
+    .iconCard {
+        height: 380px;
+        width: 170px;
+        background-color: #0000FB;
+        padding: 30px 20px;
+        border-radius: 10px;
+    }
+    .iconCard1 {
+        height: 380px;
+        width: 170px;
+        background-color: #98E2FF;
+        padding: 30px 20px;
+        border-radius: 10px;
+    }
+    .iconCard p, .iconCard1 p {
+        font-size: 18px;
+    }
+    .illustration2 {
+        margin: 50px 0px;
+    }  
+    .content {
+        text-align: left;
+        padding: 0px;
+    }
+    .section8 .subTitle, .section8 .secTitle, .section8 p {
+        margin: 0px -50px 0px 30px;
+        padding: 0;
+    }
+}
+
 
 
 /* Mobile Responsiveness Css */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) and (min-width: 300px) {
     .title {
         font-family: Ubuntu;
         font-weight: 700;

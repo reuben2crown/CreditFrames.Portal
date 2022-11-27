@@ -5,8 +5,6 @@ import styles from "../styles/CompanyPage.module.css";
 import companybg from "../images/companybg.png";
 import leftui from "../images/leftui.png";
 import productImage from "../images/productImage.png";
-import test1 from "../images/testi1.png";
-import test2 from "../images/testi2.png";
 import cus1 from "../images/cus1.png";
 import Carousel from "better-react-carousel";
 import { FaStar } from "react-icons/fa";
@@ -24,7 +22,7 @@ const CompanyPage = () => {
                 <div className="container mt-2 mb-2 text-center">
                     <div className="row col-md-8 m-auto">
                         <h4 className={styles.subtitle}>OUR COMPANY</h4>
-                        <h2 className={styles.title}>We are your one stop Personlised Loan Marketplace Hub</h2>
+                        <h3 className={styles.title}>We are your one stop Personlised Loan Marketplace Hub</h3>
                     </div>
                     <img src={companybg} className={styles.companyImage} alt="" />
                 </div>
@@ -96,7 +94,7 @@ const CompanyPage = () => {
                 <div className="container">
                     <div className="row col-md-11 m-auto text-center">
                         <h4 className={styles.subTitle}>TESTIONIALS</h4>
-                        <h2 className={styles.secTitle}>What Customers say</h2>
+                        <h3 className={styles.secTitle}>What Customers say</h3>
                         <div className="mt-4">
                             <Carousel cols={2} rows={1} gap={20} loop={true} autoplay={3000}>
                                 <Carousel.Item>

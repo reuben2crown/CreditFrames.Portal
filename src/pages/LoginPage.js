@@ -9,8 +9,7 @@ import loaderLogo from "../images/CreditFrame logo.png";
 import styles from "../styles/Login.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Alert from "react-bootstrap/Alert";
-import routes from "../routes";
-import { Modal, ModalBody, ProgressBar, Spinner } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 
 
 const LoginPage = () => {
@@ -22,7 +21,7 @@ const LoginPage = () => {
     const location = useLocation();
    //console.log('pathname', location.search);
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const returnUrl = searchParams.get("returnUrl");
 
@@ -62,7 +61,6 @@ const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState();
     const [errorMessage1, setErrorMessage1] = useState();
     const [successMessage, setSuccessMessage] = useState();
-    const [passValidation, setPassValidation] = useState();
 
 
     const handleLogin = async (e) => {
@@ -80,6 +78,7 @@ const LoginPage = () => {
         const res = await userLoginApi.request({ ...login, password: passwordInput, deviceId: result.visitorId });
 
         if (res.data.code === 200) {
+            setLoader(false);
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
             if (returnUrl === null) {
                 navigate(-1);
@@ -95,8 +94,8 @@ const LoginPage = () => {
         if (res.data.code === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage(message);
+            setLoader(false);
         }
-        setLoader(false);
     }
 
     const handleRegister = async (e) => {
@@ -114,6 +113,7 @@ const LoginPage = () => {
         const res = await userRegisterApi.request({ ...register, password: passwordInput, password1: passwordInput1, deviceId: result.visitorId });
 
         if (res.status === 200) {
+            setLoader(false);
             window.localStorage.setItem("userData", JSON.stringify(res.data.data));
             if (returnUrl === null) {
                 navigate(-1);
@@ -125,8 +125,8 @@ const LoginPage = () => {
         if (res.status === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage1(message);
+            setLoader(false);
         }
-        setLoader(false);
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -163,15 +163,8 @@ const LoginPage = () => {
         <div className={styles.popBg}>
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute"}} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute"}} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <div hidden={activePage !== "first"}>

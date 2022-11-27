@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import logoWhite from "../images/logoWhite.png";
 import statusIcon from "../images/check.png";
 import styles from "../styles/PasswordRecovery.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import ReactCodeInput from "react-code-input";
 import userApis from "../api/users";
 import useApi from "../hooks/useApi";
 import Alert from "react-bootstrap/Alert";
@@ -21,12 +20,9 @@ const PasswordReset = () => {
 
     const navigate = useNavigate();
 
-    const location = useLocation();
-   //console.log('pathname', location.search);
-
     const [loader, setLoader] = useState(false);
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const uid = searchParams.get("uid");
     const token = searchParams.get("token");
@@ -64,22 +60,22 @@ const PasswordReset = () => {
     }
 
     useEffect(() => {
-        console.log(uid, token);
         tokenValidation();
     }, []); 
 
     const tokenValidation = async () => {
         setLoader(true);
         const res = await tokenValidationApi.request({ userId: uid, passwordResetToken: token });
-        console.log(res.data); 
+        
         if (res.data.code === 200) {
+            setLoader(false);
             return (setActivePage("second"));
         }
         if (res.data.code === 400) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage(message);
+            setLoader(false);
         }
-        setLoader(false);
     };
 
     const handleChangePass = async (e) => {
@@ -97,13 +93,14 @@ const PasswordReset = () => {
         const resetData = { userId: uid, newPassword: passwordInput, passwordResetToken: token, channel: "Web", deviceId: result.visitorId };
         const res = await changePasswordApi.request(resetData);
         if (res.status === 200) {
+            setLoader(false);
             return (setActivePage("third"));
         }
         if (res.status === 400 || res.status === 500) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage1(message);
+            setLoader(false);
         }
-        setLoader(false);
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -132,15 +129,8 @@ const PasswordReset = () => {
         <div className={styles.popBg} style={{ height: `${screenSize.dynamicHeight}px` }}>
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <div hidden={activePage !== "first"}>

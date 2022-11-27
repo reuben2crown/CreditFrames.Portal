@@ -28,16 +28,10 @@ import leftUI from "../images/left-ui.png";
 import test1 from "../images/test1.png";
 import test2 from "../images/test2.png";
 import test3 from "../images/test3.png";
-import news1 from "../images/newImage.png";
-import news2 from "../images/news2.png";
-import news3 from "../images/news3.png";
 import useApi from "../hooks/useApi";
 import userApis from "../api/users";
 import routes from "../routes";
 import { NumericFormat } from "react-number-format";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import jwtDecode from "jwt-decode";
-import Modal from "react-bootstrap/Modal";
 import SearchModal from "../components/SearchModal";
 
 
@@ -51,8 +45,6 @@ const LandingPage = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const [userValid, setUserValid] = useState();
 
     const [selectedLoanType, setSelectedLoanType] = useState();
     const [currency, setCurrency] = useState("NGN");
@@ -71,7 +63,6 @@ const LandingPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newLoanType = selectedLoanType === null || selectedLoanType === undefined ? searchLoan.LoanTypeId : selectedLoanType;
-        console.log(newLoanType, selectedLoanType);
         if (localStorage.getItem("userData") !== null && localStorage.getItem("userData") !== undefined) {
             return navigate(`./loan-request?loanType=${newLoanType}&loanAmount=${searchLoan.LoanAmount}`);
         }
@@ -93,10 +84,6 @@ const LandingPage = () => {
         getLoanTypes();
     }, []);
 
-    const handleClick = () => {
-        navigate(routes.LoanRequestPage);
-    }
-
     
     return (
         <div>
@@ -111,7 +98,7 @@ const LandingPage = () => {
                             <div className={styles.card}>
                                 <Form onSubmit={handleSubmit}>
                                     <div className="row">
-                                        <div className="col-md-6 text-start">
+                                        <div className="col-md-6 text-start align-text-bottom">
                                             <label>How much would you like to borrow?</label>
                                             {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
                                             <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
@@ -121,7 +108,7 @@ const LandingPage = () => {
                                                 // do something with floatValue
                                             }} className={styles.select} required placeholder={`${currency} 0.00`} />
                                         </div>
-                                        <div className="col-md-6 text-start">
+                                        <div className="col-md-6 text-start align-text-bottom">
                                             <label for="cars">Types of Loan</label>
                                             <Form.Select name="cars" id="cars" required className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, LoanTypeId: e.target.value })}>
                                                 <option value="">Select loan type </option>

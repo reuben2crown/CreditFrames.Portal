@@ -34,13 +34,14 @@ const PasswordRecovery = () => {
         const res = await passRecoveryApi.request({...passRecovery, channel: "web"});
 
         if (res.data.code === 200) {
+            setLoader(false);
             return(setActivePage("second"));
         }
         if (res.data.code === 400 || res.data.code === 500) {
             const message = <Alert key="danger" variant="danger" style={{ fontSize: "16px" }}> {res.data.message} </Alert>;
             setErrorMessage(message);
+            setLoader(false);
         }
-        setLoader(false);
     }
 
     const handleSendCode = () => {
@@ -73,15 +74,8 @@ const PasswordRecovery = () => {
         <div className={styles.popBg} style={{ height: `${screenSize.dynamicHeight}px` }}>
             <Modal size="sm" show={loader} centered>
                 <Modal.Body className="text-center">
-                    <Spinner animation="border" style={{ color: "#0000FB", width: "100px", height: "100px", position: "absolute" }} />
-                    <img src={loaderLogo} width="60px" height="60px" alt="" style={{ margin: "20px" }} />
-                    {/* <ProgressBar animated now={100} /> */}
-                    {/* <div className={styles.contactForm}>
-                        <img src={statusIcon} alt="" />
-                        <h3 align="center" className={styles.sectitle}>Application Successful</h3>
-                        <p>{message}</p>
-                        <Link to="/search-result" className={styles.apply}> Proceed </Link>
-                    </div> */}
+                    <Spinner animation="border" style={{ color: "#0000FB", width: "60px", height: "60px", position: "absolute" }} />
+                    <img src={loaderLogo} width="30px" height="30px" alt="" style={{ margin: "15px" }} />
                 </Modal.Body>
             </Modal>
             <div hidden={activePage !== "first"}>
