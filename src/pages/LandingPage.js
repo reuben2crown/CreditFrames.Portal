@@ -67,7 +67,7 @@ const LandingPage = () => {
             return navigate(`./loan-request?loanType=${newLoanType}&loanAmount=${searchLoan.LoanAmount}`);
         }
         if (localStorage.getItem("userData") === null) {
-            return navigate(`./login-register?returnUrl=/loan-request?loanType%3D${newLoanType}%26loanAmount%3D${searchLoan.LoanAmount}`);  
+            return navigate(`./login?returnUrl=/loan-request?loanType%3D${newLoanType}%26loanAmount%3D${searchLoan.LoanAmount}`);  
         }
     }
 
@@ -84,6 +84,8 @@ const LandingPage = () => {
         getLoanTypes();
     }, []);
 
+    const lastPageUrl = document.referrer;
+    console.log(document.referrer);
     
     return (
         <div>
@@ -99,7 +101,8 @@ const LandingPage = () => {
                                 <Form onSubmit={handleSubmit}>
                                     <div className="row">
                                         <div className="col-md-6 text-start align-text-bottom">
-                                            <label>How much would you like to borrow?</label>
+                                            <label>How much would you like to borrow? 
+                                            </label>
                                             {/* <Form.Control type="number" className={styles.select} onChange={(e) => setSearchLoan({ ...searchLoan, amount: e.target.value })} placeholder="Enter your preferred amount"></Form.Control> */}
                                             <NumericFormat thousandSeparator={true} thousandsGroupStyle="thousand" prefix={`${currency} `} allowNegative={false} onValueChange={(values) => {
                                                 const { formattedValue, value, floatValue } = values;
@@ -258,7 +261,7 @@ const LandingPage = () => {
                         <div className="col-md-3 text-center">
                             <div className={styles.iconCard1}>
                                 <img src={icon5} alt="" />
-                                <h4>Work with trust <br />license lenders</h4>
+                                <h4>Work with trusted <br />license lenders</h4>
                                 <p>All lenders on our platform are thoroughly vetted</p>
                             </div>
                         </div>

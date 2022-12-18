@@ -4,10 +4,11 @@ import { create } from "apisauce";
 const user = JSON.parse(localStorage.getItem("userData"));
 
 const token = user?.accessToken;
+//https://apitest.creditframes.com/
 
 // define the api
 const client = create({
-    baseURL: 'https://apitest.creditframes.com',
+    baseURL: 'https://api.creditframes.com',
     headers: {
         Accept: 'application/json',
         "Authorization": `Bearer ${token}`,

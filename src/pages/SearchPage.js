@@ -187,7 +187,8 @@ const SearchPage = () => {
                                 </div>
                                 <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Requirements</label>
-                                    <span className={styles.searchSpan}>{list.requirements === null ? "None" : list.requirements}</span>
+                                    <span className={styles.searchSpan}>{list.requirements === null ? "None" : <>
+                                        {list.requirements.replaceAll(',', ', ')}</>}</span>
                                 </div>
                                 <div className="col-md-4 text-start pb-3">
                                     <label className={styles.searchLabel}>Eligibility Criteria</label>

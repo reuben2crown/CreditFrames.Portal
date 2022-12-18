@@ -137,8 +137,8 @@ const PasswordReset = () => {
                 <Link to="/"><img src={logoWhite} className="mb-5" alt="" /></Link>
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
-                        <h3>Token Validation Status</h3>
-                        <h4 className="mt-5">{errorMessage}</h4>
+                        <h3 className="text-center">Token Validation Status</h3>
+                        <h4 className="mt-5 text-center">{errorMessage}</h4>
                     </div>
                 </div>
                 <div style={{position: "absolute", bottom: "0", width: "98%", textAlign: "center"}}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
@@ -147,9 +147,9 @@ const PasswordReset = () => {
                 <Link to="/"><img src={logoWhite} className="mb-4" alt="" /></Link>
                 <div className="row px-4 col-md-4 m-auto">
                     <div className={styles.card}>
-                        <h3>New Password</h3>
-                        <p style={{ fontSize: "18px" }}>... perharps something easier</p>
-                        <p>{errorMessage1}</p>
+                        <h3 className="text-center">New Password</h3>
+                        <p className="text-center" style={{ fontSize: "18px" }}>... perharps something easier</p>
+                        <p className="text-center">{errorMessage1}</p>
                         <Form onSubmit={handleChangePass} className="text-start mt-0 mb-0">
                             <Form.Label className="mt-2">Password</Form.Label>
                             <Form.Control type={passwordType} onChange={handlePasswordChange} value={passwordInput} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType === "password" ? <FaEyeSlash onClick={() => togglePassword()} /> : <FaEye onClick={() => togglePassword()} />}</div>
@@ -157,7 +157,7 @@ const PasswordReset = () => {
                             <Form.Control type={passwordType1} onChange={handlePasswordChange1} value={passwordInput1} className={styles.input} placeholder="***************"></Form.Control><div className={styles.pass} >{passwordType1 === "password" ? <FaEyeSlash onClick={() => togglePassword1()} /> : <FaEye onClick={() => togglePassword1()} />}</div>
                         <button type="submit" disabled={passwordInput.length > 0 && passwordInput1.length > 0 && passwordInput === passwordInput1 ? false : true} className={styles.submit}>Continue</button>
                         </Form>
-                        <p style={{ marginTop: "20px", fontSize: "15px" }}>Don't have an account? <Link to="/login-register" style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</Link> </p>
+                        <p style={{ marginTop: "20px", fontSize: "15px" }}>Don't have an account? <a href="/login" style={{ color: "#0000FB", fontWeight: "bold", textDecoration: "none" }}>Register</a> </p>
                     </div>
                 </div>
                 <div style={{ position: "absolute", bottom: "0", width: "98%", textAlign: "center" }}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
@@ -167,8 +167,8 @@ const PasswordReset = () => {
                 <div className="row px-4 col-md-4 m-auto">
                     <div className={styles.card}>
                         <img src={statusIcon} alt="" />
-                        <h3>Well done!</h3>
-                        <p style={{ fontSize: "18px" }}>Password successfully change</p>
+                        <h3 className="text-center">Well done!</h3>
+                        <p className="text-center" style={{ fontSize: "18px" }}>Password successfully change</p>
                         <button onClick={() => navigate(routes.LoginPage)} className={styles.submit}>Go to dashboard</button>
                     </div>
                 </div>

@@ -168,7 +168,7 @@ const NavMenu = () => {
                                 isSearchable={true}
                             />{spacing} 
                             <Button variant="success" onClick={() => handleShow()} className={styles.searchIcon}><FaSearch /></Button>{spacing}
-                            {localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined ? <Button className={styles.login} onClick={() => handleLogin()}>LOGIN</Button> : <div style={{verticalAlign: "bottom", cursor: "pointer"}}><FaUser onClick={() => handleDropdownSHow()} style={{ fontSize: "40px", color: "grey", border: "1px solid grey", borderRadius: "50%", padding: "10px" }} /> <FaChevronDown onClick={() => handleDropdownSHow()} className={styles.loginDropdown} /></div>}
+                            {localStorage.getItem("userData") === null || localStorage.getItem("userData") === undefined ? <a href="/login" className={styles.login}>LOGIN</a> : <div style={{verticalAlign: "bottom", cursor: "pointer"}}><FaUser onClick={() => handleDropdownSHow()} style={{ fontSize: "40px", color: "grey", border: "1px solid grey", borderRadius: "50%", padding: "10px" }} /> <FaChevronDown onClick={() => handleDropdownSHow()} className={styles.loginDropdown} /></div>}
                             <div hidden={profileDropdown} className={styles.userProfile}>
                                 <Nav.Link href="./dashboard" style={{ color: "grey" }}>My Profile</Nav.Link>
                                 <hr></hr>

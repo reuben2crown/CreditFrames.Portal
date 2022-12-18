@@ -6,6 +6,7 @@ import ProductsPage from "./pages/ProductsPage";
 import CompanyPage from "./pages/CompanyPage";
 import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import PasswordRecovery from "./pages/PasswordRecovery";
 import PasswordReset from "./pages/PasswordReset";
 import SearchPage from "./pages/SearchPage";
@@ -33,6 +34,7 @@ const App = () => {
         <Route exact={true} path={routes.ProductsPage} element={<ProductsPage />} />
         <Route exact={true} path={routes.ContactPage} element={<ContactPage />} />
         <Route exact={true} path={routes.LoginPage} element={<LoginPage />} />
+        <Route exact={true} path={routes.RegisterPage} element={<RegisterPage />} />
         <Route exact={true} path={routes.PasswordRecovery} element={<PasswordRecovery />} />
         <Route exact={true} path={routes.PasswordReset} element={<PasswordReset />} />
         <Route exact={true} path={routes.SearchPage} element={<SearchPage />} />

@@ -75,10 +75,10 @@ const Sidebar = () => {
             {/* <img src={profilePicture} className={styles.userImage} class="rounded-circle shadow-4-strong" alt="" /> */}
             <div>
                 <ul className={styles.sidebarMenu}>
-                    <li><Link to="/dashboard" style={{textDecoration: "none"}}><DashboardIcon color={pathname === "/dashboard" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/dashboard" ? styles.menuTitleActive : styles.menuTitle}>Dashboard</span></Link></li>
-                    <li><Link to="/loans" style={{textDecoration: "none"}}><CashIcon color={pathname === "/loans" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/loans" ? styles.menuTitleActive : styles.menuTitle}>Loans</span></Link></li>
-                    <li><Link disabled to="/profile" style={{textDecoration: "none"}}><AvatarIcon color={pathname === "/profile" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/profile" ? styles.menuTitleActive : styles.menuTitle}>Profile</span></Link></li>
-                    <li><Link to="/settings" style={{textDecoration: "none"}}><SettingsIcon color={pathname === "/settings" ? active : nonActive} iconHeight="25px" /> <span className={ pathname === "/settings" ? styles.menuTitleActive : styles.menuTitle}>Settings</span></Link></li>
+                    <li><a href="/dashboard" style={{textDecoration: "none"}}><DashboardIcon color={pathname === "/dashboard" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/dashboard" ? styles.menuTitleActive : styles.menuTitle}>Dashboard</span></a></li>
+                    <li><a href="/loans" style={{textDecoration: "none"}}><CashIcon color={pathname === "/loans" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/loans" ? styles.menuTitleActive : styles.menuTitle}>Loans</span></a></li>
+                    <li><a disabled href="/profile" style={{textDecoration: "none"}}><AvatarIcon color={pathname === "/profile" ? active : nonActive} iconHeight="25px" /> <span className={pathname === "/profile" ? styles.menuTitleActive : styles.menuTitle}>Profile</span></a></li>
+                    <li><a href="/settings" style={{textDecoration: "none"}}><SettingsIcon color={pathname === "/settings" ? active : nonActive} iconHeight="25px" /> <span className={ pathname === "/settings" ? styles.menuTitleActive : styles.menuTitle}>Settings</span></a></li>
                 </ul>
             </div>
             <button onClick={handleLogout} className={styles.logoutButton}><FiLogOut /> &nbsp; Log Out</button>

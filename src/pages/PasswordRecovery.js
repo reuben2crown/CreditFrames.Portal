@@ -26,7 +26,6 @@ const PasswordRecovery = () => {
     const [passRecovery, setPassRecovery] = useState();
     const passRecoveryApi = useApi(userApis.passRecovery);
     const [errorMessage, setErrorMessage] = useState();
-    const [successMessage, setSuccessMessage] = useState();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -83,7 +82,7 @@ const PasswordRecovery = () => {
                 <div className="row col-md-4 m-auto">
                     <div className={styles.card}>
                         <h3>Password Recovery</h3>
-                        <p>Please enter your registered email address to retrieve your password.</p>
+                        <p className="text-center">Please enter your registered email address to retrieve your password.</p>
                         {errorMessage}
                         <Form onSubmit={handleSubmit} className="text-center mb-3">
                             {/* <div className="mt-4 mx-5 text-start">
@@ -104,7 +103,7 @@ const PasswordRecovery = () => {
                             </div> */}
                             <button type="submit" className={styles.submit}>{passRecoveryApi.loading ? "Submiting..." : "Continue"}</button>
                         </Form>
-                        <Link to={`/./login-register${location.search}`} style={{textDecoration: "none", fontWeight: "bold", fontSize: "18px"}}>Back to login</Link>
+                        <a href={`/./login${location.search}`} style={{textDecoration: "none", fontWeight: "bold", fontSize: "18px"}}>Back to login</a>
                     </div>
                 </div>
                 <div style={{position: "absolute", bottom: "0", width: "98%", textAlign: "center"}}><p className={styles.copyright}>Copyright © CreditFrames. 2022 All Rights Reserved</p></div>
@@ -115,7 +114,7 @@ const PasswordRecovery = () => {
                     <div className={styles.card}>
                         <img src={message} alt="" />
                         <h3>Check your email</h3>
-                        <p style={{fontSize: "18px"}}>We have sent a password reset code to the email address you provided in the previous screen.</p>
+                        <p className="text-center" style={{fontSize: "18px"}}>We have sent a password reset code to the email address you provided in the previous screen.</p>
                         <button type="submit" onClick={() => handleSendCode()} className={styles.submit1}>Continue</button>
                     </div>
                 </div>

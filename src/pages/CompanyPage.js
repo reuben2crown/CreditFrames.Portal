@@ -15,6 +15,7 @@ const CompanyPage = () => {
 
     document.title = "Company Page - Creditframes";
 
+    console.log(document.referrer);
     return (
         <div>
             <NavMenu />

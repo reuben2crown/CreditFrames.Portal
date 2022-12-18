@@ -44,7 +44,7 @@ const SearchModal = (props) => {
             return navigate(`/./loan-request?loanType=${searchLoan.LoanTypeId === undefined ? selectedLoanType : searchLoan.LoanTypeId}&loanAmount=${searchLoan.LoanAmount}`);
         }
         if (localStorage.getItem("userData") === null) {
-            return navigate(`/./login-register?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);   
+            return navigate(`/./login?returnUrl=/loan-request?loanType%3D${searchLoan.LoanTypeId}%26loanAmount%3D${searchLoan.LoanAmount}`);   
         }
         
     };
